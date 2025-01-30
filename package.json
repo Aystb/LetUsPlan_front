@@ -1,0 +1,18 @@
+{
+  "name": "letusplan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clipboard": "^2.0.11",
+    "dayjs": "^1.11.13",
+    "pinia": "^2.3.1",
+    "uview-plus": "^3.3.64"
+  }
+}
