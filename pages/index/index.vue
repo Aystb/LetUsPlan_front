@@ -2,13 +2,12 @@
 	<view >
 		this is LUP
 		<u-icon name="map" size="24" ></u-icon>
-		<div>{{ testStore.item }}</div>
+		<talk></talk>
 	</view>
 </template>
 
 <script setup>
-import {useTestStore} from '../../store/testStore'
-		const testStore = useTestStore()
+import talk from '../../components/talk.vue';
 </script>
 
 <style>

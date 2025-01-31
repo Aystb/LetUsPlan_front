@@ -13,7 +13,7 @@ export default class Request {
         // Run
         if(method == "POST") {
             header = Object.assign({
-                'content-type': "application/x-www-from-urlencoded"
+                'content-type': "application/json"
             }, param.header)
         } else if(method == "GET"){ // tag GET
             header = Object.assign({
