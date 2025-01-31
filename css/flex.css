@@ -1,0 +1,170 @@
+
+/* 对于某些元素可以设置这个达到换行的效果*/
+.flex-y{
+    display: flex;
+   flex-direction: column;
+}
+
+.flex-x{
+    display: flex;
+  
+}
+.flex-grow1{
+    display: flex;
+    flex-grow: 1;
+}
+.flex-grow2{
+    display: flex;
+    flex-grow: 2;
+}
+.flex-grow3{
+    display: flex;
+    flex-grow: 3;
+}
+.flex-grow4{
+    display: flex;
+    flex-grow: 4;
+}
+.flex-grow5{
+    display: flex;
+    flex-grow: 5;
+}
+
+.flex-space-between{
+    display: flex;
+    justify-content: space-between;
+}
+
+.self-center{
+display: flex;
+align-self: center;
+}
+
+.flex-wrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-center-both {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-center-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-equal-horizontal {
+    display: flex;
+    align-items: center;
+}
+
+.flex-equal-horizontal>* {
+    flex: 1;
+}
+
+
+
+.flex-horizontal {
+    display: flex;
+    align-items: center;
+}
+
+.flex-top-left-horizontal {
+    display: flex;
+    align-items: flex-start;
+    /* 根据需要，可以改为center使得子项垂直居中 */
+}
+
+.flex-top-horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* 根据需要，可以改为center使得子项垂直居中 */
+}
+
+
+
+.flex-bottom-horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* 根据需要，可以改为center使得子项垂直居中 */
+}
+
+/* tag vertical*/
+
+.flex-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-center-col-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.block-width {
+    width: 100%;
+}
+
+.block {
+    width: 100%;
+}
+
+.no-shrink {
+    flex: 0 0 auto;
+}
+
+.shrink {
+    flex: 1;
+}
+
+.flex-fill {
+    /* 填剩余空间 */
+    flex-grow: 1;
+}
+
+/* tag gap */
+.gap-1 {
+    gap: 1px;
+}
+
+.gap-3 {
+    gap: 3px;
+}
+
+.gap-5 {
+    gap: 5px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.gap-30 {
+    gap: 30px;
+}
+
+.gap-35 {
+    gap: 35px;
+}
+.self-end{
+    display: flex;
+    align-self: flex-end;
+}

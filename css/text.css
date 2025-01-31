@@ -1,0 +1,50 @@
+.no-wrap {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.over-ell {
+    text-overflow: ellipsis;
+    /* 可选，添加这个会在文本溢出的末尾显示省略号 */
+}
+
+.wrap {
+    white-space: pre-wrap; /* 保持空白符序列，但文本会换行到下一行 */
+    word-wrap: break-word; /* 在长单词或 URL 地址内部进行换行 */
+}
+.btn{
+    border-radius: 8px;
+    color:white;
+    background-color: #ffc300;
+   font-family: Alimama ShuHeiTi;
+   font-size: 16px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin: 10rpx;
+   
+}
+.basicText{
+    padding: 12rpx;
+    background-color: #ffc300;
+    border-radius: 10px;
+    margin: 10rpx;
+    font-family: Alimama ShuHeiTi;
+    font-size: 16px;
+    color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.redText{
+    padding: 12rpx;
+    background-color:  #ff5733;
+    border-radius: 10px;
+    margin: 10rpx;
+    font-family: Alimama ShuHeiTi;
+    font-size: 16px;
+    color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
