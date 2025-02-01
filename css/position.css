@@ -12,6 +12,10 @@
     top: 0px;
 }
 
+.bottom{
+    position: fixed;
+    bottom: 0px;
+}
 .z-1 {
     z-index: 1000;
 }
