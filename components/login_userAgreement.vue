@@ -1,18 +1,19 @@
 <template>
-  <div>
-    <div v-if="visible" class="modal">
-      <div class="modal-content">
+  <view>
+    <view v-if="props.visible" class="modal">
+      <view class="modal-content">
         <span class="close" @click="close">&times;</span>
         <slot></slot>
-      </div>
-    </div>
-  </div>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
-defineProps({
+const props = defineProps({
   visible: Boolean,
+  default:false
 });
 const emit = defineEmits(["close"]);
 function close() {

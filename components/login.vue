@@ -1,5 +1,7 @@
 <template>
+    
   <view class="flex-y custom-color hv-95 flex-center-horizontal">
+    
     <!--上半-->
     <view class="flex-y items-center mt-10 mr-20 ml-20 flex-grow1">
       <image
@@ -20,9 +22,7 @@
       </view>
     </view>
 
-    <ModalComponent visible="isModalVisible" @close="hideModal">
-      <p>这里是用户协议的内容</p>
-    </ModalComponent>
+   
 
     <!--下半-->
     <view class="flex-center-both flex-y">
@@ -37,15 +37,16 @@
       </button>
     </view>
   </view>
+  <ModalComponent class="agreement" :visible="isModalVisible" @close="hideModal">
+      <p>这里是用户协议的内容</p>
+    </ModalComponent>
 </template>
 
 <script setup>
 import ModalComponent from "./login_userAgreement.vue";
 import { ref } from "vue";
 
-components: {
-  ModalComponent;
-}
+
 //是否勾选同意用户协议
 const isCheckAgreement = ref(false);
 
@@ -64,6 +65,7 @@ function openAgreement() {
 
 //关闭用户协议
 function hideModal() {
+    
   isModalVisible.value = false;
 }
 
@@ -115,5 +117,10 @@ function loginByPhone_other() {}
   background-color: black;
   width: 150%;
   height: 1px;
+}
+.agreement{
+   
+    position: fixed;
+    top: 0px;
 }
 </style>
