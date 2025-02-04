@@ -1,7 +1,5 @@
 <template>
-    
   <view class="flex-y custom-color hv-95 flex-center-horizontal">
-    
     <!--上半-->
     <view class="flex-y items-center mt-10 mr-20 ml-20 flex-grow1">
       <image
@@ -14,15 +12,16 @@
         手机号快捷登录
       </button>
 
-      <view class="ft-12 flex-center-both">
+      <view
+        class="ft-12 flex-center-both"
+        :class="{ Highlight: shouldHighlight }"
+      >
         <checkbox class="checkbox-box" @click="checked()"></checkbox>
 
         若手机号未注册将自动注册，注册即同意
         <Text class="link" @click="openAgreement()">《用户协议》</Text>
       </view>
     </view>
-
-   
 
     <!--下半-->
     <view class="flex-center-both flex-y">
@@ -37,21 +36,26 @@
       </button>
     </view>
   </view>
-  <ModalComponent class="agreement" :visible="isModalVisible" @close="hideModal">
-      <p>这里是用户协议的内容</p>
-    </ModalComponent>
+  <ModalComponent
+    class="agreement"
+    :visible="isModalVisible"
+    @close="hideModal"
+  >
+  </ModalComponent>
 </template>
 
 <script setup>
-import ModalComponent from "./login_userAgreement.vue";
+import ModalComponent from "./ModalComponents.vue";
 import { ref } from "vue";
-
 
 //是否勾选同意用户协议
 const isCheckAgreement = ref(false);
 
 //是否点击用户协议
 const isModalVisible = ref(false);
+
+//提醒勾选用户协议
+const shouldHighlight = ref(false);
 
 //勾选同意用户协议
 function checked() {
@@ -65,15 +69,28 @@ function openAgreement() {
 
 //关闭用户协议
 function hideModal() {
-    
   isModalVisible.value = false;
 }
 
 //快捷登录
-function loginByPhone_quick() {}
+function loginByPhone_quick() {
+  if (isCheckAgreement.value == false) {
+    shouldHighlight.value = true;
+    setTimeout(() => {
+      shouldHighlight.value = false;
+    }, 1000);
+  }
+}
 
 //手机验证
-function loginByPhone_other() {}
+function loginByPhone_other() {
+  if (isCheckAgreement.value == false) {
+    shouldHighlight.value = true;
+    setTimeout(() => {
+      shouldHighlight.value = false;
+    }, 1000);
+  }
+}
 </script>
 
 <style scopd>
@@ -118,9 +135,31 @@ function loginByPhone_other() {}
   width: 150%;
   height: 1px;
 }
-.agreement{
-   
-    position: fixed;
-    top: 0px;
+.agreement {
+  position: fixed;
+  top: 0px;
+}
+
+@keyframes Highlight {
+  10% {
+    transform: rotate(10deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(3deg);
+  }
+  40% {
+    transform: rotate(-3deg);
+  }
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.Highlight {
+  animation: Highlight 1s ease;
 }
 </style>
