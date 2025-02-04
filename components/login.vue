@@ -7,10 +7,34 @@
         mode="scaleToFill"
         class="round-image mbt-15"
       />
-      <view class="mbt-10 ft-24"> 欢迎使用酱紫安排! </view>
-      <button class="quick-btn" @click="loginByPhone_quick()">
-        手机号快捷登录
-      </button>
+      <view class="quickLogin" v-if="!isChangeBtn">
+        <view class="mbt-10 ft-24"> 欢迎使用酱紫安排! </view>
+        <button class="quick-btn" @click="loginByPhone_quick()">
+          手机号快捷登录
+        </button>
+      </view>
+
+      <view class="otherLogin" v-if="isChangeBtn">
+        <view class="Up">
+          <input
+            type="text"
+            class="phone-input"
+            placeholder="请输入手机号码"
+            v-model="phoneNumber"
+            @blur="validatePhone"
+          />
+        </view>
+        <view class="Down">
+          <input
+            type="text"
+            class="verification-input"
+            placeholder="请输入验证码"
+          />
+          <button class="send-code-btn" @click="sendVerificationCode()">
+            发送验证码
+          </button>
+        </view>
+      </view>
 
       <view
         class="ft-12 flex-center-both"
@@ -32,10 +56,11 @@
       <button class="other-btn" @click="loginByPhone_other()">
         <img src="../static/loginByPhone_other.png" />
         <br />
-        手机验证
+        {{ btnText }}
       </button>
     </view>
   </view>
+
   <ModalComponent
     class="agreement"
     :visible="isModalVisible"
@@ -56,6 +81,10 @@ const isModalVisible = ref(false);
 
 //提醒勾选用户协议
 const shouldHighlight = ref(false);
+
+const btnText = ref("手机验证");
+
+const isChangeBtn = ref(false);
 
 //勾选同意用户协议
 function checked() {
@@ -89,6 +118,23 @@ function loginByPhone_other() {
     setTimeout(() => {
       shouldHighlight.value = false;
     }, 1000);
+  } else {
+    isChangeBtn.value = !isChangeBtn.value;
+    if (isChangeBtn.value == true) {
+      btnText.value = "手机快捷登陆";
+    } else {
+      btnText.value = "手机验证";
+    }
+  }
+}
+
+function sendVerificationCode() {
+  if (isCheckAgreement.value == false) {
+    shouldHighlight.value = true;
+    setTimeout(() => {
+      shouldHighlight.value = false;
+    }, 1000);
+  } else {
   }
 }
 </script>
@@ -112,6 +158,10 @@ function loginByPhone_other() {
   background-color: transparent;
   border: none;
   box-shadow: none;
+}
+
+.other-btn::after {
+  border: none;
 }
 
 .other-btn img {
@@ -161,5 +211,74 @@ function loginByPhone_other() {
 
 .Highlight {
   animation: Highlight 1s ease;
+}
+
+.quickLogin {
+  width: 36vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.otherLogin {
+  width: 36vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.Up {
+  width: 40vh;
+  height: 6vh;
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+  background-color: white;
+  border-radius: 18px;
+  align-content: flex-start;
+}
+
+.Down {
+  width: 40vh;
+  height: 6vh;
+  margin-bottom: 3vh;
+  background-color: white;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.phone-input {
+  margin-left: 3vh;
+  margin-right: 3vh;
+  width: 100%;
+  height: 85%;
+  position: relative;
+  text-align: left;
+}
+
+.verification-input {
+  margin-left: 3vh;
+  margin-right: 6vh;
+  width: 50%;
+  height: 85%;
+  text-align: left;
+}
+
+.send-code-btn {
+  width: 40%;
+  height: 85%;
+  margin-right: 2vh;
+  border: none;
+  outline: none;
+  background-color: white;
+  color: red;
+}
+
+.send-code-btn::after {
+  border: none;
 }
 </style>
