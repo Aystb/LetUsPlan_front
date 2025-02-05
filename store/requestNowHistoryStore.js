@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import {ref} from 'vue'
 
-export const useRequestNowContentStore = defineStore('requestNowContentStore',()=>{
+export const useRequestNowHistoryStore = defineStore('requestNowHistoryStore',()=>{
 //  当前要展示的聊天的历史记录
     const content = ref({
      chatId:1,

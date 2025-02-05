@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import {ref} from 'vue'
 
-export const useRequestContentStore = defineStore('requestContentStore',()=>{
+export const useRequestHistoryStore = defineStore('requestHistoryStore',()=>{
 //  聊天的历史记录,根据这个的数量渲染侧边栏
     const contents = ref([{
      chatId:1,

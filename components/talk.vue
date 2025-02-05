@@ -1,5 +1,7 @@
+<!--ai对话模块-->
 <template>
 <view>
+    <talkMode></talkMode>
     <button @click="requestAllModels()">查看可用模型</button>
     <button @click="requestChat3_5Per()">单次请求3.5模型</button>
     <button @click="requestStreamData()">请求流式数据</button>
@@ -14,6 +16,7 @@ import {ref} from 'vue'
 import { useStreamData } from '../request/api'
 import {useUserStone} from '../store/userStore'
 import api from '../request/api'
+import talkMode from './talkMode.vue'
 const userStone = useUserStone()
 const {data,startStreaming} = useStreamData(`http://127.0.0.1:8000/LetUsPlan/AI/${userStone.userid}/StreamData`)
 

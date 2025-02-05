@@ -1,0 +1,22 @@
+
+.in-range.data-v-f04e0436 {
+  background-color: #007bff;
+}
+.all-btn.data-v-f04e0436 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 120rpx;
+}
+.fixed.data-v-f04e0436 {
+  position: fixed;
+  top: 20vh;
+  left: 0px;
+  width: 100%;
+
+  background-color: white;
+  z-index: 9000;
+  border-radius: 15px;
+}
+

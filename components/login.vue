@@ -14,35 +14,10 @@
         </button>
       </view>
 
-      <view class="otherLogin" v-if="isChangeBtn">
-        <view class="Up">
-          <input
-            type="text"
-            class="phone-input"
-            placeholder="请输入手机号码"
-            v-model="phoneNumber"
-            @blur="validatePhone"
-            :disabled="phoneNumberValid"
-          />
-        </view>
-        <view class="Down">
-          <input
-            type="text"
-            class="verification-input"
-            placeholder="请输入验证码"
-            v-model="verificationCode"
-            :disabled="verificationCodeValid"
-          />
-          <button
-            class="send-code-btn"
-            @click="sendVerificationCode()"
-            :disabled="isCountTime"
-            @input="verifyCode()"
-          >
-            {{ sendCodeBtnText }}
-          </button>
-        </view>
-      </view>
+      
+        <otherLogin v-if="isChangeBtn" :isCheckAgreement="isCheckAgreement" @openHighlight="onOpenHighlight()" @closeHighlight="onCloseHighlight()"></otherLogin>
+       
+     
 
       <view
         class="ft-12 flex-center-both"
@@ -95,19 +70,6 @@ const btnText = ref("手机验证");
 
 const isChangeBtn = ref(false);
 
-const phoneNumberValid = ref(false);
-
-const verificationCodeValid = ref(false);
-
-const phoneNumberIsValid = ref(true);
-
-const sendCodeBtnText = ref("发送验证码");
-
-const countDownTime = ref(60);
-
-const isCountTime = ref(false);
-
-let countDownInterval = null;
 
 //勾选同意用户协议
 function checked() {
@@ -136,45 +98,21 @@ function loginByPhone_quick() {
 
 //手机验证
 function loginByPhone_other() {
-  if (isCheckAgreement.value == false) {
-    shouldHighlight.value = true;
-    setTimeout(() => {
-      shouldHighlight.value = false;
-    }, 1000);
-  } else {
+  
     isChangeBtn.value = !isChangeBtn.value;
     if (isChangeBtn.value == true) {
       btnText.value = "手机快捷登陆";
     } else {
       btnText.value = "手机验证";
     }
-  }
+  
+}
+function onOpenHighlight(){
+shouldHighlight.value=true
 }
 
-function sendVerificationCode() {
-  if (!isCheckAgreement.value) {
-    shouldHighlight.value = true;
-    setTimeout(() => {
-      shouldHighlight.value = false;
-    }, 1000);
-    return;
-  }
-
-  isCountTime.value = true;
-  sendCodeBtnText.value = `${countDownTime.value}秒后重试`;
-
-  countDownInterval = setInterval(() => {
-    countDownTime.value -= 1;
-    sendCodeBtnText.value = `${countDownTime.value}秒后重试`;
-
-    if (countDownTime.value <= 0) {
-      clearInterval(countDownInterval);
-      countDownInterval = null;
-      isCountTime.value = false;
-      countDownTime.value = 60;
-      sendCodeBtnText.value = "发送验证码";
-    }
-  }, 1000);
+function onCloseHighlight(){
+shouldHighlight.value=false
 }
 </script>
 

@@ -1,5 +1,6 @@
 <template>
-  <view class="otherLogin" v-if="isChangeBtn">
+ 
+  <view class="otherLogin" >
     <view class="Up">
       <input
         type="text"
@@ -26,16 +27,35 @@
       >
         {{ sendCodeBtnText }}
       </button>
+      
     </view>
+    <button  @click="login()" class="loginBtn">登录/注册</button>
+   
   </view>
+  <Alert ></Alert>
+
 </template>
 
 <script setup>
+import Alert from './alert.vue';
+import {ref} from 'vue'
+import api from '../request/api';
+import { useAlertStore } from '../store/alertStore';
+const alertStore = useAlertStore()
+
+const props = defineProps({
+  isCheckAgreement:{
+    type:Boolean,
+    default:false
+  }
+})
+
+const emit = defineEmits(['openHighlight','closeHighlight'])
 const phoneNumberValid = ref(false);
 
 const verificationCodeValid = ref(false);
-
-const phoneNumberIsValid = ref(false);
+//暂时验证设置为true
+const phoneNumberIsValid = ref(true);
 
 const sendCodeBtnText = ref("发送验证码");
 
@@ -43,16 +63,78 @@ const countDownTime = ref(60);
 
 const isCountTime = ref(false);
 
-function sendVerificationCode() {
-  if (isCheckAgreement.value == false) {
-    shouldHighlight.value = true;
+const phoneNumber = ref()
+const verificationCode = ref()
+
+
+async function sendVerificationCode() {
+  if (props.isCheckAgreement == false) {
+  emit('openHighlight')
+   
     setTimeout(() => {
-      shouldHighlight.value = false;
+     emit('closeHighlight')
     }, 1000);
   } else {
-    if (phoneNumberIsValid.value == ture) {
+    if (phoneNumberIsValid.value) {
+//发送验证码
+var res = await api.sendCode({
+  phone:phoneNumber.value
+})
+
+alertStore.setSuccess("验证码已发送")
+
+let countdown = setInterval(() => {
+    if (countDownTime.value > 0) {
+      sendCodeBtnText.value = countDownTime.value
+        countDownTime.value--;
+       
+    } else {
+        clearInterval(countdown);  // 停止倒计时
+        sendCodeBtnText.value = "发送验证码";  // 恢复按钮文字
     }
+}, 1000);
+
+countDownTime.value=60
+
   }
+}
+}
+//手机号+验证码注册登录
+async function login(){
+//首先检查是否勾选用户协议
+if(props.isCheckAgreement==false){
+  alertStore.setWarning("请勾选用户协议")
+  return
+}
+
+//尝试登录,成功返回user_id
+var res = await api.loginByCode({phone:phoneNumber.value,code:verificationCode.value})
+
+if(res.user_id>0){
+  alertStore.setSuccess("登录成功")
+  
+  return res.user_id
+}
+//验证码错误
+if(res.user_id==-1){
+   alertStore.setAlert("验证码错误")
+  return 
+}
+//用户不存在则注册
+if(res.user_id==-2){
+var res = await api.register({phone:phoneNumber.value,code:verificationCode.value})
+if(res.user_id>0){
+  alertStore.setSuccess("注册成功")
+  return res.user_id //注册成功
+}
+//验证码错误
+if(res.user_id==-2){
+  alertStore.setAlert("验证码错误")
+return 
+}
+}
+
+
 }
 </script>
 
@@ -109,4 +191,8 @@ function sendVerificationCode() {
 .send-code-btn::after {
   border: none;
 }
+.loginBtn{
+  display: flex;
+}
+
 </style>

@@ -1,0 +1,1 @@
+<view><talk-mode u-i="a4fd4fe4-0" bind:__l="__l"></talk-mode><button bindtap="{{a}}">查看可用模型</button><button bindtap="{{b}}">单次请求3.5模型</button><button bindtap="{{c}}">请求流式数据</button><view>{{d}}</view></view>

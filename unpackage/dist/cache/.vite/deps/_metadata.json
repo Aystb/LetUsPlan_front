@@ -1,13 +1,13 @@
 {
-  "hash": "4b5f9772",
-  "configHash": "ebcf95e0",
+  "hash": "a865d0e0",
+  "configHash": "cfc1be4c",
   "lockfileHash": "31773a3d",
-  "browserHash": "e9abf0af",
+  "browserHash": "2f32db49",
   "optimized": {
     "uview-plus": {
       "src": "../../../../../node_modules/uview-plus/index.js",
       "file": "uview-plus.js",
-      "fileHash": "6d401870",
+      "fileHash": "da592c6f",
       "needsInterop": false
     }
   },

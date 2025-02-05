@@ -49,8 +49,26 @@ function aiPost(url,data){
 // tag 外部结构,api的使用从这里开始
 const  api = {
     
-//登陆
-
+//密码登录
+async loginByPassword(data){
+  var url = "http://127.0.0.1:8000/LetUsPlan/loginByPassword"
+  return await post(url,{},data)
+},
+//验证码登陆
+async loginByCode(data){
+  var url = "http://127.0.0.1:8000/LetUsPlan/loginByCode"
+  return await post(url,{},data)
+},
+//注册
+async register(data){
+   var url = "http://127.0.0.1:8000/LetUsPlan/register"
+  return await post(url,{},data)
+},
+//发送短信
+async sendCode(data){
+ var url = "http://127.0.0.1:8000/LetUsPlan/sendMes"
+  return await post(url,{},data)
+},
 
 //请求所有可用的模型
 async requestAllModels(){

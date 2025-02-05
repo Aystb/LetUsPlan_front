@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "reserve-calendar": "./reserve-calendar"
+  }
+}
