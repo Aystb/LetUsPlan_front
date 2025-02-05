@@ -22,6 +22,7 @@
             placeholder="请输入手机号码"
             v-model="phoneNumber"
             @blur="validatePhone"
+            :disabled="phoneNumberValid"
           />
         </view>
         <view class="Down">
@@ -29,9 +30,16 @@
             type="text"
             class="verification-input"
             placeholder="请输入验证码"
+            v-model="verificationCode"
+            :disabled="verificationCodeValid"
           />
-          <button class="send-code-btn" @click="sendVerificationCode()">
-            发送验证码
+          <button
+            class="send-code-btn"
+            @click="sendVerificationCode()"
+            :disabled="isCountTime"
+            @input="verifyCode()"
+          >
+            {{ sendCodeBtnText }}
           </button>
         </view>
       </view>
@@ -71,6 +79,7 @@
 
 <script setup>
 import ModalComponent from "./ModalComponents.vue";
+import otherLogin from "./otherLogin.vue";
 import { ref } from "vue";
 
 //是否勾选同意用户协议
@@ -85,6 +94,20 @@ const shouldHighlight = ref(false);
 const btnText = ref("手机验证");
 
 const isChangeBtn = ref(false);
+
+const phoneNumberValid = ref(false);
+
+const verificationCodeValid = ref(false);
+
+const phoneNumberIsValid = ref(true);
+
+const sendCodeBtnText = ref("发送验证码");
+
+const countDownTime = ref(60);
+
+const isCountTime = ref(false);
+
+let countDownInterval = null;
 
 //勾选同意用户协议
 function checked() {
@@ -129,13 +152,29 @@ function loginByPhone_other() {
 }
 
 function sendVerificationCode() {
-  if (isCheckAgreement.value == false) {
+  if (!isCheckAgreement.value) {
     shouldHighlight.value = true;
     setTimeout(() => {
       shouldHighlight.value = false;
     }, 1000);
-  } else {
+    return;
   }
+
+  isCountTime.value = true;
+  sendCodeBtnText.value = `${countDownTime.value}秒后重试`;
+
+  countDownInterval = setInterval(() => {
+    countDownTime.value -= 1;
+    sendCodeBtnText.value = `${countDownTime.value}秒后重试`;
+
+    if (countDownTime.value <= 0) {
+      clearInterval(countDownInterval);
+      countDownInterval = null;
+      isCountTime.value = false;
+      countDownTime.value = 60;
+      sendCodeBtnText.value = "发送验证码";
+    }
+  }, 1000);
 }
 </script>
 
@@ -238,9 +277,9 @@ function sendVerificationCode() {
   margin-bottom: 2vh;
   background-color: white;
   border-radius: 18px;
-  align-content: flex-start;
+  align-items: center;
+  justify-content: space-around;
 }
-
 .Down {
   width: 40vh;
   height: 6vh;
@@ -249,6 +288,7 @@ function sendVerificationCode() {
   border-radius: 18px;
   display: flex;
   align-items: center;
+  justify-content: space-around;
 }
 
 .phone-input {
@@ -271,11 +311,12 @@ function sendVerificationCode() {
 .send-code-btn {
   width: 40%;
   height: 85%;
-  margin-right: 2vh;
+  margin-right: 1vh;
   border: none;
   outline: none;
   background-color: white;
   color: red;
+  font-size: 1.6vh;
 }
 
 .send-code-btn::after {
