@@ -14,10 +14,12 @@
         </button>
       </view>
 
-      
-        <otherLogin v-if="isChangeBtn" :isCheckAgreement="isCheckAgreement" @openHighlight="onOpenHighlight()" @closeHighlight="onCloseHighlight()"></otherLogin>
-       
-     
+      <otherLogin
+        v-if="isChangeBtn"
+        :isCheckAgreement="isCheckAgreement"
+        @openHighlight="onOpenHighlight()"
+        @closeHighlight="onCloseHighlight()"
+      ></otherLogin>
 
       <view
         class="ft-12 flex-center-both"
@@ -53,6 +55,7 @@
 </template>
 
 <script setup>
+import { func } from "uview-plus/libs/function/test";
 import ModalComponent from "./ModalComponents.vue";
 import otherLogin from "./otherLogin.vue";
 import { ref } from "vue";
@@ -70,7 +73,6 @@ const btnText = ref("手机验证");
 
 const isChangeBtn = ref(false);
 
-
 //勾选同意用户协议
 function checked() {
   isCheckAgreement.value = !isCheckAgreement.value;
@@ -86,33 +88,42 @@ function hideModal() {
   isModalVisible.value = false;
 }
 
+//提醒勾选用户协议
+function checkUserAgreement() {
+  setTimeout(() => {
+    shouldHighlight.value = false;
+  }, 1000);
+}
+
 //快捷登录
 function loginByPhone_quick() {
   if (isCheckAgreement.value == false) {
     shouldHighlight.value = true;
-    setTimeout(() => {
-      shouldHighlight.value = false;
-    }, 1000);
+    checkUserAgreement();
   }
 }
 
 //手机验证
 function loginByPhone_other() {
-  
+  if (isCheckAgreement.value == false) {
+    shouldHighlight.value = true;
+    checkUserAgreement();
+  } else {
     isChangeBtn.value = !isChangeBtn.value;
     if (isChangeBtn.value == true) {
       btnText.value = "手机快捷登陆";
     } else {
       btnText.value = "手机验证";
     }
-  
-}
-function onOpenHighlight(){
-shouldHighlight.value=true
+  }
 }
 
-function onCloseHighlight(){
-shouldHighlight.value=false
+function onOpenHighlight() {
+  shouldHighlight.value = true;
+}
+
+function onCloseHighlight() {
+  shouldHighlight.value = false;
 }
 </script>
 
