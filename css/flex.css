@@ -62,7 +62,7 @@ align-self: center;
     align-items: center;
 }
 
-.flex-equal-horizontal>* {
+.flex-equal-horizontal {
     flex: 1;
 }
 

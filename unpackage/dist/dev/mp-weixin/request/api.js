@@ -31,10 +31,31 @@ function aiPost(url, data) {
   });
 }
 const api = {
+  //微信登录
+  async loginByWx(data) {
+    var url = "http://127.0.0.1:8000/LetUsPlan/loginByWx";
+    return await post(url, {}, data);
+  },
   //密码登录
+  async loginByPassword(data) {
+    var url = "http://127.0.0.1:8000/LetUsPlan/loginByPassword";
+    return await post(url, {}, data);
+  },
   //验证码登陆
+  async loginByCode(data) {
+    var url = "http://127.0.0.1:8000/LetUsPlan/loginByCode";
+    return await post(url, {}, data);
+  },
   //注册
+  async register(data) {
+    var url = "http://127.0.0.1:8000/LetUsPlan/register";
+    return await post(url, {}, data);
+  },
   //发送短信
+  async sendCode(data) {
+    var url = "http://127.0.0.1:8000/LetUsPlan/sendMes";
+    return await post(url, {}, data);
+  },
   //请求所有可用的模型
   async requestAllModels() {
     var url = "https://api.gpt.ge/v1/models";

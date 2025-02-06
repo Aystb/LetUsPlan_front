@@ -1,0 +1,37 @@
+
+.warning.data-v-68e3fa88{
+background-color: #FFA500;
+}
+.alert.data-v-68e3fa88{
+background-color: #D32F2F;
+}
+.success.data-v-68e3fa88{
+background-color: #388E3C;
+}
+.both.data-v-68e3fa88{
+  position: fixed;
+  top: 70px;
+  
+    left: 50%;
+    transform: translate(-50%, -50%); 
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+
+/* 渐出动画 */
+.fade-out.data-v-68e3fa88 {
+    animation: fadeOut-68e3fa88 3s ease-out;  /* 持续2秒，使用ease-out缓动函数 */
+}
+
+
+/* 定义渐出动画 */
+@keyframes fadeOut-68e3fa88 {
+0% {
+        opacity: 1;  /* 开始时透明度为1 */
+}
+100% {
+        opacity: 0;  /* 结束时透明度为0 */
+}
+}

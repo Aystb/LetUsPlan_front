@@ -1,0 +1,1 @@
+<view wx:if="{{a}}" class="{{['warning', 'both', 'data-v-68e3fa88', c]}}">{{b}}</view><view wx:if="{{d}}" class="{{['alert', 'both', 'data-v-68e3fa88', f]}}">{{e}}</view><view wx:if="{{g}}" class="{{['success', 'both', 'data-v-68e3fa88', i]}}">{{h}}</view>

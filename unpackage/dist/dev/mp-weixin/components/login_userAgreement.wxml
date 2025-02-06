@@ -1,1 +1,0 @@
-<view class="data-v-542a71e2"><view wx:if="{{a}}" class="modal data-v-542a71e2"><view class="modal-content data-v-542a71e2"><label class="close data-v-542a71e2" bindtap="{{b}}">×</label><slot></slot></view></view></view>

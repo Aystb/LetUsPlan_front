@@ -48,7 +48,12 @@ function aiPost(url,data){
 
 // tag 外部结构,api的使用从这里开始
 const  api = {
-    
+ //微信登录
+ async loginByWx(data){
+var url = "http://127.0.0.1:8000/LetUsPlan/loginByWx"
+return await post(url,{},data)
+
+ },   
 //密码登录
 async loginByPassword(data){
   var url = "http://127.0.0.1:8000/LetUsPlan/loginByPassword"
