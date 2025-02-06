@@ -3,8 +3,8 @@
 <template>
   <view class="main-container">
     <view class="fixed">
-      <view class="flex-x justify-between mt-10">
-        <view class="flex-x ml-10">
+      <view class="flex-x justify-end items-center mt-20 relative">
+        <view class="flex-x justify-center calendar-select absolute">
           <u-icon
             @click="frontMonth"
             class="flex-center-both"
@@ -13,7 +13,7 @@
           >
           </u-icon>
 
-          <text>{{ curYear }}年{{ curMonth }}月</text>
+          <text class="ft-20">{{ curYear }}年{{ curMonth }}月</text>
           <u-icon
             @click="nextMonth"
             class="flex-center-both"
@@ -22,7 +22,12 @@
           >
           </u-icon>
         </view>
-        
+        <!-- 点击头像登录 -->
+        <image
+          src="/static/user-avatar.png"
+          class="user-avatar mr-20"
+          @click="login()"
+        ></image>
       </view>
 
       <!--日期选择部分-->
@@ -43,38 +48,29 @@
 
             <view v-if="isShow(index1, index2)" class="dayContainer">
               <!--日期方块组件-->
-              <view
-              
-                @click="choose(index1, index2)"
-                :class="[
-                 
-                  'all-btn',
-                ]"
+              <view @click="choose(index1, index2)" :class="['all-btn']"
                 >{{
                   curMonthArray[
                     index1 * 7 + index2 - curMonthBasicInfo.startIndex
-                  ]?.date 
+                  ]?.date
                 }}
-                
               </view>
+              <!-- <view>点击安排日程</view> -->
+              <view @click="showModal()">点击安排日程</view>
             </view>
           </view>
         </view>
       </view>
-
-     
     </view>
   </view>
 </template>
 
 <script setup>
-import { watch, ref, onMounted, computed } from "vue";
-import api from "../request/api";
-import { getRangeDates } from "../js/date";
-import { dateInfo, monthDate } from "../static/staticData";
-const props = defineProps({
- 
-});
+import { watch, ref, onMounted, computed } from 'vue';
+import api from '../request/api';
+import { getRangeDates } from '../js/date';
+import { dateInfo, monthDate } from '../static/staticData';
+const props = defineProps({});
 
 const calendar = ref();
 //客观上当前的时间
@@ -83,13 +79,11 @@ const month = new Date().getMonth() + 1; // 月份是从0开始的，所以加1
 const day = new Date().getDate();
 const static_calendar = ref();
 
-
 //可以使用curMonth，year和month，year的差值来计算index，暂且放一个思路在这里
 const curMonth = ref();
 const curYear = ref();
 //当前月数组
 const curMonthArray = ref(monthDate);
-
 
 //当前月的起始位置，长度,因为有35-42个按钮，需要知道当前月份第一天的起始位置
 const curMonthBasicInfo = ref({ startIndex: 0, length: 30 });
@@ -105,40 +99,34 @@ const weeks = computed(() => {
   }
 });
 
-
 function weekTitle(index) {
   if (index == 1) {
-    return "一";
+    return '一';
   }
   if (index == 2) {
-    return "二";
+    return '二';
   }
   if (index == 3) {
-    return "三";
+    return '三';
   }
   if (index == 4) {
-    return "四";
+    return '四';
   }
   if (index == 5) {
-    return "五";
+    return '五';
   }
   if (index == 6) {
-    return "六";
+    return '六';
   } else {
-    return "日";
+    return '日';
   }
 }
 
 onMounted(async () => {
- 
-    calendar.value = dateInfo;
+  calendar.value = dateInfo;
 
-  static_calendar.value = getRangeDates(
-    year,
-    month,
-   6
-  );
-  
+  static_calendar.value = getRangeDates(year, month, 6);
+
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
   curYear.value = new Date().getFullYear();
@@ -148,7 +136,6 @@ watch([curYear, curMonth], (newValue, oldValue) => {
   curMonthBasicInfo.value.startIndex = curMonthArray.value[0].dayOfWeek;
   curMonthBasicInfo.value.length = curMonthArray.value.length;
 });
-
 
 //计算当前按钮是否要显示,不在当前月份之内的不予显示
 const isShow = (index1, index2) => {
@@ -164,23 +151,19 @@ const isShow = (index1, index2) => {
 
 //计算当前是几几年几月,并更新当月数组
 const nextMonth = () => {
-    curMonth.value += 1;
-  
+  curMonth.value += 1;
+
   if (curMonth.value > 12) {
     curMonth.value = 1;
     curYear.value += 1;
   }
-  
 };
 const frontMonth = () => {
-   
-  
-    curMonth.value -= 1;
-  
+  curMonth.value -= 1;
+
   if (curMonth.value < 1) {
     (curMonth.value = 12), (curYear.value -= 1);
   }
- 
 };
 
 //选择这个按钮
@@ -188,16 +171,25 @@ function choose(index1, index2) {
   var index = index1 * 7 + index2;
   var chooseDate =
     curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
-  
 
-  console.log('当前选择日期：',chooseDate);
+  console.log('当前选择日期：', chooseDate);
 }
 
+// 登录/切换账号
+function login() {
+  console.log('切换账号/返回');
+}
 
+// 显示添加日程的组件
+const emit = defineEmits('showMyduty');
+
+function showModal() {
+  emit('showMyduty');
+  console.log('显示页面');
+}
 </script>
 
 <style scoped>
-
 .in-range {
   background-color: #007bff;
 }
@@ -211,13 +203,23 @@ function choose(index1, index2) {
 }
 .fixed {
   position: fixed;
-  top: 20vh;
-  left: 0px;
+  /* top: 20vh; */
+  /* left: 0px; */
   width: 100%;
-
+  height: 100%;
   background-color: white;
-  z-index: 9000;
-  border-radius: 15px;
+  z-index: 1000;
 }
 
+.user-avatar {
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+
+.calendar-select {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 </style>
