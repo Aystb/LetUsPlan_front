@@ -1,12 +1,15 @@
 <template>
   <view>
-    <!-- this is calendar -->
+	<!-- 切换日历 -->
     <reserveCalendar
-      @showMyduty="show"
-      @showAddDuty="showAddDuty"
+      @showMyDuty="showMyDuty()"
     ></reserveCalendar>
-    <myDuty @close="close" :visible="isModalVisible"></myDuty>
-    <!-- <addDuty></addDuty> -->
+	
+	<!-- 我的日程 -->
+    <myDuty @close="close()" @showAddDuty="showAddDuty()" :visible="isMyDutyVisible"></myDuty>
+	
+	<!-- 添加日程 -->
+    <addDuty @closeModal="closeAddDuty()" :visible="isAddDutyVisible"></addDuty>
   </view>
 </template>
 
@@ -16,17 +19,31 @@ import myDuty from './myDuty.vue';
 import addDuty from './addDuty.vue';
 import { ref } from 'vue';
 
-const isModalVisible = ref(false);
+// 我的日程
+const isMyDutyVisible = ref(false);
+
+// 添加日程
 const isAddDutyVisible = ref(false);
 
 // 显示添加我的日程弹窗
-function show() {
-  isModalVisible.value = true;
+function showMyDuty() {
+  isMyDutyVisible.value = true;
 }
 // 关闭我的日程弹窗
 function close() {
-  isModalVisible.value = false;
+  isMyDutyVisible.value = false;
 }
+
+function showAddDuty() {
+  isAddDutyVisible.value = true;
+}
+
+// 关闭添加日程弹窗
+function closeAddDuty() {
+  isAddDutyVisible.value = false;
+}
+
+
 </script>
 
 <style scoped></style>

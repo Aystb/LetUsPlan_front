@@ -1,18 +1,24 @@
 <template>	
 	<view>
-		<view v-if="props.visible" class="modalOverlay" @click.stop="closeModal()">
+		<view v-if="props.visible" class="modalOverlay" @click="closeMyDuty()">
 			<view class="z-9">
 				<view class="ft-16 mb-10 ml-10">这是当前日期</view>
+				<!-- 白色盒子 -->
 				<view class="dutyContainer" @click.stop>
+					
+					<!-- 头部：我的日程 -->
 					<view class="myDuty-font">
 						<view class="font fw-600">我的日程</view>
 						<view class="ft-18 fw-600">——my duty——</view>
 					</view>
-					<!-- 添加的代办事项 -->
+					
+					<!-- 中部：添加的代办事项 -->
 					<view class="duties">
 						
 					</view>
-					<button class="addDuty_btn">
+					
+					<!-- 尾部：加号按钮 -->
+					<button class="addDuty_btn" @click="showAddDuty()">
 						<image src="/static/addDuty_btn.png"></image>
 					</button>
 				</view>
@@ -23,13 +29,24 @@
 
 <script setup>
 	import { defineProps, defineEmits } from "vue";
+	
 	const props =defineProps({
 		visible: Boolean,
 		default:false
 	})
-	const emit=defineEmits("close")
-	function closeModal() {
+	// 关闭我的日程
+	
+	const emit=defineEmits(['close', 'showAddDuty'])
+
+	function closeMyDuty() {
 		emit("close")
+		console.log("关闭我的日程页面")
+	}
+	
+	// 显示添加日程界面
+	function showAddDuty () {
+		emit("showAddDuty")
+		console.log("显示添加日程页面")
 	}
 	
 </script>
