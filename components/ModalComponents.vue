@@ -41,11 +41,13 @@ function onScroll(event) {
   padding: 20px;
   border-radius: 5px;
   position: relative;
-  width: 65%;
+  width: 80%;
   max-height: 80%;
   overflow-y: auto;
   box-sizing: border-box;
   white-space: normal;
+  border-radius: 32px;
+  background-color: #efdaff;
 }
 
 .close {

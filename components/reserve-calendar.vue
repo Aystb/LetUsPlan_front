@@ -58,12 +58,18 @@
   </view>
 
   <ModalComponents :visible="IsShowPicker" class="PickerModal">
-    <p class="pickTime">{{ PickerCurYear }}年{{ PickerCurMonth }}月</p>
+    <p class="pickTime" style="color: #a4a4a4">
+      {{ PickerCurYear }}年{{ PickerCurMonth }}月
+    </p>
     <br />
-    <scrollPicker v-model="PickerCurYear" type="year"></scrollPicker>
-    <scrollPicker v-model="PickerCurMonth" type="month"></scrollPicker>
-    <button class="pickerCancel" @click="pickerCancel">取消</button>
-    <button class="pickerIdentify" @click="pickerIdentify">确认</button>
+    <view class="scrollContainer">
+      <scrollPicker v-model="PickerCurYear" type="year"></scrollPicker>
+      <scrollPicker v-model="PickerCurMonth" type="month"></scrollPicker>
+    </view>
+    <view class="buttonContainer">
+      <button class="pickerCancel" @click="pickerCancel">取消</button>
+      <button class="pickerIdentify" @click="pickerIdentify">确认</button>
+    </view>
   </ModalComponents>
 </template>
 
@@ -111,6 +117,8 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
+  PickerCurYear.value = curYear.value;
+  PickerCurMonth.value = curMonth.value;
   IsShowPicker.value = !IsShowPicker.value;
 }
 
@@ -145,9 +153,6 @@ onMounted(async () => {
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
   curYear.value = new Date().getFullYear();
-
-  PickerCurYear.value = curYear.value;
-  PickerCurMonth.value = curMonth.value;
 });
 watch([curYear, curMonth], (newValue, oldValue) => {
   curMonthArray.value = static_calendar.value[curYear.value][curMonth.value];
@@ -223,11 +228,34 @@ function showMyDuty() {
   text-align: center;
 }
 .PickerModal {
+  overflow: hidden;
   position: fixed;
   top: 0px;
   z-index: 1500;
   display: flex;
+  flex-direction: column;
+  /* border-radius: 5vh; */
+}
+
+.scrollContainer {
+  display: flex;
   flex-direction: row;
+}
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.pickerCancel {
+  border-radius: 1px;
+  background-color: #ededed;
+  width: 40%;
+}
+
+.pickerIdentify {
+  border-radius: 1px;
+  background-color: #deb0ff;
+  width: 40%;
 }
 .in-range {
   background-color: #007bff;

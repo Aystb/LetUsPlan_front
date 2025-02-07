@@ -62,7 +62,7 @@ const getDataList = () => {
 // 生成数字数组
 const generateNumberArray = (n) => {
   let arr = Array.from({ length: n }, (_, i) => String(i + 1).padStart(2, "0"));
-  arr = ["", "", ...arr, "", ""]; // 添加前后缓冲
+  arr = ["", "", ...arr, ""]; // 添加前后缓冲
   return arr;
 };
 
@@ -71,7 +71,7 @@ const getYearArr = () => {
   let start = 2000;
   let end = new Date().getFullYear() + 10;
   let arr = Array.from({ length: end - start + 1 }, (_, i) => `${start + i}`);
-  arr = ["", "", ...arr, "", ""]; // 添加前后缓冲
+  arr = ["", "", ...arr, ""]; // 添加前后缓冲
   return arr;
 };
 
@@ -111,25 +111,32 @@ onMounted(() => {
 
 <style scoped>
 .scroll-picker {
-  width: 100%;
+  width: 50%;
   height: 200px;
   border-radius: 10px;
   overflow: hidden;
+  justify-content: center;
+  align-items: center;
 }
 .scrollbar {
-  height: 100%;
-  width: 100%;
+  height: 80%;
+  /* width: 20%; */
+  /* max-width: 350px; */
+  margin: 0, auto;
+  justify-content: center;
 }
+
 .scroll-item {
   height: 40px;
   line-height: 40px;
   text-align: center;
-  color: #bfc2c9;
-  font-size: 18px;
+  color: #000;
+  font-size: 24px;
+  justify-content: center;
+  align-items: center;
 }
 .active-li {
   color: #000;
-  border-top: 1px solid #bfc2c9;
-  border-bottom: 1px solid #bfc2c9;
+  font-size: 32px;
 }
 </style>
