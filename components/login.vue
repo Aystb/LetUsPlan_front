@@ -10,7 +10,7 @@
       <view class="quickLogin" v-if="!isChangeBtn">
         <view class="mbt-10 ft-24"> 欢迎使用酱紫安排! </view>
         <button class="quick-btn" @click="loginByWx_quick()">
-         微信快捷登录
+          微信快捷登录
         </button>
       </view>
 
@@ -56,7 +56,7 @@
 
 <script setup>
 import { func } from "uview-plus/libs/function/test";
-import ModalComponent from "./ModalComponents.vue";
+import ModalComponent from "./LoginModal.vue";
 import otherLogin from "./otherLogin.vue";
 import { ref } from "vue";
 import api from "../request/api";
@@ -100,28 +100,23 @@ function loginByWx_quick() {
   if (isCheckAgreement.value == false) {
     shouldHighlight.value = true;
     checkUserAgreement();
-  }
-else {
-//先获取code再向后端请求
-uni.login({
-    success: function (res) {
+  } else {
+    //先获取code再向后端请求
+    uni.login({
+      success: function (res) {
         if (res.code) {
-          
-            // 获取到的 code 可以发送到后端进行微信登录验证
-            var res = api.loginByWx({code:res.code})
-            console.log(res)
+          // 获取到的 code 可以发送到后端进行微信登录验证
+          var res = api.loginByWx({ code: res.code });
+          console.log(res);
         } else {
-            console.log('登录失败: ' + res.errMsg);
+          console.log("登录失败: " + res.errMsg);
         }
-    },
-    fail: function (err) {
-        console.log('uni.login 调用失败', err);
-    }
-});
-
-
-}
-
+      },
+      fail: function (err) {
+        console.log("uni.login 调用失败", err);
+      },
+    });
+  }
 }
 
 //手机验证

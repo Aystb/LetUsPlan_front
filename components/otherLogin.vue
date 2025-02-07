@@ -6,11 +6,13 @@
         class="phone-input"
         placeholder="请输入手机号码"
         v-model.lazy="phoneNumber"
-        @blur="validatePhone"
         :disabled="phoneNumberValid"
         maxlength="11"
-        @input="verifyPhoneNumber()"
+        @blur="verifyPhoneNumber()"
       />
+      <view v-if="!phoneNumberIsValid" class="alertText">
+        {{ phoneValidateText }}
+      </view>
     </view>
     <view class="Down">
       <input
@@ -52,8 +54,7 @@ const props = defineProps({
 const emit = defineEmits(["openHighlight", "closeHighlight"]);
 const phoneNumberValid = ref(false);
 
-//暂时验证设置为true
-const phoneNumberIsValid = ref(true);
+const phoneNumberIsValid = ref(false);
 
 const sendCodeBtnText = ref("发送验证码");
 
@@ -65,12 +66,22 @@ const phoneNumber = ref();
 
 const verificationCode = ref();
 
-// function verifyPhoneNumber() {
-//   if (phoneNumber.value.length < 11) {
-//     phoneNumberIsValid.value = false;
-//   } else {
-//   }
-// }
+const phoneValidateText = ref("");
+
+// 使用正则表达式验证手机号
+function verifyPhoneNumber() {
+  // 中国大陆手机号正则表达式
+  const phoneRegex = /^1[3-9]\d{9}$/;
+  if (phoneNumber.value) {
+    phoneNumberIsValid.value = phoneRegex.test(phoneNumber.value);
+  } else {
+    phoneNumberIsValid.value = false;
+  }
+
+  if (phoneNumberIsValid.value == false) {
+    phoneValidateText.value = "请输入有效的手机号！";
+  }
+}
 
 async function sendVerificationCode() {
   if (props.isCheckAgreement == false) {
@@ -165,10 +176,23 @@ async function login() {
   border-radius: 18px;
   align-items: center;
   justify-content: space-around;
+  flex-direction: column;
+  padding-bottom: 0;
+  padding-top: 0;
 }
+
+.alertText {
+  color: red;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  text-align: center;
+  font-size: 2vh;
+}
+
 .Down {
   width: 40vh;
   height: 6vh;
+  margin-top: 2vh;
   margin-bottom: 3vh;
   background-color: white;
   border-radius: 18px;
