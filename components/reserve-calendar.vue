@@ -56,7 +56,7 @@
                 }}
               </view>
               <!-- <view>点击安排日程</view> -->
-              <view @click="showModal()">点击安排日程</view>
+              <view @click="showMyDuty()">点击安排日程</view>
             </view>
           </view>
         </view>
@@ -181,11 +181,11 @@ function login() {
 }
 
 // 显示添加日程的组件
-const emit = defineEmits('showMyduty');
+const emit = defineEmits(["showMyDuty"]);
 
-function showModal() {
-  emit('showMyduty');
-  console.log('显示页面');
+function showMyDuty() {
+  emit('showMyDuty');
+  console.log('点击添加日程，显示我的日程页面');
 }
 </script>
 
