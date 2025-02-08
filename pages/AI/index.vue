@@ -6,7 +6,7 @@
     </template>
     
     <script setup>
-   import talk from '../../components/talk.vue';
+   import talk from '../../components/aiCom/talk.vue';
     </script>
     
     <style scopd>

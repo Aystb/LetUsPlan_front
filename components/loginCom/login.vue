@@ -3,7 +3,7 @@
     <!--上半-->
     <view class="flex-y items-center mt-10 mr-20 ml-20 flex-grow1">
       <image
-        src="../static/logo.png"
+        src="../../static/logo.png"
         mode="scaleToFill"
         class="round-image mbt-15"
       />
@@ -39,7 +39,7 @@
         <view class="line ml-20"></view>
       </view>
       <button class="other-btn" @click="loginByPhone_other()">
-        <img src="../static/loginByPhone_other.png" />
+        <img src="../../static/loginByPhone_other.png" />
         <br />
         {{ btnText }}
       </button>
@@ -56,10 +56,10 @@
 
 <script setup>
 import { func } from "uview-plus/libs/function/test";
-import ModalComponent from "./LoginModal.vue";
+import ModalComponent from "./ModalComponents.vue";
 import otherLogin from "./otherLogin.vue";
 import { ref } from "vue";
-import api from "../request/api";
+import api from "../../request/api";
 //是否勾选同意用户协议
 const isCheckAgreement = ref(false);
 

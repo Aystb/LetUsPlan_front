@@ -18,7 +18,7 @@
     
     <script setup>
     import {ref} from 'vue'
-    import { useRequestModeStore } from '../store/requestModeStore'
+    import { useRequestModeStore } from '../../store/requestModeStore'
     const props = defineProps({
         
     })
