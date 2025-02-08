@@ -10,7 +10,7 @@
         v-for="(item, index) in list"
         :key="'li' + index"
         class="scroll-item"
-        :class="{ 'active-li': item == activeItem }"
+        :class="{ 'active-li': item === activeItem }"
         @click="scrollTo(item)"
       >
         {{ item }}
@@ -23,7 +23,7 @@
 import { ref, onMounted, watch, nextTick } from "vue";
 
 const props = defineProps({
-  modelValue: String, // 使用 v-model 时的值
+  modelValue: Number, // 使用 v-model 时的值,由string改为number，保持统一
   type: {
     type: String,
     default: "year",
@@ -33,7 +33,7 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 const itemHeight = 40; // 每个列表项的高度
-const activeItem = ref(""); // 当前激活的项
+const activeItem = ref(0); // 当前激活的项
 const scrollTopNum = ref(0); // 滚动条的当前位置
 const list = ref([]); // 动态生成的列表数据
 const scrollMenuRef = ref(null); // 滚动容器的引用
@@ -62,8 +62,8 @@ const getDataList = () => {
 
 // 生成数字数组
 const generateNumberArray = (n) => {
-  let arr = Array.from({ length: n }, (_, i) => String(i + 1).padStart(2, "0"));
-  arr = ["", "", ...arr, ""]; // 添加前后缓冲
+  let arr = Array.from({ length: n }, (_, i) => i + 1); // 直接返回数字
+  arr = [, , ...arr, ,]; // 添加前后缓冲
   return arr;
 };
 
@@ -71,8 +71,8 @@ const generateNumberArray = (n) => {
 const getYearArr = () => {
   let start = 2000;
   let end = new Date().getFullYear() + 10;
-  let arr = Array.from({ length: end - start + 1 }, (_, i) => `${start + i}`);
-  arr = ["", "", ...arr, ""]; // 添加前后缓冲
+  let arr = Array.from({ length: end - start + 1 }, (_, i) => start + i); // 返回数字
+  arr = [, , ...arr, ,]; // 添加前后缓冲
   return arr;
 };
 
@@ -121,8 +121,6 @@ onMounted(() => {
 }
 .scrollbar {
   height: 80%;
-  /* width: 20%; */
-  /* max-width: 350px; */
   margin: 0, auto;
   justify-content: center;
 }

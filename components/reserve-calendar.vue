@@ -29,19 +29,24 @@
         v-for="(row, index1) in Array.from({ length: weeks })"
         :key="index1"
       >
+        <!-- 生成行 -->
         <view class="flex-x">
           <view
             class="flex-fill shrink"
             v-for="(week, index2) in Array.from({ length: 7 })"
             :key="index2"
           >
+            <!-- 生成日期 -->
             <text class="ml-20" v-if="index1 == 0">{{
               weekTitle(index2)
             }}</text>
 
             <view v-if="isShow(index1, index2)" class="dayContainer">
               <!--日期方块组件-->
-              <view @click="choose(index1, index2)" :class="['all-btn']"
+              <view
+                @click="choose(index1, index2)"
+                :class="['all-btn']"
+                :style="{ border: '1px solid #efecec' }"
                 >{{
                   curMonthArray[
                     index1 * 7 + index2 - curMonthBasicInfo.startIndex
@@ -95,8 +100,6 @@ const static_calendar = ref();
 //可以使用curMonth，year和month，year的差值来计算index，暂且放一个思路在这里
 const curMonth = ref();
 const curYear = ref();
-
-//滚动条显示的日期
 const PickerCurMonth = ref();
 const PickerCurYear = ref();
 
@@ -118,10 +121,7 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
-  PickerCurYear.value = curYear.value;
-  PickerCurMonth.value = curMonth.value;
   IsShowPicker.value = !IsShowPicker.value;
-  
 }
 
 function weekTitle(index) {
