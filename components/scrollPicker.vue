@@ -54,6 +54,7 @@ const getDataList = () => {
       list.value = [];
   }
   activeItem.value = props.modelValue || list.value[2]; // 默认选中第三个项
+  
   nextTick(() => {
     scrollTo(props.modelValue || list.value[2]);
   });

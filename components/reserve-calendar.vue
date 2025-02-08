@@ -84,7 +84,7 @@ import api from "../request/api";
 import { getRangeDates } from "../js/date";
 import { dateInfo, monthDate } from "../static/staticData";
 import scrollPicker from "./scrollPicker.vue";
-import ModalComponents from "./ModalComponents.vue";
+import ModalComponents from "./loginCom/ModalComponents.vue";
 
 const IsShowPicker = ref(false);
 
@@ -122,8 +122,6 @@ const weeks = computed(() => {
 
 function showPicker() {
   IsShowPicker.value = !IsShowPicker.value;
-  PickerCurYear.value = string(curYear.value);
-  PickerCurMonth.value = string(curMonth.value);
 }
 
 function weekTitle(index) {
@@ -149,7 +147,7 @@ function weekTitle(index) {
   }
 }
 
-onMounted(async () => {
+onMounted( () => {
   calendar.value = dateInfo;
 
   static_calendar.value = getRangeDates(year, month, 6);
@@ -157,6 +155,8 @@ onMounted(async () => {
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
   curYear.value = new Date().getFullYear();
+  
+  
 });
 watch([curYear, curMonth], (newValue, oldValue) => {
   curMonthArray.value = static_calendar.value[curYear.value][curMonth.value];

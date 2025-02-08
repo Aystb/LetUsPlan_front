@@ -37,10 +37,10 @@
 </template>
 
 <script setup>
-import Alert from "./alert.vue";
+import Alert from "../alert.vue"
 import { ref } from "vue";
-import api from "../request/api";
-import { useAlertStore } from "../store/alertStore";
+import api from "../../request/api";
+import { useAlertStore } from "../../store/alertStore";
 import { func } from "uview-plus/libs/function/test";
 const alertStore = useAlertStore();
 
