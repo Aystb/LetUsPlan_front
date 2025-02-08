@@ -3,14 +3,6 @@
     <view class="fixed">
       <view class="flex-x justify-end items-center mt-20 relative">
         <view class="flex-x justify-center calendar-select absolute">
-          <!-- <u-icon
-            @click="frontMonth"
-            class="flex-center-both"
-            size="18"
-            name="arrow-left"
-          >
-          </u-icon> -->
-
           <text class="ft-20">{{ curYear }}年{{ curMonth }}月</text>
           <img src="../static/倒三角 1.png" @click="showPicker()" />
         </view>
@@ -68,8 +60,8 @@
     </p>
     <br />
     <view class="scrollContainer">
-      <scrollPicker v-model="PickerCurYear" type="year"></scrollPicker>
-      <scrollPicker v-model="PickerCurMonth" type="month"></scrollPicker>
+      <scrollPicker v-model="PickerCurYear" type="year" />
+      <scrollPicker v-model="PickerCurMonth" type="month" />
     </view>
     <view class="buttonContainer">
       <button class="pickerCancel" @click="pickerCancel">取消</button>
@@ -84,7 +76,7 @@ import api from "../request/api";
 import { getRangeDates } from "../js/date";
 import { dateInfo, monthDate } from "../static/staticData";
 import scrollPicker from "./scrollPicker.vue";
-import ModalComponents from "./loginCom/ModalComponents.vue";
+import ModalComponents from "./ModalComponents.vue";
 
 const IsShowPicker = ref(false);
 
@@ -121,6 +113,8 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
+  PickerCurYear.value = curYear.value;
+  PickerCurMonth.value = curMonth.value;
   IsShowPicker.value = !IsShowPicker.value;
 }
 
@@ -147,16 +141,17 @@ function weekTitle(index) {
   }
 }
 
-onMounted( () => {
+onMounted(() => {
   calendar.value = dateInfo;
 
-  static_calendar.value = getRangeDates(year, month, 6);
+  static_calendar.value = getRangeDates(year, month, 12);
 
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
   curYear.value = new Date().getFullYear();
-  
-  
+
+  PickerCurYear.value = curYear.value;
+  PickerCurMonth.value = curMonth.value;
 });
 watch([curYear, curMonth], (newValue, oldValue) => {
   curMonthArray.value = static_calendar.value[curYear.value][curMonth.value];
@@ -169,30 +164,12 @@ const isShow = (index1, index2) => {
   var day = index2 + index1 * 7;
   if (
     day < curMonthBasicInfo.value.startIndex ||
-    day > curMonthBasicInfo.value.startIndex + curMonthBasicInfo.value.length
+    day >= curMonthBasicInfo.value.startIndex + curMonthBasicInfo.value.length
   ) {
     return false;
   }
   return true;
 };
-
-//计算当前是几几年几月,并更新当月数组
-// const nextMonth = () => {
-//   curMonth.value += 1;
-
-//   if (curMonth.value > 12) {
-//     curMonth.value = 1;
-//     curYear.value += 1;
-//   }
-// };
-
-// const frontMonth = () => {
-//   curMonth.value -= 1;
-
-//   if (curMonth.value < 1) {
-//     (curMonth.value = 12), (curYear.value -= 1);
-//   }
-// };
 
 function pickerCancel() {
   IsShowPicker.value = !IsShowPicker.value;
@@ -238,7 +215,6 @@ function showMyDuty() {
   z-index: 1500;
   display: flex;
   flex-direction: column;
-  /* border-radius: 5vh; */
 }
 
 .scrollContainer {
