@@ -13,14 +13,19 @@
 			</view>
 			
 			<!-- 更改颜色 -->
-			<view>
+			
+			<!-- --------------纯静态待调整------------------ -->
+			<view class="ml-10">
 				<!-- 样式待更改 -->
-				<button class="changeColor_btn" @click="changeColor()">背景颜色</button>
+				<button class="changeColor_btn" @click="changeColor()" >
+					<view class="color" :style="{backgroundColor: props.color}"></view>
+					背景颜色
+				</button>
 			</view>
 			
 			<!-- 备忘部分 -->
 			
-			<view class="flex-x m-5">
+			<view class="flex-x m-5 mt-10">
 				<image class="moreInfo_icon" src="/static/moreInfo.png"></image>
 				<textarea class="addInfo" placeholder="输入备忘"></textarea>
 			</view>
@@ -33,11 +38,18 @@
 	import { defineProps,defineEmits} from "vue";
 	
 	const props =defineProps({
-		visible: Boolean,
-		default:false
+		visible: {
+			type: Boolean,
+			default: false,
+		},
+		color: {
+		  type: String,
+		  default: '#F7DFB4' // 设置默认颜色
+		}
 	})
 	
-	const emit = defineEmits(['closeModal'])
+	
+	const emit = defineEmits(['closeModal','showChangeColor'])
 	// 点击背景遮罩关闭
 	function closeModal () {
 		emit("closeModal")
@@ -50,6 +62,7 @@
 	}
 	function changeColor () {
 		console.log("更改颜色")
+		emit("showChangeColor")
 	}
 
 </script>
@@ -76,7 +89,6 @@
 		margin-left: 10px;
 	}
 	.sendDuty_btn {
-		
 		height: 40px;
 		width:40px;
 		background-color: transparent;
@@ -91,13 +103,29 @@
 		height: 40px;
 		width:40px;
 	}
+	.color {
+		border-radius: 50%;
+		width: 16px;
+		height: 16px;
+		background-color: transparent;
+		border: 1px solid #FFFFFF;
+		
+	}
 	.changeColor_btn {
 		border: 1px solid #FFFFFF;
 		background-color: transparent;
 		box-shadow: none;
 		font-size: 16px;
 		font-weight: 600;
-
+		border-radius: 15px;
+		height:30px;
+		margin: 0;
+		padding: 0;
+		width: 100px;
+		
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
 	}
 	.changeColor_btn::after {
 		border: none;

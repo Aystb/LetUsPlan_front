@@ -1,27 +1,25 @@
 <template>	
-	<view>
-		<view v-if="props.visible" class="modalOverlay" @click="closeMyDuty()">
-			<view class="z-9">
-				<view class="ft-16 mb-10 ml-10">这是当前日期</view>
-				<!-- 白色盒子 -->
-				<view class="dutyContainer" @click.stop>
+	<view v-if="props.visible" class="modalOverlay" @click="closeMyDuty()">
+		<view class="z-3">
+			<view class="ft-16 mb-10 ml-10 fw-700">{{month}}月{{day}}日</view>
+			<!-- 白色盒子 -->
+			<view class="dutyContainer" @click.stop>
 					
-					<!-- 头部：我的日程 -->
-					<view class="myDuty-font">
-						<view class="font fw-600">我的日程</view>
-						<view class="ft-18 fw-600">——my duty——</view>
-					</view>
-					
-					<!-- 中部：添加的代办事项 -->
-					<view class="duties">
-						
-					</view>
-					
-					<!-- 尾部：加号按钮 -->
-					<button class="addDuty_btn" @click="showAddDuty()">
-						<image src="/static/addDuty_btn.png"></image>
-					</button>
+				<!-- 头部：我的日程 -->
+				<view class="myDuty-font">
+					<view class="font fw-600">我的日程</view>
+					<view class="ft-18 fw-600">——my duty——</view>
 				</view>
+					
+				<!-- 中部：添加的代办事项 -->
+				<view class="duties">
+						
+				</view>
+					
+				<!-- 尾部：加号按钮 -->
+				<button class="addDuty_btn" @click="showAddDuty()">
+					<image src="/static/addDuty_btn.png"></image>
+				</button>
 			</view>
 		</view>
 	</view>
@@ -34,6 +32,10 @@
 		visible: Boolean,
 		default:false
 	})
+	
+	const month = new Date().getMonth() + 1; // 月份是从0开始的，所以加1
+	const day = new Date().getDate();
+	
 	// 关闭我的日程
 	
 	const emit=defineEmits(['close', 'showAddDuty'])
@@ -60,7 +62,7 @@
 	  width: 100%;
 	  height: 100%;
 	  background-color: rgba(227, 226, 226, 0.5);
-	  z-index: 8000;
+	  z-index: 2000;
 	}
 
 	.dutyContainer {
@@ -68,8 +70,8 @@
 	  padding: 20px;
 	  border-radius: 5px;
 	  position: relative;
-	  width: 300px;
-	  height: 500px;
+	  width: 80vw;
+	  height: 60vh;
 	  border: 1px solid #DEB0FF9C;
 	  border-radius:36px
 	}
