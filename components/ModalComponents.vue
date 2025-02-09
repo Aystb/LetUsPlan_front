@@ -1,7 +1,7 @@
 <template>
   <view>
     <view v-if="props.visible" class="modal">
-      <view class="modal-content" @scroll="onScroll">
+      <view class="modal-content">
         <slot></slot>
       </view>
     </view>

@@ -45,7 +45,6 @@
                   ]?.date
                 }}
               </view>
-              <!-- <view>点击安排日程</view> -->
               <view @click="showMyDuty()">点击安排日程</view>
             </view>
           </view>
@@ -90,10 +89,10 @@ const day = new Date().getDate();
 const static_calendar = ref();
 
 //可以使用curMonth，year和month，year的差值来计算index，暂且放一个思路在这里
-const curMonth = ref();
-const curYear = ref();
-const PickerCurMonth = ref();
-const PickerCurYear = ref();
+const curMonth = ref(0);
+const curYear = ref(0);
+const PickerCurMonth = ref(0);
+const PickerCurYear = ref(0);
 
 //当前月数组
 const curMonthArray = ref(monthDate);
@@ -152,6 +151,11 @@ onMounted(() => {
 
   PickerCurYear.value = curYear.value;
   PickerCurMonth.value = curMonth.value;
+
+  emit("update:month-year", {
+    month: curMonth.value,
+    year: curYear.value,
+  });
 });
 watch([curYear, curMonth], (newValue, oldValue) => {
   curMonthArray.value = static_calendar.value[curYear.value][curMonth.value];
@@ -183,7 +187,7 @@ function pickerIdentify() {
 
 //选择这个按钮
 function choose(index1, index2) {
-  var index = index1 * 7 + index2;
+  var index = index1 * 7 + index2; //日期
   var chooseDate =
     curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
 
@@ -196,11 +200,11 @@ function login() {
 }
 
 // 显示添加日程的组件
-const emit = defineEmits(["showMyDuty"]);
+const emit = defineEmits(["showMyDuty", "update:month-year"]);
 
 function showMyDuty() {
   emit("showMyDuty");
-  console.log("点击添加日程，显示我的日程页面");
+  console.log("click");
 }
 </script>
 

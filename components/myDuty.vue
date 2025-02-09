@@ -1,24 +1,29 @@
 <template>
-  <view>
-    <view v-if="props.visible" class="modalOverlay" @click="closeMyDuty()">
-      <view class="z-9">
-        <view class="ft-16 mb-10 ml-10">{{}}年{{}}月{{}}日</view>
-        <!-- 白色盒子 -->
-        <view class="dutyContainer" @click.stop>
-          <!-- 头部：我的日程 -->
-          <view class="myDuty-font">
-            <view class="font fw-600">我的日程</view>
-            <view class="ft-18 fw-600">——my duty——</view>
-          </view>
-
-          <!-- 中部：添加的代办事项 -->
-          <view class="duties"> </view>
-
-          <!-- 尾部：加号按钮 -->
-          <button class="addDuty_btn" @click="showAddDuty()">
-            <image src="/static/addDuty_btn.png"></image>
-          </button>
+  <view v-if="visible" class="modalOverlay" @click="closeMyDuty()">
+    <view class="z-3">
+      <view class="ft-16 mb-10 ml-10 fw-700">
+        {{ year }}年{{ month }}月{{}}日
+      </view>
+      <!-- 白色盒子 -->
+      <view class="dutyContainer" @click.stop>
+        <!-- 头部：我的日程 -->
+        <view class="myDuty-font">
+          <view class="font fw-600">我的日程</view>
+          <view class="ft-18 fw-600">——my duty——</view>
         </view>
+
+        <!-- 中部：添加的代办事项 -->
+        <view v-if="duties && duties.length > 0" class="duties">
+          <view v-for="(duty, index) in duties" :key="index">
+            <img src="../static/duty未完成.png" @click="dutyIsDone()" />
+            <p class="" @click="showDescripition()">{{ duty.title }}</p>
+          </view>
+        </view>
+
+        <!-- 尾部：加号按钮 -->
+        <button class="addDuty_btn" @click="showAddDuty()">
+          <image src="/static/addDuty_btn.png"></image>
+        </button>
       </view>
     </view>
   </view>
@@ -26,13 +31,21 @@
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
-
+import ModalComponents from "./ModalComponents.vue";
 const props = defineProps({
-  visible: Boolean,
-  default: false,
+  visible: {
+    type: Boolean,
+    default: false,
+  },
+  duties: {
+    type: Array,
+    default: () => [],
+  },
+  year: Number,
+  month: Number,
 });
-// 关闭我的日程
 
+// 关闭我的日程
 const emit = defineEmits(["close", "showAddDuty"]);
 
 function closeMyDuty() {
@@ -56,7 +69,7 @@ function showAddDuty() {
   width: 100%;
   height: 100%;
   background-color: rgba(227, 226, 226, 0.5);
-  z-index: 8000;
+  z-index: 2000;
 }
 
 .dutyContainer {
@@ -64,8 +77,8 @@ function showAddDuty() {
   padding: 20px;
   border-radius: 5px;
   position: relative;
-  width: 300px;
-  height: 500px;
+  width: 80vw;
+  height: 60vh;
   border: 1px solid #deb0ff9c;
   border-radius: 36px;
 }
