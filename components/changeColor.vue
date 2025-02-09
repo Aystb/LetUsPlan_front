@@ -1,25 +1,27 @@
 <template>
-	<view v-if="props.visible" class="changeColorContainer z-9">
-		<!-- 标题：选择颜色 -->
-		<view class="selectTitle fw-400 ft-20">选择颜色</view>
-		<hr />
-		
-		<!-- 8个颜色块 -->
-		<view class="colors">
-			<!-- 每一个色块 -->
-			<view class="colorBlock" v-for="(color, index) in colorList"  >
-				<view
-				class="color-item" 
-				@click="selectColor(index)"
-				:style="{ backgroundColor: color ,border: isSelected(index) ? '2px solid #666' : 'none'}"
-				></view>
+	<view v-if="props.visible" class="modalOverlay">
+		<view class="changeColorContainer z-9">
+			<!-- 标题：选择颜色 -->
+			<view class="selectTitle fw-400 ft-20">选择颜色</view>
+			<hr />
+			
+			<!-- 8个颜色块 -->
+			<view class="colors">
+				<!-- 每一个色块 -->
+				<view class="colorBlock" v-for="(color, index) in colorList"  >
+					<view
+					class="color-item" 
+					@click="selectColor(index)"
+					:style="{ backgroundColor: color ,border: isSelected(index) ? '2px solid #666' : 'none'}"
+					></view>
+				</view>
 			</view>
-		</view>
-		
-		<!-- 取消/确认btn -->
-		 <view class="buttonContainer">
-		      <button class="pickerCancel" @click="closeChangeColor()">取消</button>
-		      <button class="pickerIdentify" @click="pickOneColor()">确认</button>
+			
+			<!-- 取消/确认btn -->
+			 <view class="buttonContainer">
+			      <button class="pickerCancel" @click="closeChangeColor()">取消</button>
+			      <button class="pickerIdentify" @click="pickOneColor()">确认</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -38,8 +40,9 @@
 	
 	// 颜色
 	const colorList=
-	['#F7DFB4', '#DAB2FF', '#54A2F2', '#F5E877',
-	'#7DE7B4', '#A94DEB', '#22D7E7', '#F8BDE4'];
+	['#FABAC8', '#D2B9D7', '#B0C5B8', '#82B498',
+	'#F7BD3D', '#CFA26A', '#BCE0EC', '#79ABD2'];
+	
 	
 	const selectedIndex= ref(0);
 	
@@ -69,12 +72,23 @@
 </script>
 
 <style>
+	.modalOverlay {
+	  display: flex;
+	  align-items: flex-end;
+	  justify-content: center;
+	  position: fixed;
+	  top: 0;
+	  width: 100vw;
+	  height: 100vh;
+	  background-color: rgba(227, 226, 226, 0.5);
+	  z-index: 9000;
+	}
 	.changeColorContainer {
 		background: linear-gradient(180deg, #E8C9FF 0%, #FEFCFF 25%);
-		position: fixed;
-		bottom: 0;
 		width: 100%;
-		border: 1px solid black;
+		/* height: 41vh; */
+		box-sizing: border-box;
+		border-radius: 16px 16px 0 0;
 		
 	}
 	.selectTitle {
@@ -90,6 +104,7 @@
 	.colorBlock {
 		width: 25%;
 		text-align: center;
+		margin: 10px 0 10px 0 ;
 	}
 	.color-item {
 		height: 50px;

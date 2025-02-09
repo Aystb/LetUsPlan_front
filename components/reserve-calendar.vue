@@ -273,7 +273,7 @@ function showMyDuty() {
   height: 120rpx;
 }
 .fixed {
-  position: fixed;
+  /* position: fixed; */
   /* top: 20vh; */
   /* left: 0px; */
   width: 100%;

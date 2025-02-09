@@ -59,8 +59,9 @@
 	  justify-content: center;
 	  align-items: center;
 	  position: fixed;
-	  width: 100%;
-	  height: 100%;
+	  top: 0;
+	  width: 100vw;
+	  height: 100vh;
 	  background-color: rgba(227, 226, 226, 0.5);
 	  z-index: 2000;
 	}

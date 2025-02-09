@@ -24,7 +24,8 @@
 	<changeColor 
 	@chosenColor="chosenColor" 
 	@closeChangeColor="closeChangeColor()" 
-	:visible="isChangeColorVisible"></changeColor>
+	:visible="isChangeColorVisible"
+	></changeColor>
   </view>
 </template>
 
