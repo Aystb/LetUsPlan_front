@@ -1,1 +1,0 @@
-<view> this is LUP <u-icon wx:if="{{a}}" u-i="5550665a-0" bind:__l="__l" u-p="{{a}}"></u-icon><button bindtap="{{b}}">jump to ai</button><button bindtap="{{c}}">jump to calendar</button><button bindtap="{{d}}">jump to login</button></view>

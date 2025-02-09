@@ -13,9 +13,9 @@
 
 <script setup>
 import {ref} from 'vue'
-import { useStreamData } from '../request/api'
-import {useUserStone} from '../store/userStore'
-import api from '../request/api'
+import { useStreamData } from '../../request/api'
+import {useUserStone} from '../../store/userStore'
+import api from '../../request/api'
 import talkMode from './talkMode.vue'
 const userStone = useUserStone()
 const {data,startStreaming} = useStreamData(`http://127.0.0.1:8000/LetUsPlan/AI/${userStone.userid}/StreamData`)

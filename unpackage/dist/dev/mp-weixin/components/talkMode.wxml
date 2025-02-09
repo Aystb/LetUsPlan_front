@@ -1,1 +1,0 @@
-<view class="flex-y"><button bindtap="{{b}}">{{a}}</button><view wx:if="{{c}}" class="flex-y"><view>{{d}}</view><view>{{e}}</view><view>{{f}}</view><view>{{g}}</view></view></view>

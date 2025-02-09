@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "modal-component": "./ModalComponents",
-    "other-login": "./otherLogin"
-  }
-}

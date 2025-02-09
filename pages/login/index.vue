@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import login from '../../components/login.vue';
+import login from '../../components/loginCom/login.vue';
 </script>
 
 <style scopd>
