@@ -17,6 +17,7 @@
 	@closeModal="closeAddDuty()" 
 	:visible="isAddDutyVisible" 
 	:color="dutyColor"
+	@resetColor="resetColor()" 
 	@showChangeColor="showChangeColor()"
 	></addDuty>
 	
@@ -48,7 +49,7 @@ const isAddDutyVisible = ref(false);
 const isChangeColorVisible = ref(false);
 
 // 日程颜色
-const dutyColor=ref("#F7DFB4")
+const dutyColor=ref("#FABAC8")
 
 // 显示添加我的日程弹窗
 function showMyDuty() {
@@ -78,6 +79,12 @@ function closeChangeColor() {
 }
 function showChangeColor() {
 	isChangeColorVisible.value=true;
+}
+
+
+// 关闭添加日程弹窗后 重置颜色
+function resetColor() {
+  dutyColor.value = '#FABAC8'; // 重置为第一个颜色
 }
 
 </script>

@@ -1,4 +1,4 @@
-<template>
+<template>  
   <view class="main-container">
     <view class="fixed">
       <view class="flex-x justify-end items-center mt-20 relative">
@@ -61,7 +61,8 @@
       </view>
     </view>
   </view>
-
+  
+  <!-- 年月选择器 -->
   <ModalComponents :visible="IsShowPicker" class="PickerModal">
     <p class="pickTime" style="color: #a4a4a4">
       {{ PickerCurYear }}年{{ PickerCurMonth }}月
@@ -76,6 +77,21 @@
       <button class="pickerIdentify" @click="pickerIdentify">确认</button>
     </view>
   </ModalComponents>
+  
+
+  <!-- AI 图标 -->
+  <movable-area>
+	  <!-- 可拖动图标 -->
+	 <movable-view 
+	  direction="all" 
+	  :x="position.x" 
+	  :y="position.y"
+	  @click="navigateToAI"
+	  >
+	  <image src="/static/ai-icon.png" class="icon-image" />
+	  </movable-view>
+  </movable-area>
+  
 </template>
 
 <script setup>
@@ -225,6 +241,25 @@ function showMyDuty() {
   emit("showMyDuty");
   console.log("点击添加日程，显示我的日程页面");
 }
+
+//  AI图标部分
+
+// 图标位置状态
+const position = ref({ x: 0, y: 0})
+
+// 初始化图标位置
+const systemInfo = uni.getSystemInfoSync()
+  position.value = {
+    x: systemInfo.windowWidth - 60, 
+    y: systemInfo.windowHeight - 60 
+  }
+
+// 点击跳转
+const navigateToAI = () => {
+	console.log("跳转至AI页面")
+}
+
+
 </script>
 
 <style scoped>
@@ -292,5 +327,30 @@ function showMyDuty() {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+
+/* ai图标部分 */
+movable-area {
+	position:fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 999; 
+	pointer-events: none; 
+}
+movable-view {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.icon-image {
+  width: 60px;
+  height: 60px;
 }
 </style>

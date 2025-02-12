@@ -43,15 +43,16 @@
 		},
 		color: {
 		  type: String,
-		  default: '#F7DFB4' // 设置默认颜色
+		  default: '#FABAC8' // 设置默认颜色
 		}
 	})
 	
 	
-	const emit = defineEmits(['closeModal','showChangeColor'])
+	const emit = defineEmits(['closeModal','showChangeColor','resetColor'])
 	// 点击背景遮罩关闭
 	function closeModal () {
 		emit("closeModal")
+		emit("resetColor")
 		// console.log("关闭添加日程界面")
 	}
 	
