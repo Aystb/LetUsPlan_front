@@ -1,8 +1,9 @@
 <!--控制模型的一些参数-->
 <template>
-    <view  class="flex-y">
-        <button @click="visible=!visible">{{ requestModeStore.model }}</button>
-        <view v-if="visible" class="flex-y ">
+    <view  class="flex-y items-center wd-100 modeContainer">
+        <view  @click="visible=!visible">{{ requestModeStore.model }}</view>
+
+  <view v-show="visible" class="flex-y mt-20">
       
        <view class="flex-y ">
         <view class="m-10"> 模型</view>
@@ -79,5 +80,9 @@ requestModeStore.model = models.value[index]
            
             pointer-events: none; /* 防止伪元素干扰交互 */
         }
-       
+    .modeContainer{
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 5px;
+    }
     </style>
