@@ -121,6 +121,8 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
+  PickerCurMonth.value=curMonth.value;
+  PickerCurYear.value=curYear.value;
   IsShowPicker.value = !IsShowPicker.value;
 }
 
@@ -150,7 +152,7 @@ function weekTitle(index) {
 onMounted( () => {
   calendar.value = dateInfo;
 
-  static_calendar.value = getRangeDates(year, month, 6);
+  static_calendar.value = getRangeDates(year, month,99999);
 
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;

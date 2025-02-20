@@ -14,7 +14,17 @@
 					
 					<!-- 中部：添加的代办事项 -->
 					<view class="duties">
-						
+						<view v-for="(duty, index) in duties" :key="index" class="duty-item">
+							<!-- 透明圆圈 -->
+							<view class="circle" @click="toggleComplete(index)">
+								<view v-if="duty.completed" class="tick">✓</view>
+							</view>
+							<!-- 日程标题和备注 -->
+							<view class="duty-content">
+								<view class="duty-title">{{ duty.title }}</view>
+								<view class="duty-description">{{ duty.description }}</view>
+							</view>
+						</view>
 					</view>
 					
 					<!-- 尾部：加号按钮 -->
@@ -28,27 +38,43 @@
 </template>
 
 <script setup>
-	import { defineProps, defineEmits } from "vue";
+	import { defineProps, defineEmits, ref } from "vue";
 	
-	const props =defineProps({
+	const props = defineProps({
 		visible: Boolean,
-		default:false
-	})
-	// 关闭我的日程
+		default: false
+	});
 	
-	const emit=defineEmits(['close', 'showAddDuty'])
-
+	const emit = defineEmits(['close', 'showAddDuty']);
+	
+	const duties = ref([]);
+	
+	// 关闭我的日程
 	function closeMyDuty() {
-		emit("close")
-		console.log("关闭我的日程页面")
+		emit("close");
+		console.log("关闭我的日程页面");
 	}
 	
 	// 显示添加日程界面
-	function showAddDuty () {
-		emit("showAddDuty")
-		console.log("显示添加日程页面")
+	function showAddDuty() {
+		emit("showAddDuty");
+		console.log("显示添加日程页面");
 	}
 	
+	// 添加日程
+	function addDuty(newDuty) {
+		duties.value.push({ ...newDuty, completed: false }); // 初始化时未完成
+	}
+	
+	// 切换完成状态
+	function toggleComplete(index) {
+		duties.value[index].completed = !duties.value[index].completed;
+	}
+	
+	// 暴露 addDuty 方法给父组件
+	defineExpose({
+		addDuty
+	});
 </script>
 
 <style scoped>
@@ -81,7 +107,6 @@
 		width:60px;
 		border-radius: 50%;
 		background-color: transparent;
-		/* border: none; */
 		box-shadow: none;
 		padding: 0;
 		margin: 0;
@@ -93,5 +118,39 @@
 		height: 60px;
 		width:60px;
 	}
+	.duty-item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+	}
+	.circle {
+		width: 20px;
+		height: 20px;
+		border: 2px solid #DEB0FF9C;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 10px;
+		cursor: pointer;
+	}
+	.tick {
+		color: #DEB0FF9C;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	.duty-content {
+		flex: 1;
+		display: flex;
+		align-items: center;
+	}
+	.duty-title {
+		font-size: 16px;
+		font-weight: 600;
+		margin-right: 10px;
+	}
+	.duty-description {
+		font-size: 14px;
+		color: #666;
+	}
 </style>
-

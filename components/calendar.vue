@@ -6,10 +6,9 @@
     ></reserveCalendar>
 	
 	<!-- 我的日程 -->
-    <myDuty @close="close()" @showAddDuty="showAddDuty()" :visible="isMyDutyVisible"></myDuty>
-	
+    <myDuty :visible="isMyDutyVisible" @close="isMyDutyVisible = false" @showAddDuty="isAddDutyVisible = true" ref="myDutyRef"></myDuty>
 	<!-- 添加日程 -->
-    <addDuty @closeModal="closeAddDuty()" :visible="isAddDutyVisible"></addDuty>
+    <addDuty :visible="isAddDutyVisible" @closeModal="isAddDutyVisible = false" @addDuty="handleAddDuty"></addDuty>
   </view>
 </template>
 
@@ -18,7 +17,7 @@ import reserveCalendar from './reserve-calendar.vue';
 import myDuty from './myDuty.vue';
 import addDuty from './addDuty.vue';
 import { ref } from 'vue';
-
+const myDutyRef = ref(null);
 // 我的日程
 const isMyDutyVisible = ref(false);
 
@@ -39,10 +38,10 @@ function showAddDuty() {
 }
 
 // 关闭添加日程弹窗
-function closeAddDuty() {
-  isAddDutyVisible.value = false;
+function handleAddDuty(newDuty) {
+	myDutyRef.value.addDuty(newDuty);
+	isAddDutyVisible.value = false;
 }
-
 
 </script>
 

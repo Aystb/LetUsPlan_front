@@ -6,7 +6,7 @@
 			
 			<!-- 事项标题和发生按钮 -->
 			<view class="flex-center-horizontal pd-10">
-				<input class="ft-24 fw-600 dutyTitle" placeholder="在这里记下你的日程待办~"></input>
+				<input v-model="dutyTitle" class="ft-24 fw-600 dutyTitle" placeholder="在这里记下你的日程待办~"></input>
 				<button class="sendDuty_btn" @click="addOneDuty()">
 					<image src="/static/sendDuty.png" mode="scaleToFill"></image>
 				</button>
@@ -19,10 +19,9 @@
 			</view>
 			
 			<!-- 备忘部分 -->
-			
 			<view class="flex-x m-5">
 				<image class="moreInfo_icon" src="/static/moreInfo.png"></image>
-				<textarea class="addInfo" placeholder="输入备忘"></textarea>
+				<textarea v-model="dutyDescription" class="addInfo" placeholder="输入备忘"></textarea>
 			</view>
 		</view>
 		
@@ -30,28 +29,45 @@
 </template>
 
 <script setup>
-	import { defineProps,defineEmits} from "vue";
+	import { defineProps, defineEmits, ref } from "vue";
 	
-	const props =defineProps({
+	const props = defineProps({
 		visible: Boolean,
-		default:false
-	})
+		default: false
+	});
 	
-	const emit = defineEmits(['closeModal'])
+	const emit = defineEmits(['closeModal', 'addDuty']);
+	
+	const dutyTitle = ref('');
+	const dutyDescription = ref('');
+	
 	// 点击背景遮罩关闭
-	function closeModal () {
-		emit("closeModal")
-		console.log("关闭添加日程界面")
+	function closeModal() {
+		emit("closeModal");
+		console.log("关闭添加日程界面");
 	}
 	
-	// 增加一个待办事项——（判断input是否为空？
-	function addOneDuty () {
-		console.log("增加了一个待办")
+	// 增加一个待办事项
+	function addOneDuty() {
+		if (dutyTitle.value.trim() === '') {
+			alert('请输入日程标题');
+			return;
+		}
+		
+		const newDuty = {
+			title: dutyTitle.value,
+			description: dutyDescription.value
+		};
+		
+		emit('addDuty', newDuty);
+		dutyTitle.value = '';
+		dutyDescription.value = '';
+		console.log("增加了一个待办");
 	}
-	function changeColor () {
-		console.log("更改颜色")
+	
+	function changeColor() {
+		console.log("更改颜色");
 	}
-
 </script>
 
 <style scoped>
@@ -76,7 +92,6 @@
 		margin-left: 10px;
 	}
 	.sendDuty_btn {
-		
 		height: 40px;
 		width:40px;
 		background-color: transparent;
@@ -97,7 +112,6 @@
 		box-shadow: none;
 		font-size: 16px;
 		font-weight: 600;
-
 	}
 	.changeColor_btn::after {
 		border: none;
