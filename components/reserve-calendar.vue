@@ -12,20 +12,20 @@
           </u-icon> -->
 
           <text class="ft-20">{{ curYear }}年{{ curMonth }}月</text>
-          <img src="../static/倒三角 1.png" @click="showPicker()" />
+          <img src="../static/倒三角 1.png" @click="showPicker" />
         </view>
 
         <!-- 点击头像登录 -->
         <image
           src="/static/user-avatar.png"
           class="user-avatar mr-20"
-          @click="login()"
+          @click="login"
         ></image>
       </view>
 
       <!--日期选择部分-->
       <view
-        class="flex-y mt-5"
+        class="flex-y"
         v-for="(row, index1) in Array.from({ length: weeks })"
         :key="index1"
       >
@@ -41,7 +41,7 @@
               weekTitle(index2)
             }}</text>
 
-            <view v-if="isShow(index1, index2)" class="dayContainer">
+            <view v-if="isShow(index1, index2)" class="dayContainer" @click="showMyDuty">
               <!--日期方块组件-->
               <view
                 @click="choose(index1, index2)"
@@ -53,8 +53,7 @@
                   ]?.date
                 }}
               </view>
-              <!-- <view>点击安排日程</view> -->
-              <view @click="showMyDuty()">点击安排日程</view>
+			   
             </view>
           </view>
         </view>
@@ -107,6 +106,7 @@ const IsShowPicker = ref(false);
 const props = defineProps({});
 
 const calendar = ref();
+
 //客观上当前的时间
 const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1; // 月份是从0开始的，所以加1
@@ -137,6 +137,8 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
+  PickerCurMonth.value=curMonth.value;
+  PickerCurYear.value=curYear.value;
   IsShowPicker.value = !IsShowPicker.value;
 }
 
@@ -166,7 +168,7 @@ function weekTitle(index) {
 onMounted( () => {
   calendar.value = dateInfo;
 
-  static_calendar.value = getRangeDates(year, month, 6);
+  static_calendar.value = getRangeDates(year, month,99999);
 
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
@@ -305,7 +307,8 @@ const navigateToAI = () => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 120rpx;
+  height: 16vh;
+  min-height: 16vh;
 }
 .fixed {
   /* position: fixed; */
