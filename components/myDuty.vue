@@ -1,7 +1,7 @@
 <template>	
 	<view v-if="props.visible" class="modalOverlay" @click="closeMyDuty">
 		<view class="z-3">
-			<view class="ft-16 mb-10 ml-10 fw-700">{{month}}月{{day}}日</view>
+			<view class="ft-16 mb-10 ml-10 fw-700">{{}}年{{}}月{{}}日</view>
 			<!-- 白色盒子 -->
 			<view class="dutyContainer" @click.stop>
 					
@@ -42,10 +42,6 @@
 		visible: Boolean,
 		default:false
 	})
-	
-	const month = new Date().getMonth() + 1; // 月份是从0开始的，所以加1
-	const day = new Date().getDate();
-	
 	// 关闭我的日程
 	
 	const emit = defineEmits(['close', 'showAddDuty']);
