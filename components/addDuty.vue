@@ -48,13 +48,15 @@
 	})
 	
 	
-	const emit = defineEmits(['closeModal','showChangeColor','resetColor'])
+	const emit = defineEmits(['closeModal','showChangeColor','resetColor','addDuty'])
 
 	const dutyTitle = ref('');
 	const dutyDescription = ref('');
 
 	// 点击背景遮罩关闭
 	function closeModal () {
+		dutyTitle.value = '';
+		dutyDescription.value = '';
 		emit("closeModal")
 		emit("resetColor")
 		// console.log("关闭添加日程界面")
@@ -69,7 +71,8 @@
 		
 		const newDuty = {
 			title: dutyTitle.value,
-			description: dutyDescription.value
+			description: dutyDescription.value,
+			color:props.color
 		};
 		
 		emit('addDuty', newDuty);

@@ -38,15 +38,26 @@
               <view
                 @click="choose(index1, index2)"
                 :class="['all-btn']"
-                :style="{ border: '1px solid #efecec' }"
-                >{{
+                >
+								
+								<!-- 日期部分 -->
+								<view>{{
                   curMonthArray[
                     index1 * 7 + index2 - curMonthBasicInfo.startIndex
                   ]?.date
-                }}
-              </view>
-			   
+                }}</view>
+								
+								<!-- 日历上的日程单元 -->
+									<view 
+									v-for="(duty, index) in props.dutyData" 
+									:key="index" 
+									class="duty-item"
+									:style="{ 'background-color': duty.color }"
+									>{{duty.title}}</view>
             </view>
+						
+						</view>
+						
           </view>
         </view>
       </view>
@@ -95,7 +106,9 @@ import ModalComponents from "./ModalComponents.vue";
 
 const IsShowPicker = ref(false);
 
-const props = defineProps({});
+const props = defineProps({
+	dutyData:Array,
+});
 
 const calendar = ref();
 
@@ -197,29 +210,35 @@ function pickerIdentify() {
   IsShowPicker.value = !IsShowPicker.value;
 }
 
+let curDay;
+
 //选择这个按钮
 function choose(index1, index2) {
   var index = index1 * 7 + index2;
   var chooseDate =
     curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
-
-  console.log("当前选择日期：", chooseDate);
+	curDay = chooseDate
 }
 
-// 登录/切换账号
+// ------------登录/切换账号---------------
 function login() {
   console.log("切换账号/返回");
 }
 
-// 显示添加日程的组件
-const emit = defineEmits(["showMyDuty"]);
+// ---------日程部分----------------
+
+// 显示添加日程的组件，并将选择的日期YYYYMMDD传给父组件calendar
+const emit = defineEmits(["showMyDuty","sendDateToCalendar"]);
 
 function showMyDuty() {
+	// 将选择的日期以YYYY-MM-DD传给calendar组件 —— eg. '2025-02-25'
+	const formatDate = `${curYear.value}-${String(curMonth.value).padStart(2,"0")}-${String(curDay).padStart(2,"0")}`;
+	emit("sendDateToCalendar",formatDate)
   emit("showMyDuty");
   console.log("点击添加日程，显示我的日程页面");
 }
 
-//  AI图标部分
+//  ---------------AI图标部分-----------------
 
 // 图标位置状态
 const position = ref({ x: 0, y: 0})
@@ -278,11 +297,14 @@ const navigateToAI = () => {
 
 .all-btn {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-  height: 16vh;
-  min-height: 16vh;
+	/* height: 16vh; */
+	min-height: 16vh;
+	align-content: center;
+	border: 1px solid #efecec;
+	width: ;
 }
 .fixed {
   /* position: fixed; */
@@ -306,6 +328,19 @@ const navigateToAI = () => {
   transform: translateX(-50%);
 }
 
+/* 一个个日程 */
+.duty-item {
+	/* 这里的宽度有问题 */
+	width: 95%;
+	text-align: center;
+	border-radius: 10px;
+	height: 20px;
+	margin-top: 2px;
+	line-height: 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap; 
+	overflow: hidden;    
+}
 
 /* ai图标部分 */
 movable-area {

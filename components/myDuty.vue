@@ -1,7 +1,7 @@
 <template>	
 	<view v-if="props.visible" class="modalOverlay" @click="closeMyDuty">
 		<view class="z-3">
-			<view class="ft-16 mb-10 ml-10 fw-700">{{}}年{{}}月{{}}日</view>
+			<view class="ft-16 mb-10 ml-10 fw-700">{{Year}}年 {{Month}}月 {{Day}}日</view>
 			<!-- 白色盒子 -->
 			<view class="dutyContainer" @click.stop>
 					
@@ -13,15 +13,15 @@
 					
 					<!-- 中部：添加的代办事项 -->
 					<view class="duties">
-						<view v-for="(duty, index) in duties" :key="index" class="duty-item">
+						<view v-for="(duty, index) in filteredDuties" :key="index" class="duty-item">
 							<!-- 透明圆圈 -->
 							<view class="circle" @click="toggleComplete(index)">
-								<view v-if="duty.completed" class="tick">✓</view>
+								<view v-if="filteredDuties[index].completed" class="tick">✓</view>
 							</view>
 							<!-- 日程标题和备注 -->
 							<view class="duty-content">
-								<view class="duty-title">{{ duty.title }}</view>
-								<view class="duty-description">{{ duty.description }}</view>
+								<view class="duty-title">{{ filteredDuties[index].title }}</view>
+								<view class="duty-description">{{ filteredDuties[index].description }}</view>
 							</view>
 						</view>
 					</view>
@@ -36,17 +36,33 @@
 </template>
 
 <script setup>
-	import { defineProps, defineEmits, ref } from "vue";
+	import { defineProps, defineEmits, ref,computed } from "vue";
 	
 	const props = defineProps({
-		visible: Boolean,
-		default:false
+		visible: {
+			type: Boolean,
+			default: false,
+		},
+		date: {
+		  type: String,
+		},
+		dutyData:{
+			type:Array,
+		}
 	})
 	// 关闭我的日程
 	
 	const emit = defineEmits(['close', 'showAddDuty']);
 	
 	const duties = ref([]);
+	
+	const Year = computed(() => props.date.split('-')[0]);
+	const Month = computed(() => props.date.split('-')[1]);
+	const Day = computed(() => props.date.split('-')[2]);
+	
+	const filteredDuties = computed(() => {
+	  return props.dutyData.filter(duty => duty.date === props.date);
+	});
 	
 	// 关闭我的日程
 	function closeMyDuty() {
@@ -61,19 +77,20 @@
 	}
 	
 	// 添加日程
-	function addDuty(newDuty) {
-		duties.value.push({ ...newDuty, completed: false }); // 初始化时未完成
-	}
+	// function addDuty(newDuty) {
+	// 	duties.value.push({ ...newDuty, completed: false }); // 初始化时未完成
+	// }
 	
 	// 切换完成状态
 	function toggleComplete(index) {
-		duties.value[index].completed = !duties.value[index].completed;
+		console.log(filteredDuties.value)
+		filteredDuties.value[index].completed = !filteredDuties.value[index].completed;
 	}
 	
 	// 暴露 addDuty 方法给父组件
-	defineExpose({
-		addDuty
-	});
+	// defineExpose({
+	// 	addDuty
+	// });
 </script>
 
 <style scoped>
@@ -114,6 +131,7 @@
 		margin: 0;
 		align-self: self-end;
 		justify-self: flex-end;
+		flex-shrink: 0;
 	}
 	.addDuty_btn image {
 		height: 60px;

@@ -1,20 +1,19 @@
 <template>
   <view>
     <!-- 切换日历 -->
-    <reserveCalendar @showMyDuty="showMyDuty"></reserveCalendar>
+    <reserveCalendar 
+		@showMyDuty="showMyDuty"
+		@sendDateToCalendar="handleSelectedDate"
+		:dutyData="duties"
+		></reserveCalendar>
 
     <!-- 我的日程 -->
-    <!-- <myDuty 
-	@close="close()" 
-	@showAddDuty="showAddDuty()" 
-	:visible="isMyDutyVisible"
-	></myDuty> -->
-
     <myDuty
       :visible="isMyDutyVisible"
       @close="isMyDutyVisible = false"
       @showAddDuty="isAddDutyVisible = true"
-      ref="myDutyRef"
+			:date="date"
+			:dutyData="duties"
     ></myDuty>
 
     <!-- 添加日程 -->
@@ -44,7 +43,7 @@ import addDuty from './addDuty.vue';
 import changeColor from './changeColor.vue';
 
 import { ref } from 'vue';
-const myDutyRef = ref(null);
+
 // 我的日程
 const isMyDutyVisible = ref(false);
 
@@ -57,6 +56,12 @@ const isChangeColorVisible = ref(false);
 // 日程颜色
 const dutyColor = ref('#FABAC8');
 
+// 选中的日期
+let date;
+
+// 添加的日程数组
+const duties = ref([]);
+
 // 显示添加我的日程弹窗
 function showMyDuty() {
   isMyDutyVisible.value = true;
@@ -64,14 +69,19 @@ function showMyDuty() {
 
 // 关闭添加日程弹窗
 function handleAddDuty(newDuty) {
-  myDutyRef.value.addDuty(newDuty);
+	duties.value.push({ ...newDuty, completed: false, date}); // 初始化时未完成)
   isAddDutyVisible.value = false;
+	console.log(duties)
+}
+
+function handleSelectedDate (formatDate) {
+	date = formatDate;
 }
 
 // 获得选择的颜色
 const chosenColor = function (color) {
   dutyColor.value = color;
-  console.log(dutyColor.value, typeof dutyColor.value);
+  // console.log(dutyColor.value, typeof dutyColor.value);
 };
 function closeChangeColor() {
   isChangeColorVisible.value = false;
