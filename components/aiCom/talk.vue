@@ -1,4 +1,5 @@
 <!--ai对话模块-->
+<!--todo 对话何时把本地的历史记录上传到后端数据库，尽量不要在每次对话后都传递-->
 <template>
 <view class="flex-y">
   
@@ -41,11 +42,13 @@ const userStone = useUserStone()
 const {data,startStreaming,streamEndFlag} = useStreamData(`http://127.0.0.1:8000/LetUsPlan/AI/${userStone.userid}/StreamData`)
 const requestModeStore = useRequestModeStore()
 const userInputText = ref("")
-const chatIndex = ref(0)
-const requestNowHistoryStore = ref({chatId:1,
+
+const requestNowHistoryStore = ref({chatId:userStone.nowRequestAIHistoryId,
      user_id:1, 
      messages:[]})
 const alertStore = useAlertStore();
+
+//有一个ai未回答完用户不允许再输入的逻辑，以及用户可以主动暂停的逻辑还没实现
 
 //监听到flag变化的时候，也就是流结束，再改变历史记录中动态的部分为静态，不然会出现覆盖的情况
 watch(()=>{return streamEndFlag.value},(oldValue,newValue)=>{
@@ -56,11 +59,17 @@ requestNowHistoryStore.value.messages.push({role:"assistant",content: data.value
     }
 })
 
+
+
 onMounted(async()=>{
+   
    await useRequestHistoryStore().loadHistory() //从后端拉取后赋值
-   requestNowHistoryStore.value = useRequestHistoryStore().contents[chatIndex.value]
+
+   requestNowHistoryStore.value = useRequestHistoryStore().contents[userStone.nowRequestAIHistoryId-1]
+   //如果是第一次进入或者上次进入没有等ai回答完（历史记录底端不是ai的回答），将会自动回答，默认sse模式
    if(requestNowHistoryStore.value.messages[requestNowHistoryStore.value.messages.length-1].role!="assistant"){
-   requestAi()}
+   requestAi()   
+}
 })
 
 //查看可用模型

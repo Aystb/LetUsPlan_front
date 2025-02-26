@@ -15,7 +15,7 @@
 
        <view class="flex-x hover_gray m-10">最大生成token数量 <input type="text" class="ml-20" v-model="max_tokens"  :value=max_tokens> </view>
        <view class="flex-x hover_gray m-10">生成随机度<input type="text" class="ml-20" v-model="temperature" @input="temperatureInput()" :value=temperature> <u-icon name="question-circle" class="hover-question"></u-icon> </view>
-       <view class="flex-x hover_gray m-10">是否启用流式请求:<switch class="ml-20" @change="streamChange" /></view>
+       <view class="flex-x hover_gray m-10">是否启用流式请求:<switch class="ml-20" checked @change="streamChange" /></view>
     </view>
 </view>
     </template>
