@@ -6,6 +6,7 @@ export const useRequestHistoryStore = defineStore('requestHistoryStore',()=>{
     const contents = ref([{
      chatId:1,
      user_id:1, //对应该用户的标识,用于后端数据库筛选
+     lastUpdateTime:20250226,  //时间，精确到天 ，这个代表最后更新时间为2025年2月26号
      messages:[
         //{
            // role: "user",

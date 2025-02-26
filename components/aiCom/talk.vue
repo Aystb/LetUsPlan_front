@@ -1,23 +1,19 @@
 <!--ai对话模块-->
 <!--todo 对话何时把本地的历史记录上传到后端数据库，尽量不要在每次对话后都传递-->
 <template>
-<view class="flex-y">
+<view class="flex-y ">
   
-   
-    
-  
-
 <view class="flex-x items-center"><view class="newTalk" @click="openNewTalk()"> 新对话+</view> <svg @click="jumpToHistory()" t="1739877888904" class="historyIcon" viewBox="0 0 1118 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10896" width="200" height="200"><path d="M581.818182 187.671273 581.818182 528.290909 824.366545 671.232 847.965091 631.156364 628.363636 500.549818 628.363636 187.671273Z" p-id="10897"></path><path d="M202.053818 744.96 149.038545 744.96C233.797818 910.615273 406.202182 1024 605.090909 1024c282.763636 0 512-229.236364 512-512 0-282.763636-229.236364-512-512-512C354.117818 0 145.314909 180.596364 101.515636 418.909091L0 418.909091l116.363636 139.636364L232.727273 418.909091 148.945455 418.909091C192.093091 206.475636 379.904 46.545455 605.090909 46.545455c257.070545 0 465.454545 208.384 465.454545 465.454545s-208.384 465.454545-465.454545 465.454545C432.919273 977.454545 282.530909 883.944727 202.053818 744.96z" p-id="10898"></path></svg>  </view>
-    <view class="items-center flex-y">
+    <view class=" flex-y">
       <talkMode ></talkMode>
     
     
-    <!--展示聊天记录,v-for根据用户是user还是system来判断是渲染到左边还是右边-->
-   <view class="flex-y wv-100 ">
+    <!--展示聊天记录,v-for根据用户是user还是system来判断渲染模式-->
+   <view class="flex-y  wd-100">
      <view v-for="(item,index) in requestNowHistoryStore.messages" :key="index">
         <view class="system" v-if="item.role=='system' "> {{ item.content }}</view>
-        <view class="rightSide" v-if="item.role=='user' "> {{ item.content }}</view>
-        <view class="leftSide" v-if="item.role=='assistant' ">{{ item.content }}</view>
+        <view class="humanSide" v-if="item.role=='user' "> {{ item.content }}</view>
+        <view class="aiSide" v-if="item.role=='assistant' ">{{ item.content }}</view>
      </view>
    </view>
    <view class="userText"> <textarea auto-height="true"  @keydown="textKeyDown" class="userInput" type="text"  v-model="userInputText"  placeholder="给GPT发送消息"></textarea> <svg class="sendMes" @click="sendMes"  t="1739774614593"  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7327" width="200" height="200"><path d="M938.666667 337.92v348.586667c0 150.613333-96.896 252.16-241.493334 252.16H327.253333C182.613333 938.666667 85.333333 837.12 85.333333 686.506667V337.92C85.333333 186.88 182.613333 85.333333 327.253333 85.333333h369.92C841.770667 85.333333 938.666667 186.88 938.666667 337.92zM480 415.146667v270.933333c0 17.92 14.506667 32 32 32 17.92 0 32-14.08 32-32V415.146667l105.386667 105.813333c5.973333 5.973333 14.506667 9.386667 22.613333 9.386667 8.064 0 16.213333-3.413333 22.613333-9.386667 12.373333-12.373333 12.373333-32.853333 0-45.226667l-160-160.853333a33.024 33.024 0 0 0-45.226666 0l-160 160.853333c-12.373333 12.373333-12.373333 32.853333 0 45.226667 12.8 12.373333 32.853333 12.373333 45.653333 0l104.96-105.813333z" fill="#130F26" p-id="7328"></path></svg> </view>
@@ -43,7 +39,7 @@ const {data,startStreaming,streamEndFlag} = useStreamData(`http://127.0.0.1:8000
 const requestModeStore = useRequestModeStore()
 const userInputText = ref("")
 
-const requestNowHistoryStore = ref({chatId:userStone.nowRequestAIHistoryId,
+const requestNowHistoryStore = ref({chatId:2,
      user_id:1, 
      messages:[]})
 const alertStore = useAlertStore();
@@ -171,24 +167,36 @@ function jumpToHistory(){
     border-radius: 10px;
     border: 1px solid gray;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* 边框 + 阴影 */
+   display: flex;
+   align-self: center;
+   width: 93%;
+  
 }
 
-.leftSide{
-width: 100vw;
+.aiSide{
+
 background-color: aqua;
+border-radius: 10px;
+margin: 10px 20px 10px 20px; 
+padding: 10px;
+
 }
-.rightSide{
-    width: 100vw;
+.humanSide{
+    border-radius: 10px;
+    margin: 10px 20px 10px 20px; 
+        padding: 10px;
     background-color: aquamarine;
+}
+.system{
+    border-radius: 10px;
+    margin: 10px 20px 10px 20px; 
+    background-color: bisque;
+    padding: 10px;
 }
 .userInput{
     width: 90vw;
     background-color: antiquewhite;
   
-}
-.system{
-    width: 100vw;
-    background-color: bisque;
 }
 .newTalk{
     background-color: rgb(189, 244, 244);

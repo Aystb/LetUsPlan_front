@@ -30,6 +30,7 @@ import {ref} from 'vue'
 
 import api from '../../request/api';
 import { useUserStone } from '../../store/userStore';
+import { getTimeStamp } from '../../js/time';
 const userStone = useUserStone()
 
 const date = new Date(); // 获取当前日期和时间
@@ -49,7 +50,8 @@ async function confirm(){
     role: role.value||"你是一个帮我安排任务的时间助手",
     task: task.value||"待定任务",
     time: time.value||`${year}-${month}-${day}`,
-    additional: additional.value||"无额外要求"
+    additional: additional.value||"无额外要求",
+    lastUpdateTime:getTimeStamp()
     })
     userStone.nowRequestAIHistoryId = res.chatId
    
