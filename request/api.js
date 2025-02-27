@@ -104,7 +104,9 @@ async requestChatPerTime(data){
   async updateSingleHistory(data){
 var url = `${BaseUrl}/updateSingleHistory`
 return await post(url,{},data)
+
   },
+
     //获取该用户所有的历史记录
 async getAllAiHistorys(){
 var url =`${BaseUrl}/${userStone.userid}/loadAiHistory`
@@ -131,7 +133,7 @@ import { ref, onUnmounted } from "vue";
  */
 export function useStreamData(url) {
   const data = ref(""); // 用于存储流式返回的数据
-  const streamEndFlag = ref(false) 
+  const streamEndFlag = ref(true) 
   let eventSource = null;
 
   // 开始流式请求，这里的requestData是向gpt发出请求的请求体，也就是各种模型参数

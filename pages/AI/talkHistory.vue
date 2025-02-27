@@ -13,7 +13,7 @@
         </view>
       </view>
 
-      <view v-if="today.length>0"><text>昨天</text>
+      <view v-if="yesterday.length>0"><text>昨天</text>
         <view class="flex-y"  v-for="(item,index) in yesterday" :key="index">
             <view>{{ spiltByLean(item.lastUpdateTime) }}</view>
           <view class="history-item" @click="pickup(item.chatId)">
@@ -22,7 +22,7 @@
         </view>
       </view>
 
-      <view v-if="today.length>0"><text>近七天</text>
+      <view v-if="inWeek.length>0"><text>近七天</text>
         <view class="flex-y"  v-for="(item,index) in inWeek" :key="index">
             <view>{{ spiltByLean(item.lastUpdateTime) }}</view>
           <view class="history-item" @click="pickup(item.chatId)">
@@ -31,7 +31,7 @@
         </view>
       </view>
 
-      <view v-if="today.length>0"><text>近一月</text>
+      <view v-if="inMonth.length>0"><text>近一月</text>
         <view class="flex-y"  v-for="(item,index) in inMonth" :key="index">
             <view>{{ spiltByLean(item.lastUpdateTime) }}</view>
           <view class="history-item" @click="pickup(item.chatId)">
