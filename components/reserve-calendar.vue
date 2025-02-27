@@ -49,7 +49,7 @@
 								
 								<!-- 日历上的日程单元 -->
 									<view 
-									v-for="(duty, index) in props.dutyData" 
+									v-for="(duty, index) in getdutyForDate(curYear,curMonth,curMonthArray[index1 * 7 + index2 - curMonthBasicInfo.startIndex]?.date)" 
 									:key="index" 
 									class="duty-item"
 									:style="{ 'background-color': duty.color }"
@@ -227,6 +227,14 @@ function login() {
 
 // ---------日程部分----------------
 
+// 日历方格显示对应日程
+
+function getdutyForDate (year,month,day) {
+	const date =`${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+	const duty = props.dutyData.filter(duty => duty.date === date)
+	return duty
+}
+
 // 显示添加日程的组件，并将选择的日期YYYYMMDD传给父组件calendar
 const emit = defineEmits(["showMyDuty","sendDateToCalendar"]);
 
@@ -304,7 +312,6 @@ const navigateToAI = () => {
 	min-height: 16vh;
 	align-content: center;
 	border: 1px solid #efecec;
-	width: ;
 }
 .fixed {
   /* position: fixed; */
@@ -337,6 +344,7 @@ const navigateToAI = () => {
 	height: 20px;
 	margin-top: 2px;
 	line-height: 20px;
+	font-size: 16px;
 	text-overflow: ellipsis;
 	white-space: nowrap; 
 	overflow: hidden;    
