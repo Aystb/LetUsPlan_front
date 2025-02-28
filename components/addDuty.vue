@@ -78,6 +78,8 @@
 		emit('addDuty', newDuty);
 		dutyTitle.value = '';
 		dutyDescription.value = '';
+		
+		emit("resetColor")
 	}
 	function changeColor () {
 		// console.log("更改颜色")

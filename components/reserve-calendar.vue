@@ -24,7 +24,7 @@
         <!-- 生成行 -->
         <view class="flex-x">
           <view
-            class="flex-fill shrink"
+            class="flex-fill shrink autoHeight"
             v-for="(week, index2) in Array.from({ length: 7 })"
             :key="index2"
           >
@@ -302,6 +302,18 @@ const navigateToAI = () => {
   background-color: #007bff;
 }
 
+/* 日程较多时，该行会拉伸height */
+.autoHeight {
+	display: flex;
+	flex-wrap: wrap;
+	
+}
+.dayContainer {
+	border: 1px solid #efecec;
+	width: calc(100vw/7);
+	box-sizing: border-box;
+	padding-bottom: 2px;
+}
 .all-btn {
   display: flex;
   /* justify-content: center; */
@@ -309,10 +321,7 @@ const navigateToAI = () => {
   flex-direction: column;
 	min-height: 16vh;
 	align-content: center;
-	border: 1px solid #efecec;
-	width: calc(100vw/7);
 	flex: 1;
-	box-sizing: border-box;
 }
 .fixed {
   /* position: fixed; */
