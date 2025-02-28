@@ -243,7 +243,6 @@ function showMyDuty() {
 	const formatDate = `${curYear.value}-${String(curMonth.value).padStart(2,"0")}-${String(curDay).padStart(2,"0")}`;
 	emit("sendDateToCalendar",formatDate)
   emit("showMyDuty");
-  console.log("点击添加日程，显示我的日程页面");
 }
 
 //  ---------------AI图标部分-----------------
@@ -308,10 +307,12 @@ const navigateToAI = () => {
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-	/* height: 16vh; */
 	min-height: 16vh;
 	align-content: center;
 	border: 1px solid #efecec;
+	width: calc(100vw/7);
+	flex: 1;
+	box-sizing: border-box;
 }
 .fixed {
   /* position: fixed; */
@@ -337,7 +338,6 @@ const navigateToAI = () => {
 
 /* 一个个日程 */
 .duty-item {
-	/* 这里的宽度有问题 */
 	width: 95%;
 	text-align: center;
 	border-radius: 10px;

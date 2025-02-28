@@ -67,13 +67,11 @@
 	// 关闭我的日程
 	function closeMyDuty() {
 		emit("close");
-		console.log("关闭我的日程页面");
 	}
 	
 	// 显示添加日程界面
 	function showAddDuty() {
 		emit("showAddDuty");
-		console.log("显示添加日程页面");
 	}
 	
 	// 添加日程
@@ -83,7 +81,6 @@
 	
 	// 切换完成状态
 	function toggleComplete(index) {
-		console.log(filteredDuties.value)
 		filteredDuties.value[index].completed = !filteredDuties.value[index].completed;
 	}
 	

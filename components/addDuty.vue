@@ -78,7 +78,6 @@
 		emit('addDuty', newDuty);
 		dutyTitle.value = '';
 		dutyDescription.value = '';
-		console.log("增加了一个待办");
 	}
 	function changeColor () {
 		// console.log("更改颜色")
