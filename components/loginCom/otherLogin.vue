@@ -27,17 +27,20 @@
         class="send-code-btn"
         @click="sendVerificationCode()"
         :disabled="isCountTime"
+        style="color: #486afc"
       >
         {{ sendCodeBtnText }}
       </button>
     </view>
-    <button @click="login()" class="loginBtn">登录/注册</button>
+    <button @click="login()" class="loginBtn" style="background-color: #5abdff">
+      <text style="color: #ffffff">登录/注册</text>
+    </button>
   </view>
   <Alert></Alert>
 </template>
 
 <script setup>
-import Alert from "../alert.vue"
+import Alert from "../alert.vue";
 import { ref } from "vue";
 import api from "../../request/api";
 import { useAlertStore } from "../../store/alertStore";
@@ -169,11 +172,11 @@ async function login() {
 <style scoped>
 .Up {
   width: 40vh;
-  height: 6vh;
+  height: 7vh;
   margin-top: 5vh;
   margin-bottom: 2vh;
   background-color: white;
-  border-radius: 18px;
+  border-radius: 10px;
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
@@ -182,7 +185,8 @@ async function login() {
 }
 
 .alertText {
-  color: red;
+  color: rgb(217, 219, 80);
+  padding-top: 0.5vh;
   margin-top: 0.5vh;
   margin-bottom: 0.5vh;
   text-align: center;
@@ -191,11 +195,11 @@ async function login() {
 
 .Down {
   width: 40vh;
-  height: 6vh;
+  height: 7vh;
   margin-top: 2vh;
   margin-bottom: 3vh;
   background-color: white;
-  border-radius: 18px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -243,7 +247,8 @@ async function login() {
   vertical-align: middle;
   align-items: center;
   justify-content: center;
-  border-radius: 25px;
+  border-radius: 10px;
   margin-bottom: 1vh;
+  width: 80%;
 }
 </style>
