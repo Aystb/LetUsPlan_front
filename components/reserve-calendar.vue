@@ -329,7 +329,7 @@ const navigateToAI = () => {
   /* left: 0px; */
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: #;
   z-index: 1000;
 }
 
@@ -381,5 +381,8 @@ movable-view {
 .icon-image {
   width: 60px;
   height: 60px;
+}
+.items-center{
+	background-color: #b973f6;
 }
 </style>

@@ -13,6 +13,9 @@
 					
 					<!-- 中部：添加的代办事项 -->
 					<view class="duties">
+						<view v-if="filteredDuties.length === 0" class="empty-duties">
+							请您添加日程吧！
+						</view>
 						<view v-for="(duty, index) in filteredDuties" :key="index" class="duty-item">
 							<!-- 透明圆圈 -->
 							<view class="circle" @click="toggleComplete(index)">
@@ -20,8 +23,18 @@
 							</view>
 							<!-- 日程标题和备注 -->
 							<view class="duty-content">
-								<view class="duty-title">{{ filteredDuties[index].title }}</view>
-								<view class="duty-description">{{ filteredDuties[index].description }}</view>
+								<view 
+									class="duty-title" 
+									:class="{ completed: filteredDuties[index].completed }"
+								>
+									{{ filteredDuties[index].title }}
+								</view>
+								<view 
+									class="duty-description" 
+									:class="{ completed: filteredDuties[index].completed }"
+								>
+									{{ filteredDuties[index].description }}
+								</view>
 							</view>
 						</view>
 					</view>
@@ -74,20 +87,10 @@
 		emit("showAddDuty");
 	}
 	
-	// 添加日程
-	// function addDuty(newDuty) {
-	// 	duties.value.push({ ...newDuty, completed: false }); // 初始化时未完成
-	// }
-	
 	// 切换完成状态
 	function toggleComplete(index) {
 		filteredDuties.value[index].completed = !filteredDuties.value[index].completed;
 	}
-	
-	// 暴露 addDuty 方法给父组件
-	// defineExpose({
-	// 	addDuty
-	// });
 </script>
 
 <style scoped>
@@ -141,6 +144,14 @@
 		overflow: scroll;
 		/* border: 1px solid black; */
 	}
+	.empty-duties {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		font-size: 16px;
+		color: #666;
+	}
 	.duty-item {
 		display: flex;
 		align-items: center;
@@ -175,5 +186,10 @@
 	.duty-description {
 		font-size: 14px;
 		color: #666;
+	}
+	/* 完成状态的样式 */
+	.completed {
+		text-decoration: line-through; /* 添加删除线 */
+		color: #999; /* 文字颜色变浅 */
 	}
 </style>
