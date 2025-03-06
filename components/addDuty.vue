@@ -1,27 +1,38 @@
 <template>
 	<!-- 背景遮罩 -->
-	<view v-if="props.visible" class="modalOverlay" @click="closeModal()">
+	<view v-if="visible" class="modalOverlay" @click="closeModal()">
 		<!-- 添加事项 -->
 		<view class="addContainer" @click.stop>
 			
 			<!-- 事项标题和发生按钮 -->
 			<view class="flex-center-horizontal pd-10">
+
+
 				<input v-model="dutyTitle" class="ft-24 fw-600 dutyTitle" placeholder="在这里记下你的日程待办~"></input>
+
 				<button class="sendDuty_btn" @click="addOneDuty()">
 					<image src="/static/sendDuty.png" mode="scaleToFill"></image>
 				</button>
 			</view>
 			
-			<!-- 更改颜色 -->
-			<view>
+			
+			<!-- --------------纯静态待调整------------------ -->
+			<view class="ml-10">
 				<!-- 样式待更改 -->
-				<button class="changeColor_btn" @click="changeColor()">背景颜色</button>
+				<button class="changeColor_btn" @click="changeColor()" >
+					<view class="color" :style="{backgroundColor: color}"></view>
+					背景颜色
+				</button>
 			</view>
 			
 			<!-- 备忘部分 -->
+
+
 			<view class="flex-x m-5">
 				<image class="moreInfo_icon" src="/static/moreInfo.png"></image>
 				<textarea v-model="dutyDescription" class="addInfo" placeholder="输入备忘"></textarea>
+
+
 			</view>
 		</view>
 		
@@ -29,24 +40,34 @@
 </template>
 
 <script setup>
-	import { defineProps, defineEmits, ref } from "vue";
+
+
+
+	import { defineProps,defineEmits,ref} from "vue";
+	const dutyTitle = ref("");
+	const dutyDescription = ref("");	
+	const props =defineProps({
+		visible: {
+			type: Boolean,
+			default: false,
+		},
+		color: {
+		  type: String,
+		  default: '#F7DFB4' // 设置默认颜色
+		}
+	})
 	
-	const props = defineProps({
-		visible: Boolean,
-		default: false
-	});
 	
-	const emit = defineEmits(['closeModal', 'addDuty']);
-	
-	const dutyTitle = ref('');
-	const dutyDescription = ref('');
-	
+	const emit = defineEmits(['closeModal','showChangeColor','addDuty'])
+
+
 	// 点击背景遮罩关闭
 	function closeModal() {
 		emit("closeModal");
 		console.log("关闭添加日程界面");
 	}
 	
+
 	// 增加一个待办事项
 	function addOneDuty() {
 		if (dutyTitle.value.trim() === '') {
@@ -63,11 +84,14 @@
 		dutyTitle.value = '';
 		dutyDescription.value = '';
 		console.log("增加了一个待办");
+
 	}
 	
 	function changeColor() {
 		console.log("更改颜色");
+
 	}
+
 </script>
 
 <style scoped>
@@ -106,12 +130,33 @@
 		height: 40px;
 		width:40px;
 	}
+	.color {
+		border-radius: 50%;
+		width: 16px;
+		height: 16px;
+		background-color: transparent;
+		border: 1px solid #FFFFFF;
+		
+	}
 	.changeColor_btn {
 		border: 1px solid #FFFFFF;
 		background-color: transparent;
 		box-shadow: none;
 		font-size: 16px;
 		font-weight: 600;
+
+
+		border-radius: 15px;
+		height:30px;
+		margin: 0;
+		padding: 0;
+		width: 100px;
+		
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+
+
 	}
 	.changeColor_btn::after {
 		border: none;

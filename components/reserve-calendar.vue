@@ -3,14 +3,6 @@
     <view class="fixed">
       <view class="flex-x justify-end items-center mt-20 relative">
         <view class="flex-x justify-center calendar-select absolute">
-          <!-- <u-icon
-            @click="frontMonth"
-            class="flex-center-both"
-            size="18"
-            name="arrow-left"
-          >
-          </u-icon> -->
-
           <text class="ft-20">{{ curYear }}年{{ curMonth }}月</text>
           <img src="../static/倒三角 1.png" @click="showPicker()" />
         </view>
@@ -53,7 +45,6 @@
                   ]?.date
                 }}
               </view>
-              <!-- <view>点击安排日程</view> -->
               <view @click="showMyDuty()">点击安排日程</view>
             </view>
           </view>
@@ -68,8 +59,8 @@
     </p>
     <br />
     <view class="scrollContainer">
-      <scrollPicker v-model="PickerCurYear" type="year"></scrollPicker>
-      <scrollPicker v-model="PickerCurMonth" type="month"></scrollPicker>
+      <scrollPicker v-model="PickerCurYear" type="year" />
+      <scrollPicker v-model="PickerCurMonth" type="month" />
     </view>
     <view class="buttonContainer">
       <button class="pickerCancel" @click="pickerCancel">取消</button>
@@ -84,7 +75,7 @@ import api from "../request/api";
 import { getRangeDates } from "../js/date";
 import { dateInfo, monthDate } from "../static/staticData";
 import scrollPicker from "./scrollPicker.vue";
-import ModalComponents from "./loginCom/ModalComponents.vue";
+import ModalComponents from "./ModalComponents.vue";
 
 const IsShowPicker = ref(false);
 
@@ -98,10 +89,10 @@ const day = new Date().getDate();
 const static_calendar = ref();
 
 //可以使用curMonth，year和month，year的差值来计算index，暂且放一个思路在这里
-const curMonth = ref();
-const curYear = ref();
-const PickerCurMonth = ref();
-const PickerCurYear = ref();
+const curMonth = ref(0);
+const curYear = ref(0);
+const PickerCurMonth = ref(0);
+const PickerCurYear = ref(0);
 
 //当前月数组
 const curMonthArray = ref(monthDate);
@@ -121,8 +112,11 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
-  PickerCurMonth.value=curMonth.value;
-  PickerCurYear.value=curYear.value;
+
+  PickerCurYear.value = curYear.value;
+  PickerCurMonth.value = curMonth.value;
+
+
   IsShowPicker.value = !IsShowPicker.value;
 }
 
@@ -149,16 +143,24 @@ function weekTitle(index) {
   }
 }
 
-onMounted( () => {
+onMounted(() => {
   calendar.value = dateInfo;
 
-  static_calendar.value = getRangeDates(year, month,99999);
+
+  static_calendar.value = getRangeDates(year, month, 99999);
+
 
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
   curYear.value = new Date().getFullYear();
-  
-  
+
+  PickerCurYear.value = curYear.value;
+  PickerCurMonth.value = curMonth.value;
+
+  emit("update:month-year", {
+    month: curMonth.value,
+    year: curYear.value,
+  });
 });
 watch([curYear, curMonth], (newValue, oldValue) => {
   curMonthArray.value = static_calendar.value[curYear.value][curMonth.value];
@@ -171,30 +173,12 @@ const isShow = (index1, index2) => {
   var day = index2 + index1 * 7;
   if (
     day < curMonthBasicInfo.value.startIndex ||
-    day > curMonthBasicInfo.value.startIndex + curMonthBasicInfo.value.length
+    day >= curMonthBasicInfo.value.startIndex + curMonthBasicInfo.value.length
   ) {
     return false;
   }
   return true;
 };
-
-//计算当前是几几年几月,并更新当月数组
-// const nextMonth = () => {
-//   curMonth.value += 1;
-
-//   if (curMonth.value > 12) {
-//     curMonth.value = 1;
-//     curYear.value += 1;
-//   }
-// };
-
-// const frontMonth = () => {
-//   curMonth.value -= 1;
-
-//   if (curMonth.value < 1) {
-//     (curMonth.value = 12), (curYear.value -= 1);
-//   }
-// };
 
 function pickerCancel() {
   IsShowPicker.value = !IsShowPicker.value;
@@ -208,7 +192,7 @@ function pickerIdentify() {
 
 //选择这个按钮
 function choose(index1, index2) {
-  var index = index1 * 7 + index2;
+  var index = index1 * 7 + index2; //日期
   var chooseDate =
     curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
 
@@ -221,11 +205,11 @@ function login() {
 }
 
 // 显示添加日程的组件
-const emit = defineEmits(["showMyDuty"]);
+const emit = defineEmits(["showMyDuty", "update:month-year"]);
 
 function showMyDuty() {
   emit("showMyDuty");
-  console.log("点击添加日程，显示我的日程页面");
+  console.log("click");
 }
 </script>
 
@@ -240,7 +224,6 @@ function showMyDuty() {
   z-index: 1500;
   display: flex;
   flex-direction: column;
-  /* border-radius: 5vh; */
 }
 
 .scrollContainer {
