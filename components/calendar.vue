@@ -81,7 +81,8 @@ function showAddDuty() {
   isAddDutyVisible.value = true;
 }
 // 关闭添加日程弹窗
-function closeAddDuty() {
+function handleAddDuty(newDuty) {
+  myDutyRef.value.addDuty(newDuty);
   isAddDutyVisible.value = false;
 }
 
