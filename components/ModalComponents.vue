@@ -9,14 +9,14 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits } from 'vue';
 const props = defineProps({
   visible: Boolean,
   default: false,
 });
-const emit = defineEmits(["close"]);
+const emit = defineEmits(['close']);
 function close() {
-  emit("close");
+  emit('close');
 }
 function onScroll(event) {
   const { scrollTop, scrollHeight, clientHeight } = event.target;
