@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import {ref} from 'vue'
 
-export const useRequestHistoryStore = defineStore('requestHistoryStore',()=>{
-//  聊天的历史记录,根据这个的数量渲染侧边栏
-    const contents = ref([{
+export const useRequestNowHistoryStore = defineStore('requestNowHistoryStore',()=>{
+//  当前要展示的聊天的历史记录
+    const content = ref({
      chatId:1,
      messages:[
         {
@@ -19,7 +19,7 @@ export const useRequestHistoryStore = defineStore('requestHistoryStore',()=>{
      ]
 
 
-    }])
-    
-return {contents}
+    })
+
+    return {content}
 })

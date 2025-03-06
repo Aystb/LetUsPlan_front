@@ -4,7 +4,6 @@ const userStone = useUserStone()
 const request = new Request().http;
 //测试的基础url,可以直接用全部的url，也可以和这个组合使用
 let testBaseUrl = "http://127.0.0.1:4523/m1/4020303-0-default/"
-let BaseUrl = "http://127.0.0.1:8000/LetUsPlan"
 
 function get(url, header, data) {
     return request({
@@ -51,28 +50,28 @@ function aiPost(url,data){
 const  api = {
  //微信登录
  async loginByWx(data){
-var url = `${BaseUrl}/loginByWx`
+var url = "http://127.0.0.1:8000/LetUsPlan/loginByWx"
 return await post(url,{},data)
 
  },   
 //密码登录
 async loginByPassword(data){
-  var url = `${BaseUrl}/loginByPassword`
+  var url = "http://127.0.0.1:8000/LetUsPlan/loginByPassword"
   return await post(url,{},data)
 },
 //验证码登陆
 async loginByCode(data){
-  var url = `${BaseUrl}/loginByCode`
+  var url = "http://127.0.0.1:8000/LetUsPlan/loginByCode"
   return await post(url,{},data)
 },
 //注册
 async register(data){
-   var url = `${BaseUrl}/LetUsPlan/register`
+   var url = "http://127.0.0.1:8000/LetUsPlan/register"
   return await post(url,{},data)
 },
 //发送短信
 async sendCode(data){
- var url = `${BaseUrl}/LetUsPlan/sendMes`
+ var url = "http://127.0.0.1:8000/LetUsPlan/sendMes"
   return await post(url,{},data)
 },
 
@@ -96,29 +95,9 @@ async requestChatPerTime(data){
     
 //向后端传输流式请求需要的参数（模式，是否带历史记录等参数）
     async sendStreamData(data){
-    var url = `${BaseUrl}/AI/${userStone.userid}/GetStreamData`
+    var url = `http://127.0.0.1:8000/LetUsPlan/AI/${userStone.userid}/GetStreamData`
     return await post(url,{},data)
-    },
-
-    //上传单条历史记录
-  async updateSingleHistory(data){
-var url = `${BaseUrl}/updateSingleHistory`
-return await post(url,{},data)
-
-  },
-
-    //获取该用户所有的历史记录
-async getAllAiHistorys(){
-var url =`${BaseUrl}/${userStone.userid}/loadAiHistory`
-return await get(url,{})
-},
-    //创建新对话
-    async createNewChat(data){
-var url =`${BaseUrl}/${userStone.userid}/newChat`
-return await post(url,{},data)
-
     }
-
 
 };
 
@@ -133,12 +112,10 @@ import { ref, onUnmounted } from "vue";
  */
 export function useStreamData(url) {
   const data = ref(""); // 用于存储流式返回的数据
-  const streamEndFlag = ref(true) 
   let eventSource = null;
 
   // 开始流式请求，这里的requestData是向gpt发出请求的请求体，也就是各种模型参数
   const startStreaming = async(requestData) => {
-    streamEndFlag.value=false
     //首先等待请求体数据传输完毕再等待回传
    await api.sendStreamData(requestData)
 
@@ -153,8 +130,6 @@ export function useStreamData(url) {
     eventSource.onmessage = (event) => {
       if (event.data === "[DONE]") {
         stopStreaming(); // 流结束时关闭连接
-        streamEndFlag.value=true //通知流结束了
-       
       } else {
         data.value += event.data; // 更新响应式数据
         console.log(event.data)
@@ -186,6 +161,5 @@ export function useStreamData(url) {
     data, // 响应式数据
     startStreaming, // 开始流式请求
     stopStreaming, // 停止流式请求
-    streamEndFlag  //流是否结束的标志
   };
 }

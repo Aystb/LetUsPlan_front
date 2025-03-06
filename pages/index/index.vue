@@ -14,7 +14,7 @@ function jumpToCalendar(){
 uni.navigateTo({ url: '/pages/calendar/index' })
 }
 function jumpToAi(){
-uni.navigateTo({url:'/pages/AI/newTalk'})
+uni.navigateTo({url:'/pages/AI/index'})
 }
 function jumpToLogin(){
 	uni.navigateTo({ url: '/pages/login/index' })

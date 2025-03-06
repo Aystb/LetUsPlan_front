@@ -63,7 +63,6 @@ text {
 
 .items-start {
     align-items: flex-start;
-  
 }
 
 .items-end {
@@ -84,7 +83,6 @@ text {
 
 .self-start {
     align-self: flex-start;
-   
 }
 
 .self-end {

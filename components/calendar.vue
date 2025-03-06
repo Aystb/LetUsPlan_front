@@ -33,7 +33,6 @@
       @closeChangeColor="closeChangeColor"
       @chosenColor="chosenColor"
     ></changeColor>
-
   </view>
 </template>
 
@@ -44,18 +43,6 @@ import addDuty from './addDuty.vue';
 import changeColor from './changeColor.vue';
 
 import { ref } from 'vue';
-
-
-const curMonth = ref();
-const curYear = ref();
-
-const handleMonthYearUpdate = (payload) => {
-  curMonth.value = payload.month;
-  curYear.value = payload.year;
-  console.log("接收到日历更新：", payload);
-};
-
-const duties = ref([]);
 
 // 我的日程
 const isMyDutyVisible = ref(false);
@@ -74,7 +61,6 @@ let date;
 
 // 添加的日程数组
 const duties = ref([]);
-
 
 // 显示添加我的日程弹窗
 function showMyDuty() {
@@ -111,25 +97,7 @@ function showChangeColor() {
 // 关闭添加日程弹窗后 重置颜色
 function resetColor() {
   dutyColor.value = '#FABAC8'; // 重置为第一个颜色
-
 }
-
-// 获得选择的颜色
-const chosenColor = function (color) {
-  dutyColor.value = color;
-  console.log(dutyColor.value, typeof dutyColor.value);
-};
-function closeChangeColor() {
-  isChangeColorVisible.value = false;
-}
-function showChangeColor() {
-  isChangeColorVisible.value = true;
-}
-
-function handleAddDuty(duty) {
-  duties.value.push(duty);
-}
-
 </script>
 
 <style scoped></style>

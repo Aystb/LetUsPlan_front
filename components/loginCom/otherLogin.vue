@@ -10,6 +10,9 @@
         maxlength="11"
         @blur="verifyPhoneNumber()"
       />
+      <view v-if="!phoneNumberIsValid" class="alertText">
+        {{ phoneValidateText }}
+      </view>
     </view>
     <view class="Down">
       <input
@@ -24,23 +27,17 @@
         class="send-code-btn"
         @click="sendVerificationCode()"
         :disabled="isCountTime"
-        style="color: #486afc"
       >
         {{ sendCodeBtnText }}
       </button>
     </view>
-    <view v-if="!phoneNumberIsValid" class="alertText">
-      {{ phoneValidateText }}
-    </view>
-    <button @click="login()" class="loginBtn" style="background-color: #5abdff">
-      <text style="color: #ffffff">登录/注册</text>
-    </button>
+    <button @click="login()" class="loginBtn">登录/注册</button>
   </view>
   <Alert></Alert>
 </template>
 
 <script setup>
-import Alert from "../alert.vue";
+import Alert from "../alert.vue"
 import { ref } from "vue";
 import api from "../../request/api";
 import { useAlertStore } from "../../store/alertStore";
@@ -172,11 +169,11 @@ async function login() {
 <style scoped>
 .Up {
   width: 40vh;
-  height: 7vh;
-  margin-top: 3vh;
-  margin-bottom: 1vh;
+  height: 6vh;
+  margin-top: 5vh;
+  margin-bottom: 2vh;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 18px;
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
@@ -185,8 +182,7 @@ async function login() {
 }
 
 .alertText {
-  color: rgb(217, 219, 80);
-  padding-top: 0.5vh;
+  color: red;
   margin-top: 0.5vh;
   margin-bottom: 0.5vh;
   text-align: center;
@@ -195,11 +191,11 @@ async function login() {
 
 .Down {
   width: 40vh;
-  height: 7vh;
-  margin-top: 3vh;
+  height: 6vh;
+  margin-top: 2vh;
   margin-bottom: 3vh;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -207,8 +203,7 @@ async function login() {
 }
 
 .phone-input {
-  padding-top: 0.5vh;
-  margin-left: 2vh;
+  margin-left: 3vh;
   margin-right: 3vh;
   width: 100%;
   height: 85%;
@@ -228,16 +223,14 @@ async function login() {
   width: 40%;
   height: 85%;
   margin-right: 1vh;
-  padding-top: 0.3vh;
   border: none;
   outline: none;
   background-color: white;
   color: red;
-  font-size: 2vh;
+  font-size: 1.6vh;
   vertical-align: middle;
   justify-content: center;
   align-items: center;
-  color: #486afc;
 }
 
 .send-code-btn::after {
@@ -245,14 +238,12 @@ async function login() {
 }
 
 .loginBtn {
-  margin-top: 1vh;
   display: flex;
   text-align: center;
   vertical-align: middle;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
+  border-radius: 25px;
   margin-bottom: 1vh;
-  width: 65%;
 }
 </style>
