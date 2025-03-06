@@ -119,10 +119,10 @@ const day = new Date().getDate();
 const static_calendar = ref();
 
 //可以使用curMonth，year和month，year的差值来计算index，暂且放一个思路在这里
-const curMonth = ref();
-const curYear = ref();
-const PickerCurMonth = ref();
-const PickerCurYear = ref();
+const curMonth = ref(0);
+const curYear = ref(0);
+const PickerCurMonth = ref(0);
+const PickerCurYear = ref(0);
 
 //当前月数组
 const curMonthArray = ref(monthDate);
@@ -142,8 +142,11 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
+
   PickerCurYear.value = curYear.value;
   PickerCurMonth.value = curMonth.value;
+
+
   IsShowPicker.value = !IsShowPicker.value;
 }
 
@@ -173,7 +176,9 @@ function weekTitle(index) {
 onMounted(() => {
   calendar.value = dateInfo;
 
-  static_calendar.value = getRangeDates(year, month, 12);
+
+  static_calendar.value = getRangeDates(year, month, 99999);
+
 
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
@@ -181,6 +186,11 @@ onMounted(() => {
 
   PickerCurYear.value = curYear.value;
   PickerCurMonth.value = curMonth.value;
+
+  emit("update:month-year", {
+    month: curMonth.value,
+    year: curYear.value,
+  });
 });
 watch([curYear, curMonth], (newValue, oldValue) => {
   curMonthArray.value = static_calendar.value[curYear.value][curMonth.value];
@@ -214,7 +224,7 @@ let curDay;
 
 //选择这个按钮
 function choose(index1, index2) {
-  var index = index1 * 7 + index2;
+  var index = index1 * 7 + index2; //日期
   var chooseDate =
     curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
 	curDay = chooseDate
@@ -237,6 +247,7 @@ function getdutyForDate (year,month,day) {
 
 // 显示添加日程的组件，并将选择的日期YYYYMMDD传给父组件calendar
 const emit = defineEmits(["showMyDuty","sendDateToCalendar"]);
+
 
 function showMyDuty() {
 	// 将选择的日期以YYYY-MM-DD传给calendar组件 —— eg. '2025-02-25'

@@ -8,7 +8,9 @@
         class="round-image mbt-15"
       />
       <view class="quickLogin" v-if="!isChangeBtn">
-        <view class="mbt-10 ft-24"> 欢迎使用酱紫安排! </view>
+        <view class="mbt-10 ft-24" style="color: #ffffff">
+          欢迎使用酱紫安排!
+        </view>
         <button class="quick-btn" @click="loginByWx_quick()">
           微信快捷登录
         </button>
@@ -26,8 +28,10 @@
         :class="{ Highlight: shouldHighlight }"
       >
         <checkbox class="checkbox-box" @click="checked()"></checkbox>
+        <text style="color: #ffffff"
+          >若微信账号未注册将自动注册，注册即同意</text
+        >
 
-        若手机号未注册将自动注册，注册即同意
         <Text class="link" @click="openAgreement()">《用户协议》</Text>
       </view>
     </view>
@@ -35,13 +39,13 @@
     <!--下半-->
     <view class="flex-center-both flex-y">
       <view class="flex-x flex-center-both">
-        <view class="line mr-20"></view><text>其他登录方式</text>
-        <view class="line ml-20"></view>
+        <view class="line mr-20" style="background-color: #ffffff"></view
+        ><text style="color: #ffffff">其他登录方式</text>
+        <view class="line ml-20" style="background-color: #ffffff"></view>
       </view>
       <button class="other-btn" @click="loginByPhone_other()">
         <img src="../../static/loginByPhone_other.png" />
-        <br />
-        {{ btnText }}
+        <br /><text style="color: #ffffff">{{ btnText }}</text>
       </button>
     </view>
   </view>
@@ -56,7 +60,7 @@
 
 <script setup>
 import { func } from "uview-plus/libs/function/test";
-import ModalComponent from "./ModalComponents.vue";
+import ModalComponent from "./LoginModal.vue";
 import otherLogin from "./otherLogin.vue";
 import { ref } from "vue";
 import api from "../../request/api";
@@ -145,13 +149,14 @@ function onCloseHighlight() {
 
 <style scopd>
 .custom-color {
-  background-color: #deb0ff;
+  background-color: #8e1df1;
 }
 .quick-btn {
-  margin-top: 2vh;
-  margin-bottom: 1vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
   border-radius: 30px;
-  width: 100%;
+  width: 78%;
+  color: #8500ff;
 }
 
 .other-btn {
@@ -178,8 +183,7 @@ function onCloseHighlight() {
   width: 150px;
 }
 .link {
-  color: #007aff;
-  text-decoration: underline;
+  color: #d9f8ff;
 }
 .checkbox-box {
   transform: scale(0.6);

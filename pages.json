@@ -20,6 +20,10 @@
 			"path": "pages/AI/index"
 		},{
 			"path": "pages/calendar/index"
+		},{
+			"path": "pages/AI/newTalk"
+		},{
+			"path": "pages/AI/talkHistory"
 		}
 	],
 	"globalStyle": {

@@ -4,7 +4,6 @@
     <view v-if="alertStore.alert" class="alert both" :class="[{'fade-out':alertStore.fadeOut}]  "  > {{ alertStore.alertText }}</view>
     <view v-if="alertStore.success" class="success both" :class="[{'fade-out':alertStore.fadeOut}]  " >{{ alertStore.alertText }}</view>
 
-
 </template>
 
 <script setup>

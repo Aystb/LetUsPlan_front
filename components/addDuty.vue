@@ -27,15 +27,13 @@
 				<image class="moreInfo_icon" src="/static/moreInfo.png"></image>
 				<textarea v-model="dutyDescription" class="addInfo" placeholder="输入备忘"></textarea>
 			</view>
-			
 		</view>
-		
 	</view>
 </template>
 
 <script setup>
 	import { defineProps, defineEmits, ref } from "vue";
-	
+
 	const props =defineProps({
 		visible: {
 			type: Boolean,
@@ -61,7 +59,7 @@
 		emit("resetColor")
 		// console.log("关闭添加日程界面")
 	}
-	
+
 	// 增加一个待办事项
 	function addOneDuty() {
 		if (dutyTitle.value.trim() === '') {
@@ -132,7 +130,6 @@
 		width: 16px;
 		height: 16px;
 		background-color: transparent;
-		
 	}
 	.changeColor_btn {
 		border: 1px solid #FFFFFF;
@@ -149,6 +146,7 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
+
 	}
 	.changeColor_btn::after {
 		border: none;
