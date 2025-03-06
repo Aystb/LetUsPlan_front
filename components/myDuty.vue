@@ -16,7 +16,15 @@
 						<view v-if="filteredDuties.length === 0" class="empty-duties">
 							请您添加日程吧！
 						</view>
-						<view v-for="(duty, index) in filteredDuties" :key="index" class="duty-item">
+						<view 
+							v-for="(duty, index) in filteredDuties" 
+							:key="index" 
+							class="duty-item"
+							@touchstart="handleTouchStart(index, $event)"
+							@touchmove="handleTouchMove(index, $event)"
+							@touchend="handleTouchEnd(index)"
+							:style="{ transform: `translateX(${duty.offsetX}px)` }"
+						>
 							<!-- 透明圆圈 -->
 							<view class="circle" @click="toggleComplete(index)">
 								<view v-if="filteredDuties[index].completed" class="tick">✓</view>
@@ -36,6 +44,10 @@
 									{{ filteredDuties[index].description }}
 								</view>
 							</view>
+							<!-- 删除按钮 -->
+							<view class="delete-btn" @click="handleDelete(index)">
+								删除
+							</view>
 						</view>
 					</view>
 					
@@ -49,7 +61,7 @@
 </template>
 
 <script setup>
-	import { defineProps, defineEmits, ref,computed } from "vue";
+	import { defineProps, defineEmits, ref, computed } from "vue";
 	
 	const props = defineProps({
 		visible: {
@@ -63,9 +75,8 @@
 			type:Array,
 		}
 	})
-	// 关闭我的日程
 	
-	const emit = defineEmits(['close', 'showAddDuty']);
+	const emit = defineEmits(['close', 'showAddDuty', 'deleteDuty']);
 	
 	const duties = ref([]);
 	
@@ -74,8 +85,53 @@
 	const Day = computed(() => props.date.split('-')[2]);
 	
 	const filteredDuties = computed(() => {
-	  return props.dutyData.filter(duty => duty.date === props.date);
+	  return props.dutyData.map(duty => ({
+			...duty,
+			offsetX: 0, // 用于控制左滑偏移量
+			isDragging: false, // 是否正在拖动
+		}));
 	});
+	
+	// 触摸起始位置
+	let startX = 0;
+	
+	// 触摸开始
+	function handleTouchStart(index, event) {
+		startX = event.touches[0].clientX;
+		filteredDuties.value[index].isDragging = true;
+	}
+	
+	// 触摸移动
+	function handleTouchMove(index, event) {
+		if (!filteredDuties.value[index].isDragging) return;
+		const currentX = event.touches[0].clientX;
+		const offsetX = currentX - startX;
+		// 限制左滑最大距离
+		if (offsetX < -100) {
+			filteredDuties.value[index].offsetX = -100;
+		} else if (offsetX > 0) {
+			filteredDuties.value[index].offsetX = 0;
+		} else {
+			filteredDuties.value[index].offsetX = offsetX;
+		}
+	}
+	
+	// 触摸结束
+	function handleTouchEnd(index) {
+		filteredDuties.value[index].isDragging = false;
+		// 如果滑动距离超过阈值，则触发删除
+		if (filteredDuties.value[index].offsetX < -50) {
+			handleDelete(index);
+		} else {
+			// 否则恢复原位
+			filteredDuties.value[index].offsetX = 0;
+		}
+	}
+	
+	// 删除日程
+	function handleDelete(index) {
+		emit("deleteDuty", index);
+	}
 	
 	// 关闭我的日程
 	function closeMyDuty() {
@@ -142,7 +198,6 @@
 		flex-shrink: 1;
 		margin: 10px 5px;
 		overflow: scroll;
-		/* border: 1px solid black; */
 	}
 	.empty-duties {
 		display: flex;
@@ -156,6 +211,8 @@
 		display: flex;
 		align-items: center;
 		margin-bottom: 10px;
+		transition: transform 0.2s ease;
+		position: relative;
 	}
 	.circle {
 		width: 20px;
@@ -191,5 +248,17 @@
 	.completed {
 		text-decoration: line-through; /* 添加删除线 */
 		color: #999; /* 文字颜色变浅 */
+	}
+	.delete-btn {
+		position: absolute;
+		right: -100px;
+		width: 100px;
+		height: 100%;
+		background-color: #FF3B30;
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 16px;
 	}
 </style>

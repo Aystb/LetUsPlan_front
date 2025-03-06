@@ -14,6 +14,7 @@
       @showAddDuty="isAddDutyVisible = true"
 			:date="date"
 			:dutyData="duties"
+      @deleteDuty="handleDeleteDuty"
     ></myDuty>
 
     <!-- 添加日程 -->
@@ -39,7 +40,6 @@
 import reserveCalendar from './reserve-calendar.vue';
 import myDuty from './myDuty.vue';
 import addDuty from './addDuty.vue';
-
 import changeColor from './changeColor.vue';
 
 import { ref } from 'vue';
@@ -78,10 +78,14 @@ function handleSelectedDate (formatDate) {
 	date = formatDate;
 }
 
+// 删除日程
+function handleDeleteDuty(index) {
+  duties.value.splice(index, 1);
+}
+
 // 获得选择的颜色
 const chosenColor = function (color) {
   dutyColor.value = color;
-  // console.log(dutyColor.value, typeof dutyColor.value);
 };
 function closeChangeColor() {
   isChangeColorVisible.value = false;
