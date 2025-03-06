@@ -28,7 +28,9 @@
         :class="{ Highlight: shouldHighlight }"
       >
         <checkbox class="checkbox-box" @click="checked()"></checkbox>
-        <text style="color: #ffffff">若手机号未注册将自动注册，注册即同意</text>
+        <text style="color: #ffffff"
+          >若微信账号未注册将自动注册，注册即同意</text
+        >
 
         <Text class="link" @click="openAgreement()">《用户协议》</Text>
       </view>
@@ -150,10 +152,10 @@ function onCloseHighlight() {
   background-color: #8e1df1;
 }
 .quick-btn {
-  margin-top: 2vh;
-  margin-bottom: 1vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
   border-radius: 30px;
-  width: 100%;
+  width: 78%;
   color: #8500ff;
 }
 
@@ -182,7 +184,6 @@ function onCloseHighlight() {
 }
 .link {
   color: #d9f8ff;
-  text-decoration: underline;
 }
 .checkbox-box {
   transform: scale(0.6);

@@ -10,9 +10,6 @@
         maxlength="11"
         @blur="verifyPhoneNumber()"
       />
-      <view v-if="!phoneNumberIsValid" class="alertText">
-        {{ phoneValidateText }}
-      </view>
     </view>
     <view class="Down">
       <input
@@ -31,6 +28,9 @@
       >
         {{ sendCodeBtnText }}
       </button>
+    </view>
+    <view v-if="!phoneNumberIsValid" class="alertText">
+      {{ phoneValidateText }}
     </view>
     <button @click="login()" class="loginBtn" style="background-color: #5abdff">
       <text style="color: #ffffff">登录/注册</text>
@@ -173,8 +173,8 @@ async function login() {
 .Up {
   width: 40vh;
   height: 7vh;
-  margin-top: 5vh;
-  margin-bottom: 2vh;
+  margin-top: 3vh;
+  margin-bottom: 1vh;
   background-color: white;
   border-radius: 10px;
   align-items: center;
@@ -196,7 +196,7 @@ async function login() {
 .Down {
   width: 40vh;
   height: 7vh;
-  margin-top: 2vh;
+  margin-top: 3vh;
   margin-bottom: 3vh;
   background-color: white;
   border-radius: 10px;
@@ -207,7 +207,8 @@ async function login() {
 }
 
 .phone-input {
-  margin-left: 3vh;
+  padding-top: 0.5vh;
+  margin-left: 2vh;
   margin-right: 3vh;
   width: 100%;
   height: 85%;
@@ -227,14 +228,16 @@ async function login() {
   width: 40%;
   height: 85%;
   margin-right: 1vh;
+  padding-top: 0.3vh;
   border: none;
   outline: none;
   background-color: white;
   color: red;
-  font-size: 1.6vh;
+  font-size: 2vh;
   vertical-align: middle;
   justify-content: center;
   align-items: center;
+  color: #486afc;
 }
 
 .send-code-btn::after {
@@ -242,13 +245,14 @@ async function login() {
 }
 
 .loginBtn {
+  margin-top: 1vh;
   display: flex;
   text-align: center;
   vertical-align: middle;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 20px;
   margin-bottom: 1vh;
-  width: 80%;
+  width: 65%;
 }
 </style>
