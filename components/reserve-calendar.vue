@@ -1,4 +1,4 @@
-<template>  
+<template>
   <view class="main-container">
     <view class="fixed">
       <view class="flex-x justify-end items-center mt-20 relative">
@@ -33,37 +33,42 @@
               weekTitle(index2)
             }}</text>
 
-            <view v-if="isShow(index1, index2)" class="dayContainer" @click="showMyDuty">
+            <view
+              v-if="isShow(index1, index2)"
+              class="dayContainer"
+              @click="showMyDuty"
+            >
               <!--日期方块组件-->
-              <view
-                @click="choose(index1, index2)"
-                :class="['all-btn']"
-                >
-								
-								<!-- 日期部分 -->
-								<view>{{
+              <view @click="choose(index1, index2)" :class="['all-btn']">
+                <!-- 日期部分 -->
+                <view>{{
                   curMonthArray[
                     index1 * 7 + index2 - curMonthBasicInfo.startIndex
                   ]?.date
                 }}</view>
-								
-								<!-- 日历上的日程单元 -->
-									<view 
-									v-for="(duty, index) in getdutyForDate(curYear,curMonth,curMonthArray[index1 * 7 + index2 - curMonthBasicInfo.startIndex]?.date)" 
-									:key="index" 
-									class="duty-item"
-									:style="{ 'background-color': duty.color }"
-									>{{duty.title}}</view>
+
+                <!-- 日历上的日程单元 -->
+                <view
+                  v-for="(duty, index) in getdutyForDate(
+                    curYear,
+                    curMonth,
+                    curMonthArray[
+                      index1 * 7 + index2 - curMonthBasicInfo.startIndex
+                    ]?.date
+                  )"
+                  :key="index"
+                  class="duty-item"
+                  :style="{ 'background-color': duty.color }"
+                  >{{ duty.title }}</view
+                >
+              </view>
             </view>
-						
-						</view>
-						
           </view>
         </view>
       </view>
     </view>
   </view>
-  
+
   <!-- 年月选择器 -->
   <ModalComponents :visible="IsShowPicker" class="PickerModal">
     <p class="pickTime" style="color: #a4a4a4">
@@ -79,21 +84,19 @@
       <button class="pickerIdentify" @click="pickerIdentify">确认</button>
     </view>
   </ModalComponents>
-  
 
   <!-- AI 图标 -->
   <movable-area>
-	  <!-- 可拖动图标 -->
-	 <movable-view 
-	  direction="all" 
-	  :x="position.x" 
-	  :y="position.y"
-	  @click="navigateToAI"
-	  >
-	  <image src="/static/ai-icon.png" class="icon-image" />
-	  </movable-view>
+    <!-- 可拖动图标 -->
+    <movable-view
+      direction="all"
+      :x="position.x"
+      :y="position.y"
+      @click="navigateToAI"
+    >
+      <image src="/static/ai-icon.png" class="icon-image" />
+    </movable-view>
   </movable-area>
-  
 </template>
 
 <script setup>
@@ -107,7 +110,7 @@ import ModalComponents from "./ModalComponents.vue";
 const IsShowPicker = ref(false);
 
 const props = defineProps({
-	dutyData:Array,
+  dutyData: Array,
 });
 
 const calendar = ref();
@@ -142,10 +145,8 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
-
   PickerCurYear.value = curYear.value;
   PickerCurMonth.value = curMonth.value;
-
 
   IsShowPicker.value = !IsShowPicker.value;
 }
@@ -176,9 +177,7 @@ function weekTitle(index) {
 onMounted(() => {
   calendar.value = dateInfo;
 
-
   static_calendar.value = getRangeDates(year, month, 99999);
-
 
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
@@ -227,7 +226,7 @@ function choose(index1, index2) {
   var index = index1 * 7 + index2; //日期
   var chooseDate =
     curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
-	curDay = chooseDate
+  curDay = chooseDate;
 }
 
 // ------------登录/切换账号---------------
@@ -239,41 +238,43 @@ function login() {
 
 // 日历方格显示对应日程
 
-function getdutyForDate (year,month,day) {
-	const date =`${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-	const duty = props.dutyData.filter(duty => duty.date === date)
-	return duty
+function getdutyForDate(year, month, day) {
+  const date = `${year}-${String(month).padStart(2, "0")}-${String(
+    day
+  ).padStart(2, "0")}`;
+  const duty = props.dutyData.filter((duty) => duty.date === date);
+  return duty;
 }
 
 // 显示添加日程的组件，并将选择的日期YYYYMMDD传给父组件calendar
-const emit = defineEmits(["showMyDuty","sendDateToCalendar"]);
-
+const emit = defineEmits(["showMyDuty", "sendDateToCalendar"]);
 
 function showMyDuty() {
-	// 将选择的日期以YYYY-MM-DD传给calendar组件 —— eg. '2025-02-25'
-	const formatDate = `${curYear.value}-${String(curMonth.value).padStart(2,"0")}-${String(curDay).padStart(2,"0")}`;
-	emit("sendDateToCalendar",formatDate)
+  // 将选择的日期以YYYY-MM-DD传给calendar组件 —— eg. '2025-02-25'
+  const formatDate = `${curYear.value}-${String(curMonth.value).padStart(
+    2,
+    "0"
+  )}-${String(curDay).padStart(2, "0")}`;
+  emit("sendDateToCalendar", formatDate);
   emit("showMyDuty");
 }
 
 //  ---------------AI图标部分-----------------
 
 // 图标位置状态
-const position = ref({ x: 0, y: 0})
+const position = ref({ x: 0, y: 0 });
 
 // 初始化图标位置
-const systemInfo = uni.getSystemInfoSync()
-  position.value = {
-    x: systemInfo.windowWidth - 60, 
-    y: systemInfo.windowHeight - 60 
-  }
+const systemInfo = uni.getSystemInfoSync();
+position.value = {
+  x: systemInfo.windowWidth - 60,
+  y: systemInfo.windowHeight - 60,
+};
 
 // 点击跳转
 const navigateToAI = () => {
-	console.log("跳转至AI页面")
-}
-
-
+  console.log("跳转至AI页面");
+};
 </script>
 
 <style scoped>
@@ -315,24 +316,23 @@ const navigateToAI = () => {
 
 /* 日程较多时，该行会拉伸height */
 .autoHeight {
-	display: flex;
-	flex-wrap: wrap;
-	
+  display: flex;
+  flex-wrap: wrap;
 }
 .dayContainer {
-	border: 1px solid #efecec;
-	width: calc(100vw/7);
-	box-sizing: border-box;
-	padding-bottom: 2px;
+  border: 1px solid #efecec;
+  width: calc(100vw / 7);
+  box-sizing: border-box;
+  padding-bottom: 2px;
 }
 .all-btn {
   display: flex;
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-	min-height: 16vh;
-	align-content: center;
-	flex: 1;
+  min-height: 16vh;
+  align-content: center;
+  flex: 1;
 }
 .fixed {
   /* position: fixed; */
@@ -358,27 +358,27 @@ const navigateToAI = () => {
 
 /* 一个个日程 */
 .duty-item {
-	width: 95%;
-	text-align: center;
-	border-radius: 10px;
-	height: 20px;
-	margin-top: 2px;
-	line-height: 20px;
-	font-size: 16px;
-	text-overflow: ellipsis;
-	white-space: nowrap; 
-	overflow: hidden;    
+  width: 95%;
+  text-align: center;
+  border-radius: 10px;
+  height: 20px;
+  margin-top: 2px;
+  line-height: 20px;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* ai图标部分 */
 movable-area {
-	position:fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	z-index: 999; 
-	pointer-events: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  pointer-events: none;
 }
 movable-view {
   width: 60px;
@@ -393,7 +393,7 @@ movable-view {
   width: 60px;
   height: 60px;
 }
-.items-center{
-	background-color: #b973f6;
+.items-center {
+  background-color: #b973f6;
 }
 </style>
