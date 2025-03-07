@@ -72,8 +72,6 @@ const dutyColor = ref('#FABAC8');
 // 选中的日期
 let date;
 
-// 添加的日程数组
-const duties = ref([]);
 
 
 // 显示添加我的日程弹窗
@@ -97,16 +95,6 @@ function handleDeleteDuty(index) {
   duties.value.splice(index, 1);
 }
 
-// 获得选择的颜色
-const chosenColor = function (color) {
-  dutyColor.value = color;
-};
-function closeChangeColor() {
-  isChangeColorVisible.value = false;
-}
-function showChangeColor() {
-  isChangeColorVisible.value = true;
-}
 
 // 关闭添加日程弹窗后 重置颜色
 function resetColor() {
@@ -124,10 +112,6 @@ function closeChangeColor() {
 }
 function showChangeColor() {
   isChangeColorVisible.value = true;
-}
-
-function handleAddDuty(duty) {
-  duties.value.push(duty);
 }
 
 </script>
