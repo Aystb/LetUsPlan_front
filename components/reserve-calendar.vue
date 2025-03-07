@@ -1,30 +1,30 @@
-<template>
+<template>  
   <view class="main-container">
     <view class="fixed">
       <view class="flex-x justify-end items-center mt-20 relative">
         <view class="flex-x justify-center calendar-select absolute">
           <text class="ft-20">{{ curYear }}年{{ curMonth }}月</text>
-          <img src="../static/倒三角 1.png" @click="showPicker()" />
+          <img src="../static/倒三角 1.png" @click="showPicker" />
         </view>
 
         <!-- 点击头像登录 -->
         <image
           src="/static/user-avatar.png"
           class="user-avatar mr-20"
-          @click="login()"
+          @click="login"
         ></image>
       </view>
 
       <!--日期选择部分-->
       <view
-        class="flex-y mt-5"
+        class="flex-y"
         v-for="(row, index1) in Array.from({ length: weeks })"
         :key="index1"
       >
         <!-- 生成行 -->
         <view class="flex-x">
           <view
-            class="flex-fill shrink"
+            class="flex-fill shrink autoHeight"
             v-for="(week, index2) in Array.from({ length: 7 })"
             :key="index2"
           >
@@ -33,26 +33,38 @@
               weekTitle(index2)
             }}</text>
 
-            <view v-if="isShow(index1, index2)" class="dayContainer">
+            <view v-if="isShow(index1, index2)" class="dayContainer" @click="showMyDuty">
               <!--日期方块组件-->
               <view
                 @click="choose(index1, index2)"
                 :class="['all-btn']"
-                :style="{ border: '1px solid #efecec' }"
-                >{{
+                >
+								
+								<!-- 日期部分 -->
+								<view>{{
                   curMonthArray[
                     index1 * 7 + index2 - curMonthBasicInfo.startIndex
                   ]?.date
-                }}
-              </view>
-              <view @click="showMyDuty()">点击安排日程</view>
+                }}</view>
+								
+								<!-- 日历上的日程单元 -->
+									<view 
+									v-for="(duty, index) in getdutyForDate(curYear,curMonth,curMonthArray[index1 * 7 + index2 - curMonthBasicInfo.startIndex]?.date)" 
+									:key="index" 
+									class="duty-item"
+									:style="{ 'background-color': duty.color }"
+									>{{duty.title}}</view>
             </view>
+						
+						</view>
+						
           </view>
         </view>
       </view>
     </view>
   </view>
-
+  
+  <!-- 年月选择器 -->
   <ModalComponents :visible="IsShowPicker" class="PickerModal">
     <p class="pickTime" style="color: #a4a4a4">
       {{ PickerCurYear }}年{{ PickerCurMonth }}月
@@ -67,6 +79,21 @@
       <button class="pickerIdentify" @click="pickerIdentify">确认</button>
     </view>
   </ModalComponents>
+  
+
+  <!-- AI 图标 -->
+  <movable-area>
+	  <!-- 可拖动图标 -->
+	 <movable-view 
+	  direction="all" 
+	  :x="position.x" 
+	  :y="position.y"
+	  @click="navigateToAI"
+	  >
+	  <image src="/static/ai-icon.png" class="icon-image" />
+	  </movable-view>
+  </movable-area>
+  
 </template>
 
 <script setup>
@@ -79,9 +106,12 @@ import ModalComponents from "./ModalComponents.vue";
 
 const IsShowPicker = ref(false);
 
-const props = defineProps({});
+const props = defineProps({
+	dutyData:Array,
+});
 
 const calendar = ref();
+
 //客观上当前的时间
 const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1; // 月份是从0开始的，所以加1
@@ -112,8 +142,10 @@ const weeks = computed(() => {
 });
 
 function showPicker() {
+
   PickerCurYear.value = curYear.value;
   PickerCurMonth.value = curMonth.value;
+
 
   IsShowPicker.value = !IsShowPicker.value;
 }
@@ -144,7 +176,9 @@ function weekTitle(index) {
 onMounted(() => {
   calendar.value = dateInfo;
 
+
   static_calendar.value = getRangeDates(year, month, 99999);
+
 
   //用来触发第一次watch，不知道为什么immediate无效
   curMonth.value = new Date().getMonth() + 1;
@@ -186,27 +220,60 @@ function pickerIdentify() {
   IsShowPicker.value = !IsShowPicker.value;
 }
 
+let curDay;
+
 //选择这个按钮
 function choose(index1, index2) {
   var index = index1 * 7 + index2; //日期
   var chooseDate =
     curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
-
-  console.log("当前选择日期：", chooseDate);
+	curDay = chooseDate
 }
 
-// 登录/切换账号
+// ------------登录/切换账号---------------
 function login() {
   console.log("切换账号/返回");
 }
 
-// 显示添加日程的组件
-const emit = defineEmits(["showMyDuty", "update:month-year"]);
+// ---------日程部分----------------
+
+// 日历方格显示对应日程
+
+function getdutyForDate (year,month,day) {
+	const date =`${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+	const duty = props.dutyData.filter(duty => duty.date === date)
+	return duty
+}
+
+// 显示添加日程的组件，并将选择的日期YYYYMMDD传给父组件calendar
+const emit = defineEmits(["showMyDuty","sendDateToCalendar"]);
+
 
 function showMyDuty() {
+	// 将选择的日期以YYYY-MM-DD传给calendar组件 —— eg. '2025-02-25'
+	const formatDate = `${curYear.value}-${String(curMonth.value).padStart(2,"0")}-${String(curDay).padStart(2,"0")}`;
+	emit("sendDateToCalendar",formatDate)
   emit("showMyDuty");
-  console.log("click");
 }
+
+//  ---------------AI图标部分-----------------
+
+// 图标位置状态
+const position = ref({ x: 0, y: 0})
+
+// 初始化图标位置
+const systemInfo = uni.getSystemInfoSync()
+  position.value = {
+    x: systemInfo.windowWidth - 60, 
+    y: systemInfo.windowHeight - 60 
+  }
+
+// 点击跳转
+const navigateToAI = () => {
+	console.log("跳转至AI页面")
+}
+
+
 </script>
 
 <style scoped>
@@ -246,20 +313,34 @@ function showMyDuty() {
   background-color: #007bff;
 }
 
+/* 日程较多时，该行会拉伸height */
+.autoHeight {
+	display: flex;
+	flex-wrap: wrap;
+	
+}
+.dayContainer {
+	border: 1px solid #efecec;
+	width: calc(100vw/7);
+	box-sizing: border-box;
+	padding-bottom: 2px;
+}
 .all-btn {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-  height: 120rpx;
+	min-height: 16vh;
+	align-content: center;
+	flex: 1;
 }
 .fixed {
-  position: fixed;
+  /* position: fixed; */
   /* top: 20vh; */
   /* left: 0px; */
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: #;
   z-index: 1000;
 }
 
@@ -273,5 +354,46 @@ function showMyDuty() {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+/* 一个个日程 */
+.duty-item {
+	width: 95%;
+	text-align: center;
+	border-radius: 10px;
+	height: 20px;
+	margin-top: 2px;
+	line-height: 20px;
+	font-size: 16px;
+	text-overflow: ellipsis;
+	white-space: nowrap; 
+	overflow: hidden;    
+}
+
+/* ai图标部分 */
+movable-area {
+	position:fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 999; 
+	pointer-events: none; 
+}
+movable-view {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.icon-image {
+  width: 60px;
+  height: 60px;
+}
+.items-center{
+	background-color: #b973f6;
 }
 </style>

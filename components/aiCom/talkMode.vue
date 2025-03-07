@@ -1,8 +1,9 @@
 <!--控制模型的一些参数-->
 <template>
-    <view  class="flex-y">
-        <button @click="visible=!visible">{{ requestModeStore.model }}</button>
-        <view v-if="visible" class="flex-y ">
+    <view  class="flex-y items-center wd-100 modeContainer">
+        <view  @click="visible=!visible">{{ requestModeStore.model }}</view>
+
+  <view v-show="visible" class="flex-y mt-20">
       
        <view class="flex-y ">
         <view class="m-10"> 模型</view>
@@ -14,7 +15,7 @@
 
        <view class="flex-x hover_gray m-10">最大生成token数量 <input type="text" class="ml-20" v-model="max_tokens"  :value=max_tokens> </view>
        <view class="flex-x hover_gray m-10">生成随机度<input type="text" class="ml-20" v-model="temperature" @input="temperatureInput()" :value=temperature> <u-icon name="question-circle" class="hover-question"></u-icon> </view>
-       <view class="flex-x hover_gray m-10">是否启用流式请求:<switch class="ml-20" @change="streamChange" /></view>
+       <view class="flex-x hover_gray m-10">是否启用流式请求:<switch class="ml-20" checked @change="streamChange" /></view>
     </view>
 </view>
     </template>
@@ -79,5 +80,9 @@ requestModeStore.model = models.value[index]
            
             pointer-events: none; /* 防止伪元素干扰交互 */
         }
-       
+    .modeContainer{
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 5px;
+    }
     </style>
