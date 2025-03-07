@@ -1,4 +1,5 @@
 import Request from ".";
+
 import { useUserStone } from "../store/userStore";
 const userStone = useUserStone()
 const request = new Request().http;
@@ -116,9 +117,42 @@ return await get(url,{})
     async createNewChat(data){
 var url =`${BaseUrl}/${userStone.userid}/newChat`
 return await post(url,{},data)
+    },
 
-    }
-
+//获取所有日程
+async getDuties(){
+  var url = `${BaseUrl}/${userStone.userid}/getDuties`
+  return await get(url,{})
+},
+//修改日程
+async modifyDuty(data){
+var url = `${BaseUrl}/${userStone.userid}/modifyDuty`
+//data的形式为{
+   // "duty_id": "1956b716f6358a4",
+   // "description": "今天的安排是xxx，xxx，xxx",
+   // "title": "今日安排",
+   // "date": "20240803",
+   // "isCheck": false
+//}
+  return await post(url,{},data)
+},
+//删除日程
+async deleteDuty(){
+var url = `${BaseUrl}/${userStone.userid}/deleteDuty`
+//data 为duty_id就行
+  return await post(url,{},data)
+},
+//添加日程
+async addDuty(data){
+var url = `${BaseUrl}/${userStone.userid}/addDuty`
+//data的形式为{
+   // "description": "今天的安排是xxx，xxx，xxx",
+   // "title": "今日安排",
+   // "date": "20240803",
+   // "isCheck": false
+//}
+  return await post(url,{},data)
+}
 
 };
 

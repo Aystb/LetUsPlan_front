@@ -57,6 +57,7 @@ const handleMonthYearUpdate = (payload) => {
 
 const duties = ref([]);
 
+const myDutyRef = ref([]);
 // 我的日程
 const isMyDutyVisible = ref(false);
 
@@ -112,6 +113,11 @@ function closeChangeColor() {
 }
 function showChangeColor() {
   isChangeColorVisible.value = true;
+	myDutyRef.value.addDuty(newDuty);
+  //在这里发起请求就行
+  //duty:{title，description} 还不够，需要加时间，是否完成等tag
+
+	isAddDutyVisible.value = false;
 }
 
 </script>
