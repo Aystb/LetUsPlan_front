@@ -1,29 +1,33 @@
 <template>
   <view>
-    <view class="flex-y pd-10">
-      <view class="flex-x justify-between">
-        <u-icon @click="cancel()" name="close" size="22"></u-icon>
-        <view class="flex-x">
-          <img src="../../static/ai-helper.png" />
-          <text style="font-family: inter">AI助手</text></view
-        >
-        <view></view>
-      </view>
+    <view class="banner">
+      <u-icon @click="cancel()" name="close" size="22"></u-icon>
+      <view class="flex-x">
+        <img src="../../static/ai-helper.png" />
+        <img src="../../static/AI助手.png" /> </view
+      ><view> </view>
+    </view>
 
-      <view class="flex-y m-10">
+    <view class="UP">
+      <view class="character">
         <view class="flex-x">
-          <img src="../../static/character.png" class="characterIcon" /><text
-            >角色</text
-          >
+          <img src="../../static/character.png" class="characterIcon" /><img
+            src="../../static/角色.png"
+          />
         </view>
         <input
           class="characterInput"
           type="text"
           v-model="role"
           placeholder="输入完成任务的角色"
-        /><!--角色-->
-        <view class="flex-x">
-          <img src="../../static/duty.png" class="dutyIcon" /><text>任务</text>
+        />
+      </view>
+
+      <view class="duty"
+        ><view class="flex-x">
+          <img src="../../static/duty.png" class="dutyIcon" /><img
+            src="../../static/任务.png"
+          />
         </view>
 
         <input
@@ -31,22 +35,28 @@
           type="text"
           v-model="task"
           placeholder="描述你要完成的任务"
-        /><!--任务-->
-        <view class="flex-x">
-          <img src="../../static/timegap.png" class="timeIcon" /><text
-            >时间区间</text
-          >
+      /></view>
+      <!--任务-->
+
+      <view class="timeGap"
+        ><view class="flex-x">
+          <img src="../../static/timegap.png" class="timeIcon" /><img
+            src="../../static/时间区间.png"
+          />
         </view>
         <input
           class="timeInput"
           type="text"
           v-model="time"
           placeholder="在哪个时间段完成呢"
-        /><!--时间区间-->
-        <view class="flex-x">
-          <img src="../../static/reqiurement.png" class="requermentIcon" /><text
-            >补充要求</text
-          >
+        /><!--时间区间--></view
+      >
+
+      <view class="requerment"
+        ><view class="flex-x">
+          <img src="../../static/reqiurement.png" class="requermentIcon" /><img
+            src="../../static/补充要求.png"
+          />
         </view>
         <textarea
           class="requermentInput"
@@ -57,12 +67,11 @@
         ></textarea
         ><!--补充要求-->
       </view>
-
-      <view class="generate"
-        ><button class="confirm" style="color: white" @click="confirm()">
-          生成安排
-        </button></view
-      >
+      <img
+        src="../../static/生成安排.png"
+        @click="confirm()"
+        class="generate"
+      />
     </view>
   </view>
 </template>
@@ -109,6 +118,42 @@ function cancel() {
 </script>
 
 <style scoped>
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.UP {
+  /* display: flex; */
+  width: 90%;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.UP > view {
+  margin-top: 2vh;
+}
+
+.flex-x {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  justify-content: flex-start; /* 水平起始对齐 */
+  margin-bottom: 2vh; /* 图标和文本与输入框的间距 */
+}
+
+.flex-x img {
+  margin-right: 2vh; /* 图标与文本的间距 */
+}
+
+.character,
+.duty,
+.requerment,
+.timeGap {
+  margin-top: 1vh;
+}
 .characterInput,
 .dutyInput,
 .timeInput {
@@ -125,7 +170,7 @@ function cancel() {
   background-color: #deb0ff;
   border-radius: 20px;
   margin-top: 1vh;
-  margin-bottom: 1vh;
+  margin-bottom: 5vh;
   height: 10vh;
   padding-left: 3vh;
   padding-top: 1vh;
@@ -139,25 +184,14 @@ function cancel() {
   color: #7a7979;
 }
 
-.close-start {
-  margin-right: auto;
-}
-
-.tip {
-  font-size: 12px;
-}
-.btn-bottom {
-  position: relative;
-}
-
 .generate {
-  margin-top: 6vh;
-  width: 100%;
+  display: block;
+  margin: 0 auto;
 }
-.confirm {
+/* .confirm {
   background-color: #ac52ff;
   width: 60%;
   border: 1px solid rgb(163, 120, 163);
   color: rgb(163, 120, 163);
-}
+} */
 </style>

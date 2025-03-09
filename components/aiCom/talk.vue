@@ -2,28 +2,24 @@
 
 <template>
   <view class="flex-y">
-    <view class="flex-x items-center">
-      <view class="newTalk" @click="openNewTalk()"> 新对话+</view>
-      <svg
-        @click="jumpToHistory()"
-        t="1739877888904"
-        class="historyIcon"
-        viewBox="0 0 1118 1024"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        p-id="10896"
-        width="200"
-        height="200"
-      >
-        <path
-          d="M581.818182 187.671273 581.818182 528.290909 824.366545 671.232 847.965091 631.156364 628.363636 500.549818 628.363636 187.671273Z"
-          p-id="10897"
-        ></path>
-        <path
-          d="M202.053818 744.96 149.038545 744.96C233.797818 910.615273 406.202182 1024 605.090909 1024c282.763636 0 512-229.236364 512-512 0-282.763636-229.236364-512-512-512C354.117818 0 145.314909 180.596364 101.515636 418.909091L0 418.909091l116.363636 139.636364L232.727273 418.909091 148.945455 418.909091C192.093091 206.475636 379.904 46.545455 605.090909 46.545455c257.070545 0 465.454545 208.384 465.454545 465.454545s-208.384 465.454545-465.454545 465.454545C432.919273 977.454545 282.530909 883.944727 202.053818 744.96z"
-          p-id="10898"
-        ></path>
-      </svg>
+    <view class="banner">
+      <view
+        ><img src="../../static/xiaozi.png" />
+        <img src="../../static/首部.png" alt=""
+      /></view>
+
+      <view>
+        <img
+          class="newTalk"
+          @click="openNewTalk()"
+          src="../../static/newTalk.png"
+        />
+        <img
+          @click="jumpToHistory()"
+          class="historyIcon"
+          src="../../static/historyTalk.png"
+        />
+      </view>
     </view>
     <view class="flex-y">
       <talkMode></talkMode>
@@ -300,6 +296,16 @@ function jumpToHistory() {
 </script>
 
 <style scoped>
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.banner > view {
+  display: flex;
+  align-items: center; /* 使内部图片垂直居中对齐 */
+}
+
 .sendMes {
   width: 30px;
   height: 30px;
@@ -339,7 +345,6 @@ function jumpToHistory() {
   background-color: antiquewhite;
 }
 .newTalk {
-  background-color: rgb(189, 244, 244);
   border-radius: 20px;
   padding: 10px;
 }
