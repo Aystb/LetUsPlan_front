@@ -41,7 +41,8 @@
           }}</view>
         </view>
       </view>
-      <view class="userText">
+      <view class="userText" v-if="!isTalking">
+        <img src="../../static/语音.png" @click="voiceInput" />
         <textarea
           auto-height="true"
           @keydown="textKeyDown"
@@ -50,47 +51,31 @@
           v-model="userInputText"
           placeholder="发消息..."
         ></textarea>
+        <img
+          src="../../static/加号.png"
+          class="otherInput"
+          @click="otherInput"
+        />
+        <img src="../../static/发送.png" class="sendMes" @click="sendMes()" />
+      </view>
+
+      <view class="userTalk" v-if="isTalking">
+        <img src="../../static/键盘.png" @click="keyboardInput()" />
+        <img
+          src="../../static/按住说话.png"
+          class="talking"
+          @touchstart="startTalking"
+          @touchend="stopTalking"
+          @touchcancel="cancelTalking"
+        />
         <view
-          ><svg
-            v-if="answerEndFlag"
-            class="sendMes"
-            @click="sendMes"
-            t="1739774614593"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            p-id="7327"
-            width="200"
-            height="200"
-          >
-            <path
-              d="M938.666667 337.92v348.586667c0 150.613333-96.896 252.16-241.493334 252.16H327.253333C182.613333 938.666667 85.333333 837.12 85.333333 686.506667V337.92C85.333333 186.88 182.613333 85.333333 327.253333 85.333333h369.92C841.770667 85.333333 938.666667 186.88 938.666667 337.92zM480 415.146667v270.933333c0 17.92 14.506667 32 32 32 17.92 0 32-14.08 32-32V415.146667l105.386667 105.813333c5.973333 5.973333 14.506667 9.386667 22.613333 9.386667 8.064 0 16.213333-3.413333 22.613333-9.386667 12.373333-12.373333 12.373333-32.853333 0-45.226667l-160-160.853333a33.024 33.024 0 0 0-45.226666 0l-160 160.853333c-12.373333 12.373333-12.373333 32.853333 0 45.226667 12.8 12.373333 32.853333 12.373333 45.653333 0l104.96-105.813333z"
-              fill="#130F26"
-              p-id="7328"
-            ></path></svg
-          ><svg
-            v-if="!answerEndFlag"
-            class="sendMes"
-            t="1740661984632"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            p-id="17714"
-            width="200"
-            height="200"
-          >
-            <path
-              d="M938.666667 686.250667V337.749333C938.666667 186.752 841.557333 85.333333 696.96 85.333333h-369.92C182.442667 85.333333 85.333333 186.752 85.333333 337.749333v348.501334C85.333333 837.205333 182.485333 938.666667 327.082667 938.666667h369.877333C841.557333 938.666667 938.666667 837.205333 938.666667 686.250667z"
-              fill="#200E32"
-              opacity=".4"
-              p-id="17715"
-            ></path>
-            <path
-              d="M694.613333 475.52L534.613333 314.88a32.981333 32.981333 0 0 0-45.397333 0L329.386667 475.52a32 32 0 0 0 45.397333 45.184l105.258667-105.728v271.146667a32 32 0 1 0 64 0V415.018667l105.216 105.642666a31.957333 31.957333 0 0 0 45.269333 0.128 32.042667 32.042667 0 0 0 0.085333-45.269333z"
-              fill="#200E32"
-              p-id="17716"
-            ></path></svg
-        ></view>
+          ><img
+            src="../../static/加号.png"
+            class="otherInput"
+            @click="otherInput()"
+          />
+          <img src="../../static/发送.png" class="sendMes" @click="sendMes()" />
+        </view>
       </view>
       <alert></alert>
     </view>
@@ -100,7 +85,6 @@
 <script setup>
 import { useAlertStore } from "../../store/alertStore";
 import alert from "../alert.vue";
-
 import {
   ref,
   watch,
@@ -121,10 +105,19 @@ const { data, startStreaming, streamEndFlag } = useStreamData(
 );
 const requestModeStore = useRequestModeStore();
 const userInputText = ref("");
-
+const isTalking = ref(false);
 const requestNowHistoryStore = ref({ chatId: 2, user_id: 1, messages: [] });
 const alertStore = useAlertStore();
+const originalImage = require("../../static/按住说话.png"); // 原始图片路径
+const talkingImage = require("../../static/说话中.png"); // 说话中的图片路径
+const currentImage = ref(originalImage); // 默认显示原始图片
+const startTalking = () => {
+  currentImage.value = talkingImage;
+};
 
+const stopTalking = () => {
+  currentImage.value = originalImage;
+};
 //用户可以主动暂停的逻辑还没实现
 
 //监听到flag变化的时候，也就是流结束，再改变历史记录中动态的部分为静态，不然会出现覆盖的情况
@@ -239,6 +232,16 @@ const sendMes = () => {
   }
 };
 
+function voiceInput() {
+  isTalking.value = !isTalking.value;
+}
+
+function keyboardInput() {
+  isTalking.value = !isTalking.value;
+}
+
+function otherInput() {}
+
 //发起请求
 function requestAi() {
   if (requestModeStore.stream == false) {
@@ -314,12 +317,27 @@ function jumpToHistory() {
   position: fixed;
   bottom: 20px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 25px;
   border: 1px solid gray;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* 边框 + 阴影 */
   display: flex;
   align-self: center;
-  width: 93%;
+  width: 80%;
+  height: 5vh;
+}
+
+.userTalk {
+  position: fixed;
+  bottom: 20px;
+  padding: 10px;
+  border-radius: 25px;
+  border: 1px solid gray;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* 边框 + 阴影 */
+  display: flex;
+  align-self: center;
+  width: 80%;
+  height: 5vh;
+  justify-content: space-between;
 }
 
 .aiSide {
@@ -341,8 +359,13 @@ function jumpToHistory() {
   padding: 10px;
 }
 .userInput {
+  margin-left: 1vh;
   width: 90vw;
-  background-color: antiquewhite;
+}
+
+.sendMes {
+  margin-left: 0.8vh;
+  margin-right: 0.8vh;
 }
 .newTalk {
   border-radius: 20px;
