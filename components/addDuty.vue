@@ -27,13 +27,15 @@
 				<image class="moreInfo_icon" src="/static/moreInfo.png"></image>
 				<textarea v-model="dutyDescription" class="addInfo" placeholder="输入备忘"></textarea>
 			</view>
+			
 		</view>
+		
 	</view>
 </template>
 
 <script setup>
-	import { defineProps, defineEmits, ref } from "vue";
-
+	import { defineProps, defineEmits, ref, watch } from "vue";
+	
 	const props =defineProps({
 		visible: {
 			type: Boolean,
@@ -42,14 +44,31 @@
 		color: {
 		  type: String,
 		  default: '#FABAC8' // 设置默认颜色
+		},
+		editingDuty: {
+			type: Object,
+			default: null,
 		}
 	})
 	
 	
-	const emit = defineEmits(['closeModal','showChangeColor','resetColor','addDuty'])
+	const emit = defineEmits(['closeModal','showChangeColor','resetColor','addDuty','updateDuty'])
 
 	const dutyTitle = ref('');
 	const dutyDescription = ref('');
+
+watch(
+  () => props.editingDuty,
+  (newVal) => {
+    if (!newVal) {
+      dutyTitle.value = '';
+      dutyDescription.value = '';
+      return;
+    }
+    dutyTitle.value = newVal.title;
+    dutyDescription.value = newVal.description;
+  },
+);
 
 	// 点击背景遮罩关闭
 	function closeModal () {
@@ -57,30 +76,39 @@
 		dutyDescription.value = '';
 		emit("closeModal")
 		emit("resetColor")
-		// console.log("关闭添加日程界面")
 	}
-
+	
 	// 增加一个待办事项
-	function addOneDuty() {
+	async function addOneDuty() {
 		if (dutyTitle.value.trim() === '') {
 			alert('请输入日程标题');
 			return;
 		}
-		
-		const newDuty = {
-			title: dutyTitle.value,
-			description: dutyDescription.value,
-			color:props.color
-		};
-		
-		emit('addDuty', newDuty);
+		if (props.editingDuty) {
+			const updateDuty = {
+				title: dutyTitle.value,
+				description: dutyDescription.value,
+				color: props.color,
+				duty_id: props.editingDuty.duty_id,
+				date: props.editingDuty.date,
+				isCheck: props.editingDuty.isCheck
+			};
+			emit('updateDuty', updateDuty);
+		 } else {
+			 const newDuty = {
+			 	title: dutyTitle.value,
+			 	description: dutyDescription.value,
+			 	color:props.color,
+			 };
+		   emit('addDuty', newDuty);
+		 }
+		 
 		dutyTitle.value = '';
 		dutyDescription.value = '';
 		
 		emit("resetColor")
 	}
 	function changeColor () {
-		// console.log("更改颜色")
 		emit("showChangeColor")
 	}
 </script>
@@ -94,7 +122,7 @@
 	  top: 0;
 	  width: 100%;
 	  height: 100%;
-	  background-color: rgba(227, 226, 226, 0.5);
+		background-color: #62626280;
 	  z-index: 8000;
 	}
 	.addContainer {
@@ -130,6 +158,7 @@
 		width: 16px;
 		height: 16px;
 		background-color: transparent;
+		
 	}
 	.changeColor_btn {
 		border: 1px solid #FFFFFF;
@@ -146,7 +175,6 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-
 	}
 	.changeColor_btn::after {
 		border: none;

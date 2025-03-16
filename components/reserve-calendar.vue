@@ -56,7 +56,7 @@
                       index1 * 7 + index2 - curMonthBasicInfo.startIndex
                     ]?.date
                   )"
-                  :key="index"
+                  :key="duty.duty_id"
                   class="duty-item"
                   :style="{ 'background-color': duty.color }"
                   >{{ duty.title }}</view
@@ -71,9 +71,7 @@
 
   <!-- 年月选择器 -->
   <ModalComponents :visible="IsShowPicker" class="PickerModal">
-    <p class="pickTime" style="color: #a4a4a4">
-      {{ PickerCurYear }}年{{ PickerCurMonth }}月
-    </p>
+    <p class="pickTime">{{ PickerCurYear }}年{{ PickerCurMonth }}月</p>
     <br />
     <view class="scrollContainer">
       <scrollPicker v-model="PickerCurYear" type="year" />
@@ -81,7 +79,7 @@
     </view>
     <view class="buttonContainer">
       <button class="pickerCancel" @click="pickerCancel">取消</button>
-      <button class="pickerIdentify" @click="pickerIdentify">确认</button>
+      <button class="pickerIdentify" @click="pickerIdentify">确定</button>
     </view>
   </ModalComponents>
 
@@ -147,7 +145,6 @@ const weeks = computed(() => {
 function showPicker() {
   PickerCurYear.value = curYear.value;
   PickerCurMonth.value = curMonth.value;
-
   IsShowPicker.value = !IsShowPicker.value;
 }
 
@@ -239,11 +236,9 @@ function login() {
 // 日历方格显示对应日程
 
 function getdutyForDate(year, month, day) {
-  const date = `${year}-${String(month).padStart(2, "0")}-${String(
-    day
-  ).padStart(2, "0")}`;
-  const duty = props.dutyData.filter((duty) => duty.date === date);
-  return duty;
+  const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  const dutyForDate = props.dutyData.filter((duty) => duty.date === date);
+  return dutyForDate;
 }
 
 // 显示添加日程的组件，并将选择的日期YYYYMMDD传给父组件calendar
@@ -251,10 +246,7 @@ const emit = defineEmits(["showMyDuty", "sendDateToCalendar"]);
 
 function showMyDuty() {
   // 将选择的日期以YYYY-MM-DD传给calendar组件 —— eg. '2025-02-25'
-  const formatDate = `${curYear.value}-${String(curMonth.value).padStart(
-    2,
-    "0"
-  )}-${String(curDay).padStart(2, "0")}`;
+  const formatDate = `${curYear.value}-${String(curMonth.value).padStart(2,'0')}-${String(curDay).padStart(2, '0')}`;
   emit("sendDateToCalendar", formatDate);
   emit("showMyDuty");
 }
@@ -280,6 +272,10 @@ const navigateToAI = () => {
 <style scoped>
 .pickTime {
   text-align: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 25px;
+  margin-top: 20px;
 }
 .PickerModal {
   overflow: hidden;
@@ -300,15 +296,21 @@ const navigateToAI = () => {
 }
 
 .pickerCancel {
-  border-radius: 1px;
-  background-color: #ededed;
+  border-radius: 15px;
+  background-color: #fff;
   width: 40%;
+  color: #9b2fff;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .pickerIdentify {
-  border-radius: 1px;
-  background-color: #deb0ff;
+  border-radius: 15px;
+  background-color: #9b2fff;
   width: 40%;
+  font-size: 20px;
+  font-weight: 600;
+	color: #FFFFFF;
 }
 .in-range {
   background-color: #007bff;
@@ -340,7 +342,7 @@ const navigateToAI = () => {
   /* left: 0px; */
   width: 100%;
   height: 100%;
-  background-color: #;
+  background-color: white;
   z-index: 1000;
 }
 
@@ -365,8 +367,6 @@ const navigateToAI = () => {
   margin-top: 2px;
   line-height: 20px;
   font-size: 16px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   overflow: hidden;
 }
 
@@ -392,8 +392,5 @@ movable-view {
 .icon-image {
   width: 60px;
   height: 60px;
-}
-.items-center {
-  background-color: #b973f6;
 }
 </style>

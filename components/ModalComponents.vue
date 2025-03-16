@@ -31,13 +31,12 @@ function onScroll(event) {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  background-color: #62626280; /* 半透明背景 */
   z-index: 1000;
   overflow: hidden;
 }
 
 .modal-content {
-  background-color: #fff;
   padding: 20px;
   border-radius: 5px;
   position: relative;
@@ -47,7 +46,8 @@ function onScroll(event) {
   box-sizing: border-box;
   white-space: normal;
   border-radius: 32px;
-  background-color: #efdaff;
+  background-color: #D9AFFF;
+	box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .close {

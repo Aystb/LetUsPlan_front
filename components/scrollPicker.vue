@@ -185,9 +185,11 @@ onMounted(() => {
   font-size: 24px;
   justify-content: center;
   align-items: center;
+	font-weight: 600;
+	color: #FFFFFF;
 }
 .active-li {
-  color: #000;
+  color: #FFFFFF;
   font-size: 52px;
 }
 </style>
