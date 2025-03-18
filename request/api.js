@@ -5,7 +5,7 @@ const userStone = useUserStone()
 const request = new Request().http;
 //测试的基础url,可以直接用全部的url，也可以和这个组合使用
 let testBaseUrl = "http://127.0.0.1:4523/m1/4020303-0-default/"
-let BaseUrl = "http://127.0.0.1:8000/LetUsPlan"
+let BaseUrl = "http://127.0.0.1:4523/m1/6033376-5723170-default/LetUsPlan"
 
 function get(url, header, data) {
     return request({
@@ -137,7 +137,7 @@ var url = `${BaseUrl}/${userStone.userid}/modifyDuty`
   return await post(url,{},data)
 },
 //删除日程
-async deleteDuty(){
+async deleteDuty(data){
 var url = `${BaseUrl}/${userStone.userid}/deleteDuty`
 //data 为duty_id就行
   return await post(url,{},data)

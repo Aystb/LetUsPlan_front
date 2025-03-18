@@ -1,10 +1,11 @@
-<template>
+<template >
   <view class="main-container">
+		<view class="calendarBackground"></view>
     <view class="fixed">
-      <view class="flex-x justify-end items-center mt-20 relative">
-        <view class="flex-x justify-center calendar-select absolute">
-          <text class="ft-20">{{ curYear }}年{{ curMonth }}月</text>
-          <img src="../static/倒三角 1.png" @click="showPicker" />
+      <view class="flex-x justify-end items-center pd-bt-10 relative">
+        <view class="flex-center-both calendar-select absolute ">
+          <text class="ft-22 whiteFont fw-600">{{ curYear }}年{{ curMonth }}月</text>
+          <img src="../static/倒三角 1.png" @click="showPicker" class="chooseDateBtn" />
         </view>
 
         <!-- 点击头像登录 -->
@@ -29,7 +30,7 @@
             :key="index2"
           >
             <!-- 生成日期 -->
-            <text class="ml-20" v-if="index1 == 0">{{
+            <text class="whiteFont mb-10 fw-400 ft-20" v-if="index1 == 0">{{
               weekTitle(index2)
             }}</text>
 
@@ -41,7 +42,7 @@
               <!--日期方块组件-->
               <view @click="choose(index1, index2)" :class="['all-btn']">
                 <!-- 日期部分 -->
-                <view>{{
+                <view class="fw-400 ft-16">{{
                   curMonthArray[
                     index1 * 7 + index2 - curMonthBasicInfo.startIndex
                   ]?.date
@@ -229,6 +230,7 @@ function choose(index1, index2) {
 // ------------登录/切换账号---------------
 function login() {
   console.log("切换账号/返回");
+	uni.navigateTo({ url: "/pages/login/index" });
 }
 
 // ---------日程部分----------------
@@ -266,6 +268,7 @@ position.value = {
 // 点击跳转
 const navigateToAI = () => {
   console.log("跳转至AI页面");
+	uni.navigateTo({ url: "/pages/AI/index" });
 };
 </script>
 
@@ -315,17 +318,25 @@ const navigateToAI = () => {
 .in-range {
   background-color: #007bff;
 }
-
+.main-container {
+	position: relative;
+}
 /* 日程较多时，该行会拉伸height */
 .autoHeight {
   display: flex;
   flex-wrap: wrap;
+}
+.whiteFont {
+	width: 100%;
+	text-align: center;
+	color: #fff;
 }
 .dayContainer {
   border: 1px solid #efecec;
   width: calc(100vw / 7);
   box-sizing: border-box;
   padding-bottom: 2px;
+	background-color: #fff;
 }
 .all-btn {
   display: flex;
@@ -337,21 +348,28 @@ const navigateToAI = () => {
   flex: 1;
 }
 .fixed {
-  /* position: fixed; */
-  /* top: 20vh; */
-  /* left: 0px; */
   width: 100%;
   height: 100%;
-  background-color: white;
-  z-index: 1000;
+	position: relative;
 }
-
+.calendarBackground {
+	height: 30vh;
+	z-index: -1000;
+	width: 100vw;
+	background: linear-gradient(180deg, #8E1DF1 0%, rgba(142, 29, 241, 0) 100%);
+	backdrop-filter: blur(13.5914px);
+	position: absolute;
+}
 .user-avatar {
   border-radius: 50%;
-  height: 32px;
-  width: 32px;
+  height: 25px;
+  width: 25px;
 }
-
+.chooseDateBtn {
+	height: 10px;
+	width: 10px;
+	padding-left: 5px;
+}
 .calendar-select {
   position: absolute;
   left: 50%;
