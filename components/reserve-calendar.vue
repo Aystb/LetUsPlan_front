@@ -37,7 +37,7 @@
             <view
               v-if="isShow(index1, index2)"
               class="dayContainer"
-              @click="showMyDuty"
+							@click="!isOtherMonth(index1, index2) && showMyDuty()"
             >
               <!--日期方块组件-->
               <view @click="choose(index1, index2)" :class="['all-btn']">
@@ -197,14 +197,25 @@ watch([curYear, curMonth], (newValue, oldValue) => {
 
 //计算当前按钮是否要显示,不在当前月份之内的不予显示
 const isShow = (index1, index2) => {
-  var day = index2 + index1 * 7;
-  if (
-    day < curMonthBasicInfo.value.startIndex ||
-    day >= curMonthBasicInfo.value.startIndex + curMonthBasicInfo.value.length
-  ) {
-    return false;
-  }
-  return true;
+  // var day = index2 + index1 * 7;
+  // if (
+  //   day < curMonthBasicInfo.value.startIndex ||
+  //   day >= curMonthBasicInfo.value.startIndex + curMonthBasicInfo.value.length
+  // ) {
+  //   return false;
+  // }
+	
+	// 不筛选——可能待修改
+	return true;
+};
+
+// 判断是否是上个月或下个月的日期
+const isOtherMonth = (index1, index2) => {
+  const dayIndex = index1 * 7 + index2;
+  return (
+    dayIndex < curMonthBasicInfo.value.startIndex ||
+    dayIndex >= curMonthBasicInfo.value.startIndex + curMonthBasicInfo.value.length
+  );
 };
 
 function pickerCancel() {
@@ -221,10 +232,16 @@ let curDay;
 
 //选择这个按钮
 function choose(index1, index2) {
-  var index = index1 * 7 + index2; //日期
-  var chooseDate =
-    curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
-  curDay = chooseDate;
+	try{
+		var index = index1 * 7 + index2; //日期
+		var chooseDate =
+		  curMonthArray.value[index - curMonthBasicInfo.value.startIndex].date;
+		curDay = chooseDate;
+	} catch(err){
+		// 空白格子点击时暂不报错
+		return true
+	}
+  
 }
 
 // ------------登录/切换账号---------------
@@ -353,7 +370,7 @@ const navigateToAI = () => {
 	position: relative;
 }
 .calendarBackground {
-	height: 30vh;
+	height: 20vh;
 	z-index: -1000;
 	width: 100vw;
 	background: linear-gradient(180deg, #8E1DF1 0%, rgba(142, 29, 241, 0) 100%);

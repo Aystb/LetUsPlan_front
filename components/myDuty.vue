@@ -30,7 +30,9 @@
 								<view class="duty-title" :class="{'duty-title-completed' :duty.isCheck}">{{ filteredDuties[index].title }}</view>
 								<image v-if="filteredDuties[index].description !==''" src="/static/descriptionStar.png" class="descriptionStar"></image>
 							</view>
-							<view @click="deleteDuty(duty.duty_id)">删除</view>
+							<view @click="deleteDuty(duty.duty_id)">
+								<image class="deleteBtn" src="/static/deleteBtn.png"></image>
+							</view>
 						</view>
 					</view>
 					
@@ -221,5 +223,9 @@
 	.duty-description {
 		font-size: 14px;
 		color: #666;
+	}
+	.deleteBtn {
+		height: 16px;
+		width: 16px;
 	}
 </style>
