@@ -6,7 +6,7 @@
       
        <view v-if="today.length>0"><text>今天</text>
         <view class="flex-y"  v-for="(item,index) in today" :key="index">
-            <view>{{ spiltByLean(item.lastUpdateTime) }}</view>
+            <view class="days">{{ spiltByLean(item.lastUpdateTime) }}</view>
           <view class="history-item" @click="pickup(item.chatId)">
           {{ item.messages[1].content }}
       </view>
@@ -15,7 +15,7 @@
 
       <view v-if="yesterday.length>0"><text>昨天</text>
         <view class="flex-y"  v-for="(item,index) in yesterday" :key="index">
-            <view>{{ spiltByLean(item.lastUpdateTime) }}</view>
+            <view class="days">{{ spiltByLean(item.lastUpdateTime) }}</view>
           <view class="history-item" @click="pickup(item.chatId)">
           {{ item.messages[1].content }}
       </view>
@@ -24,7 +24,7 @@
 
       <view v-if="inWeek.length>0"><text>近七天</text>
         <view class="flex-y"  v-for="(item,index) in inWeek" :key="index">
-            <view>{{ spiltByLean(item.lastUpdateTime) }}</view>
+            <view class="days">{{ spiltByLean(item.lastUpdateTime) }}</view>
           <view class="history-item" @click="pickup(item.chatId)">
           {{ item.messages[1].content }}
       </view>
@@ -33,7 +33,7 @@
 
       <view v-if="inMonth.length>0"><text>近一月</text>
         <view class="flex-y"  v-for="(item,index) in inMonth" :key="index">
-            <view>{{ spiltByLean(item.lastUpdateTime) }}</view>
+            <view class="days">{{ spiltByLean(item.lastUpdateTime) }}</view>
           <view class="history-item" @click="pickup(item.chatId)">
           {{ item.messages[1].content }}
       </view>
@@ -95,15 +95,20 @@ uni.navigateTo({ url: '/pages/AI/index' })
    .title{
 font-size: 20px;
 font-weight: 600;
+
    }
 .history-item{
-  background-color: rgb(227, 225, 225);
+  background-color: #EDEDED;
   margin-top: 8px;
   margin-bottom: 8px;
   border-radius: 10px;
   padding: 5px;
+  
 }
 .history-item:hover{
   background-color: rgb(246, 243, 243);
+}
+.days{
+  color: #827E7E;
 }
     </style>

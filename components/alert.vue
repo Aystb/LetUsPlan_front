@@ -20,13 +20,13 @@ const alertStore = useAlertStore()
 <style scoped>
 
 .warning{
-background-color: #FFA500;
+background-color: #FFFDF1;
 }
 .alert{
-background-color: #D32F2F;
+background-color: #FFECEC;
 }
 .success{
-background-color: #388E3C;
+background-color: #F5FFE8;
 }
 .both{
   position: fixed;

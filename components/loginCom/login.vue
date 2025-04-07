@@ -125,17 +125,14 @@ function loginByWx_quick() {
 
 //手机验证
 function loginByPhone_other() {
-  if (isCheckAgreement.value == false) {
-    shouldHighlight.value = true;
-    checkUserAgreement();
-  } else {
+ 
     isChangeBtn.value = !isChangeBtn.value;
     if (isChangeBtn.value == true) {
-      btnText.value = "手机快捷登陆";
+      btnText.value = "微信快捷登陆";
     } else {
       btnText.value = "手机验证";
     }
-  }
+  
 }
 
 function onOpenHighlight() {

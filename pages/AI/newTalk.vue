@@ -1,19 +1,19 @@
 <template>
   <view>
-    <view class="flex-y pd-10">
+    <view class="flex-y pd-10  ">
       <view class="flex-x justify-between">
         <u-icon @click="cancel()" name="close" size="22"></u-icon>
-        <view class="flex-x">
+        <view class=" flex-x items-center">
           <img src="../../static/ai-helper.png" />
-          <text style="font-family: inter">AI助手</text></view
+          <text  style="font-family: inter">AI助手</text></view
         >
         <view></view>
       </view>
 
-      <view class="flex-y m-10">
-        <view class="flex-x">
-          <img src="../../static/character.png" class="characterIcon" /><text
-            >角色</text
+      <view class="flex-y flex-center-horizontal item-con">
+        <view class="flex-x items-center self-start">
+          <img src="../../static/character.png"  /> 
+          <text class="ml-10 fw-600">角色</text
           >
         </view>
         <input
@@ -22,8 +22,8 @@
           v-model="role"
           placeholder="输入完成任务的角色"
         /><!--角色-->
-        <view class="flex-x">
-          <img src="../../static/duty.png" class="dutyIcon" /><text>任务</text>
+        <view class="flex-x items-center self-start">
+          <img src="../../static/duty.png"  /><text class="ml-10 fw-600">任务</text>
         </view>
 
         <input
@@ -32,8 +32,8 @@
           v-model="task"
           placeholder="描述你要完成的任务"
         /><!--任务-->
-        <view class="flex-x">
-          <img src="../../static/timegap.png" class="timeIcon" /><text
+        <view class="flex-x items-center self-start">
+          <img src="../../static/timegap.png"  /><text class="ml-10 fw-600"
             >时间区间</text
           >
         </view>
@@ -43,8 +43,8 @@
           v-model="time"
           placeholder="在哪个时间段完成呢"
         /><!--时间区间-->
-        <view class="flex-x">
-          <img src="../../static/reqiurement.png" class="requermentIcon" /><text
+        <view class="flex-x items-center self-start">
+          <img src="../../static/reqiurement.png"  /><text class="ml-10 fw-600"
             >补充要求</text
           >
         </view>
@@ -112,8 +112,8 @@ function cancel() {
 .characterInput,
 .dutyInput,
 .timeInput {
-  width: 80%;
-  background-color: #deb0ff;
+  width: 100%;
+  background-color: #F5E8FF;
   border-radius: 20px;
   margin-top: 1vh;
   margin-bottom: 1vh;
@@ -121,8 +121,8 @@ function cancel() {
   padding-left: 3vh;
 }
 .requermentInput {
-  width: 80%;
-  background-color: #deb0ff;
+  width: 100%;
+  background-color: #F5E8FF;
   border-radius: 20px;
   margin-top: 1vh;
   margin-bottom: 1vh;
@@ -159,5 +159,8 @@ function cancel() {
   width: 60%;
   border: 1px solid rgb(163, 120, 163);
   color: rgb(163, 120, 163);
+}
+.item-con{
+ margin:50px
 }
 </style>
