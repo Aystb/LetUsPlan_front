@@ -279,7 +279,7 @@ const position = ref({ x: 0, y: 0 });
 const systemInfo = uni.getSystemInfoSync();
 position.value = {
   x: systemInfo.windowWidth - 60,
-  y: systemInfo.windowHeight - 60,
+  y: systemInfo.windowHeight - 120,
 };
 
 // 点击跳转
@@ -427,5 +427,7 @@ movable-view {
 .icon-image {
   width: 60px;
   height: 60px;
+  display:fixed;
+  
 }
 </style>

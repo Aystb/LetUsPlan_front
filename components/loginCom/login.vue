@@ -1,5 +1,5 @@
 <template>
-  <view class="flex-y custom-color hv-95 flex-center-horizontal">
+  <view class="flex-y custom-color hv-100 flex-center-horizontal">
     <!--上半-->
     <view class="flex-y items-center mt-10 mr-20 ml-20 flex-grow1">
       <image
@@ -44,7 +44,7 @@
         <view class="line ml-20" style="background-color: #ffffff"></view>
       </view>
       <button class="other-btn" @click="loginByPhone_other()">
-        <img src="../../static/loginByPhone_other.png" />
+        <img class="phone" src="../../static/loginByPhone_other.png" />
         <br /><text style="color: #ffffff">{{ btnText }}</text>
       </button>
     </view>
@@ -112,6 +112,8 @@ function loginByWx_quick() {
           // 获取到的 code 可以发送到后端进行微信登录验证
           var res = api.loginByWx({ code: res.code });
           console.log(res);
+          //跳转到日历界面
+          uni.redirectTo({ url: '/pages/calendar/index' })
         } else {
           console.log("登录失败: " + res.errMsg);
         }
@@ -287,5 +289,10 @@ function onCloseHighlight() {
 
 .send-code-btn::after {
   border: none;
+}
+.phone{
+  height:3rem;
+  width:2rem
+
 }
 </style>

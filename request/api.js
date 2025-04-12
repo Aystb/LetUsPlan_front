@@ -158,6 +158,9 @@ var url = `${BaseUrl}/${userStone.userid}/addDuty`
 
 export default api;
 
+
+
+
 //流式请求封装的api，流程是前端把请求参数给后端-》后端向gpt服务器发请求-》返回给前端-》前端展示
 import { ref, onUnmounted } from "vue";
 /**
@@ -166,60 +169,118 @@ import { ref, onUnmounted } from "vue";
  * @returns {object} 一个包含 `data` 和 `startStreaming` 的对象
  */
 export function useStreamData(url) {
-  const data = ref(""); // 用于存储流式返回的数据
-  const streamEndFlag = ref(true) 
+  const data = ref("");
+  const streamEndFlag = ref(true);
   let eventSource = null;
+  let ws = null; // 添加 WebSocket 变量
 
-  // 开始流式请求，这里的requestData是向gpt发出请求的请求体，也就是各种模型参数
   const startStreaming = async(requestData) => {
-    streamEndFlag.value=false
-    //首先等待请求体数据传输完毕再等待回传
-   await api.sendStreamData(requestData)
+    streamEndFlag.value = false;
+    await api.sendStreamData(requestData);
 
     if (eventSource) {
-      console.warn("Stream started!");
+      console.warn("Stream have already started!");
       return;
     }
 
-    eventSource = new EventSource(url);
+    // #ifdef MP-WEIXIN
+  
+    const wsUrl = url.replace('http://', 'ws://').replace('https://', 'wss://');
+    const wsUrlWithPrefix = `${wsUrl.split('/LetUsPlan')[0]}/ws/LetUsPlan${wsUrl.split('/LetUsPlan')[1]}`;
+    ws = wx.connectSocket({
+      url: wsUrlWithPrefix,
+      header: {
+        'content-type': 'application/json'
+      },
+      success: () => {
+        console.log('WebSocket连接成功');
+      }
+    });
 
-    // 监听流数据
+    ws.onOpen(() => {
+     console.log('WebSocket连接已打开');
+      ws.send({
+        data: JSON.stringify({ type: 'start' }),
+        success: () => console.log('触发消息发送成功')
+      });
+    });
+
+    ws.onMessage((res) => {
+      try {
+        const content = res.data;
+        if (content === '[DONE]') {
+          streamEndFlag.value = true;
+          ws.close();
+        } else {
+          data.value += content;
+        }
+      } catch (error) {
+        console.error('数据处理错误:', error);
+      }
+    });
+
+    ws.onError((err) => {
+      console.error('WebSocket错误:', err);
+      streamEndFlag.value = true;
+    });
+
+    ws.onClose(() => {
+      console.log('WebSocket连接关闭');
+      streamEndFlag.value = true;
+    });
+    // #endif
+
+    // #ifdef H5
+    eventSource = new EventSource(url);
     eventSource.onmessage = (event) => {
       if (event.data === "[DONE]") {
-        stopStreaming(); // 流结束时关闭连接
-        streamEndFlag.value=true //通知流结束了
-       
+        stopStreaming();
+        streamEndFlag.value = true;
       } else {
-        data.value += event.data; // 更新响应式数据
-        console.log(event.data)
+        data.value += event.data;
+        console.log(event.data);
       }
     };
 
-    // 监听错误
     eventSource.onerror = (error) => {
       console.error("Stream error:", error);
-      stopStreaming(); // 出现错误时关闭连接
+      stopStreaming();
     };
+    // #endif
   };
 
-  // 停止流式请求
   const stopStreaming = () => {
+    // #ifdef MP-WEIXIN
+    if (ws) {
+      ws.close();
+      ws = null;
+    }
+    // #endif
+
+    // #ifdef H5
     if (eventSource) {
       eventSource.close();
       eventSource = null;
-      console.log("stream received over")
     }
+    // #endif
   };
 
-  // 组件卸载时关闭连接
   onUnmounted(() => {
     stopStreaming();
   });
 
   return {
-    data, // 响应式数据
-    startStreaming, // 开始流式请求
-    stopStreaming, // 停止流式请求
-    streamEndFlag  //流是否结束的标志
+    data,
+    startStreaming,
+    stopStreaming,
+    streamEndFlag
   };
 }
+
+// #ifdef MP-WEIXIN
+
+
+
+
+
+// #endif

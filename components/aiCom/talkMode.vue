@@ -19,7 +19,7 @@
           type="text"
           class="ml-20"
           v-model="max_tokens"
-          :value="max_tokens"
+         
         />
       </view>
       <view class="flex-x hover_gray m-10"
@@ -27,8 +27,8 @@
           type="text"
           class="ml-20"
           v-model="temperature"
-          @input="temperatureInput()"
-          :value="temperature"
+         
+         
         />
         <u-icon name="question-circle" class="hover-question"></u-icon>
       </view>

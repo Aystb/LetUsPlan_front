@@ -4,7 +4,7 @@
       <view class="flex-x justify-between">
         <u-icon @click="cancel()" name="close" size="22"></u-icon>
         <view class=" flex-x items-center">
-          <img src="../../static/ai-helper.png" />
+          <img class="robotImg" src="../../static/ai-helper.png" />
           <text  style="font-family: inter">AI助手</text></view
         >
         <view></view>
@@ -12,7 +12,7 @@
 
       <view class="flex-y flex-center-horizontal item-con">
         <view class="flex-x items-center self-start">
-          <img src="../../static/character.png"  /> 
+          <img class="robotImg" src="../../static/character.png"  /> 
           <text class="ml-10 fw-600">角色</text
           >
         </view>
@@ -23,7 +23,7 @@
           placeholder="输入完成任务的角色"
         /><!--角色-->
         <view class="flex-x items-center self-start">
-          <img src="../../static/duty.png"  /><text class="ml-10 fw-600">任务</text>
+          <img class="robotImg" src="../../static/duty.png"  /><text class="ml-10 fw-600">任务</text>
         </view>
 
         <input
@@ -33,7 +33,7 @@
           placeholder="描述你要完成的任务"
         /><!--任务-->
         <view class="flex-x items-center self-start">
-          <img src="../../static/timegap.png"  /><text class="ml-10 fw-600"
+          <img class="robotImg" src="../../static/timegap.png"  /><text class="ml-10 fw-600"
             >时间区间</text
           >
         </view>
@@ -44,7 +44,7 @@
           placeholder="在哪个时间段完成呢"
         /><!--时间区间-->
         <view class="flex-x items-center self-start">
-          <img src="../../static/reqiurement.png"  /><text class="ml-10 fw-600"
+          <img class="robotImg" src="../../static/reqiurement.png"  /><text class="ml-10 fw-600"
             >补充要求</text
           >
         </view>
@@ -162,5 +162,9 @@ function cancel() {
 }
 .item-con{
  margin:50px
+}
+.robotImg{
+  height: 2rem;
+  width: 2rem;
 }
 </style>
